@@ -42,6 +42,7 @@
 }
 
 .storeButton {
+    display: flex;
     position: relative;
     padding: 10px;
     justify-content: center;

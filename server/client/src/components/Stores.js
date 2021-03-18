@@ -13,9 +13,6 @@ const theme = createMuiTheme({
         secondary: {
             main: "#06C167",
         },
-        background: {
-            main: "#06C167",
-        },
     },
 });
 
@@ -34,13 +31,16 @@ class Stores extends Component {
         };
         this.logout = this.logout.bind(this);
         this.getData = this.getData.bind(this);
+        this.handleClick = this.handleClick.bind(this);
     }
+
     logout = () => {
         console.log("trying to log out");
         AuthenticationService.signOut();
         this.props.history.push("/");
         window.location.reload();
     };
+
     getData(event) {
         fetch("/home/stores", {
             method: "POST",
@@ -67,6 +67,28 @@ class Stores extends Component {
   }
   */
 
+    handleClick = (e) => {
+        const store = e.target.value;
+        console.log(store);
+        fetch("/home/stores", {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                store: store,
+            }),
+        })
+            .then((Response) => Response.json())
+            .then((json) => {
+                this.setState({
+                    items: json,
+                    isLoaded: true,
+                });
+            });
+    };
+
     render() {
         const { isLoaded, items } = this.state;
 
@@ -90,36 +112,8 @@ class Stores extends Component {
                         >
                             log out
                         </Button>
-                        {/*
-                        <ul>
-                            {items.map((item) => (
-                                <li key={item.id}>
-                                    Store: {item.name}
-                                </li>
-                            ))}
-                        </ul>
-                        */}
                     </ThemeProvider>
                 </div>
-
-                /*
-                <div className="storesContainer">
-                    <div className="featuredTag">Featured</div>
-                    <img 
-                        src={this.state.stores[0].img} 
-                    />
-                    <div className="imgOverlay">
-                        <div className="storeName">
-                            {this.state.stores[0].name}
-                            <br />
-                            {this.state.stores[0].address}
-                            <br />
-                            {this.state.stores[0].phone}
-                            <br />
-                        </div>
-                    </div>
-                </div>
-                */
             );
         } else {
             return (
@@ -127,37 +121,40 @@ class Stores extends Component {
                     <ThemeProvider theme={theme}>
                         <Navbar />
                         <div className="storesHeading">Featured Stores</div>
-                        {/*}
-                        <div classname="storeImg">
-                            <img src={this.state.images[0]} />
-                        </div>
-                        <div className="imgOverlay">
-                        */}
                         <ul>
                             {items.map((item) => (
                                 <li key={item.id}>
                                     <div className="storeButton">
-                                        <Button
+                                        <button
+                                            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-contained"
+                                            tabIndex="0"
+                                            type="button"
                                             /*href or onClick to redirect user*/
-                                            variant="contained"
-                                            background-color="primary"
+                                            value={item.name}
+                                            data-button-key={item.name}
+                                            onClick={(e) => {
+                                                console.log(e.currentTarget.dataset.buttonKey)
+                                            }}
                                         >
-                                            <img
-                                                className="storePhoto"
-                                                src={item.photo}
-                                            ></img>
-                                            <div className="storeDetails">
-                                                <div className="storeName">
-                                                    {item.name}
+                                                <span class="MuiButton-label">
+                                                    <img
+                                                        className="storePhoto"
+                                                        src={item.photo}
+                                                    ></img>
+                                                    <span class="MuiTouchRipple-root"></span>
+                                                </span>
+                                                <div className="storeDetails">
+                                                    <div className="storeName">
+                                                        {item.name}
+                                                    </div>
+                                                    <div className="storeAddress">
+                                                        {item.address}
+                                                    </div>
+                                                    <div className="storePhone">
+                                                        {item.phone}
+                                                    </div>
                                                 </div>
-                                                <div className="storeAddress">
-                                                    {item.address}
-                                                </div>
-                                                <div className="storePhone">
-                                                    {item.phone}
-                                                </div>
-                                            </div>
-                                        </Button>
+                                        </button>
                                     </div>
                                 </li>
                             ))}
