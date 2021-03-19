@@ -1,7 +1,8 @@
 import { compareSync } from 'bcryptjs';
 import React, { Component } from 'react'
 import AuthenticationService from './Authentication';
-import "./css/Signup.css"
+import "./css/Profile.css"
+import Header from './Header';
 export class Profile extends Component {
     constructor(props) {
         super(props);
@@ -10,32 +11,38 @@ export class Profile extends Component {
             token: '',
         };
     }
-    // componentDidMount() {
-    //     const name = AuthenticationService.getCurrentUser();
-    //     if (name) {
+    componentDidMount() {
+        const name = AuthenticationService.getCurrentUser();
+        if (name) {
 
-    //         this.setState({
-    //             email: name.email,
-    //             token: name.accesstoken
-    //         });
-    //     }
-    // }
-    logout = () => {
-        AuthenticationService.signOut()
+            this.setState({
+                email: name.email,
+                token: name.accesstoken
+            });
+        }
     }
+
     render() {
         return (
             <div>
-                <div>
-                    hello this is a test
-                    {this.state.email}
-                    {this.state.token}
+                <Header></Header>
+                <div className="profile">
+                    <div className="profile__header">This is profile Dashboard</div>
+                    <div className="profile__body">
+                        <div className="profile__columnLeft">
+                            <div className="profile__image"></div>
+                            <div className="profile__text">My profile</div>
+                            <div className="profile__text">My profile</div>
+                        </div>
+                        <div className="profile__columnRight">
+                            <div className="profile_smallBlock"></div>
+                            <div className="profile_smallBlock"></div>
+                        </div>
+                    </div>
                 </div>
-                <div>
-                    <button onClick={this.logout} color="primary" ></button>
-                </div>
+                <div className="fixingFooter"></div>
             </div>
-        )
+        );
     }
 }
 

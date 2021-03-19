@@ -1,16 +1,18 @@
 import React, { Component } from "react";
-import Navbar from "./Navbar";
 import "./css/Stores.css";
 import { Button, createMuiTheme, ThemeProvider } from "@material-ui/core";
 import DynamicForm from "./DynamicForm";
 import AuthenticationService from "./Authentication";
-
+import Header from "./Header";
 const theme = createMuiTheme({
     palette: {
         primary: {
             main: "#06C167",
         },
         secondary: {
+            main: "#06C167",
+        },
+        background: {
             main: "#06C167",
         },
     },
@@ -34,14 +36,10 @@ class Stores extends Component {
         this.getData = this.getData.bind(this);
         this.handleClick = this.handleClick.bind(this);
     }
-
     logout = () => {
-        console.log("trying to log out");
         AuthenticationService.signOut();
-        this.props.history.push("/");
         window.location.reload();
     };
-
     getData(event) {
         fetch("/home/stores", {
             method: "POST",
@@ -59,17 +57,7 @@ class Stores extends Component {
                 });
             });
     }
-
-    /* Testing
-    handleClick = () => {
-        console.log(this.state.stores[0].name)
-        console.log(this.state.stores[0].phone)
-        console.log(this.state.stores[0].address)
-    }
-    */
-
     handleClick = (e) => {
-        console.log(e.currentTarget.dataset.buttonKey);
         const store = e.currentTarget.dataset.buttonKey;
         fetch("/home/products", {
             method: "POST",
@@ -83,21 +71,21 @@ class Stores extends Component {
         })
             .then((Response) => Response.json())
             .then((json) => {
-                this.setState({
-                    products: json,
-                    isLoaded: true,
-                });
-                // console.log("products")
-                // console.log(JSON.stringify(json))
-                // console.log(this.state.products)
-                // this.props.history.push({
-                //     pathname: "/home/products",
-                //     state: json
-                // });
                 localStorage.setItem("products", JSON.stringify(json));
                 this.props.history.push("/home/products");
             });
     };
+    componentDidMount() {
+        this.getData();
+    }
+
+    /* Testing
+  handleClick = () => {
+    console.log(this.state.stores[0].name)
+    console.log(this.state.stores[0].phone)
+    console.log(this.state.stores[0].address)
+  }
+  */
 
     render() {
         const { isLoaded, stores, products } = this.state;
@@ -105,31 +93,14 @@ class Stores extends Component {
         if (!isLoaded) {
             return (
                 <div className="storesContainer">
-                    <ThemeProvider theme={theme}>
-                        <Button
-                            onClick={this.getData}
-                            variant="contained"
-                            style={style}
-                            color="primary"
-                        >
-                            Stores
-                        </Button>
-                        <Button
-                            onClick={this.logout}
-                            variant="contained"
-                            style={style}
-                            color="primary"
-                        >
-                            log out
-                        </Button>
-                    </ThemeProvider>
+                    Loading.............
                 </div>
             );
         } else {
             return (
                 <div className="App">
                     <ThemeProvider theme={theme}>
-                        <Navbar />
+                        <Header />
                         <div className="storesHeading">Featured Stores</div>
                         <ul>
                             {stores.map((stores) => (
@@ -201,16 +172,6 @@ class Stores extends Component {
                                 </div>
                             </li>
                         ))}
-                        <div>
-                            <Button
-                                onClick={this.logout}
-                                variant="contained"
-                                style={style}
-                                color="primary"
-                            >
-                                log out
-                            </Button>
-                        </div>
                     </ThemeProvider>
                 </div>
             );

@@ -2,7 +2,10 @@
     font-family: Arial;
     align-items: center;
 }
-
+/* form {
+    height:400px;
+    width:200px;
+} */
 .signupContainer::after {
   content: "";
   background: url("../images/2.jpg");
@@ -28,4 +31,12 @@
 
 .body {
     margin: 10;
+}
+
+.signupRow{
+    margin:0 200px;
+}
+
+.fixingFooter{
+    margin-bottom: 200px;
 }
