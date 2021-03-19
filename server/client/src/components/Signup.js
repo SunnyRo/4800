@@ -43,9 +43,7 @@ class Signup extends Component {
   componentDidMount() {
     const user = AuthenticationService.getCurrentUser();
     if (user) {
-      // this.props.history.push("/home/stores");
       return this.props.history.push("/home/stores")
-      // return <Redirect to='/Welcome' />
     }
   }
   handleChange(event) {
@@ -177,9 +175,6 @@ class Signup extends Component {
               >
                 Log in here
               </Button>
-            </div>
-            <div className="fixingFooter">
-
             </div>
           </ThemeProvider>
         </form>

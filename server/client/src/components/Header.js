@@ -10,6 +10,7 @@ import ReceiptIcon from '@material-ui/icons/Receipt';
 import AuthenticationService from "./Authentication";
 import CreateIcon from '@material-ui/icons/Create';
 import HowToRegIcon from '@material-ui/icons/HowToReg';
+import Profile from './Profile';
 class Header extends Component {
     constructor(props) {
         super(props);
@@ -18,11 +19,41 @@ class Header extends Component {
             isload: false,
         };
         this.logout = this.logout.bind(this);
+        this.getProfile = this.getProfile.bind(this);
     }
     logout = () => {
         console.log("trying to log out");
         AuthenticationService.signOut();
         // window.location.reload();
+    };
+
+    getProfile = (event) => {
+        const user = AuthenticationService.getCurrentUser();
+        if (user) {
+            fetch("/profile", {
+                method: "POST",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    "authorization": "Bearer " + user.accesstoken,
+                },
+            })
+                .then((Response) => Response.json())
+                .then((json) => {
+                    if (json.error === "TokenExpiredError") {
+                        console.log(json.error);
+                        localStorage.clear();
+                        this.props.history.push("/");
+                    } else {
+                        console.log(json);
+                        localStorage.setItem("profile", JSON.stringify(json));
+                        // this.props.history.push("/profile");
+                    }
+
+                });
+        } else {
+            this.props.history.push("/");
+        }
     };
     render() {
         const user = AuthenticationService.getCurrentUser();
@@ -44,7 +75,7 @@ class Header extends Component {
                     </div>
                     <div className="header__nav">
                         {/* 1st Link */}
-                        <Link to="/home/stores" className="header__link">
+                        <Link to="/profile" onClick={this.getProfile} className="header__link">
                             <div className="header__mainOption">
                                 <AccountBoxIcon className="header_accountIcon" />
                                 <div className="header__option">

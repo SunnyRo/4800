@@ -16,6 +16,10 @@ class App extends Component {
       uploadScreen: []
     };
   }
+  componentDidMount() {
+    localStorage.clear();
+  }
+
   render() {
     return (
       <div className="page-container">
@@ -30,7 +34,7 @@ class App extends Component {
               <Route exact component={Error} />
             </Switch>
           </div>
-          <Footer />
+          {/* <Footer /> */}
         </Router>
       </div>
     );

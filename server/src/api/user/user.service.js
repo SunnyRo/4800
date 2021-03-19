@@ -37,22 +37,10 @@ module.exports = {
             }
         );
     },
-    deleteUser: (data, callBack) => {
+    getUserByUserProfile: (email, callBack) => {
         pool.query(
-            `delete from Customer where email=?`,
-            [data.email],
-            (error, results, fields) => {
-                if (error) {
-                    callBack(error);
-                }
-                return callBack(null, results);
-            }
-        );
-    },
-    getUserByUserId: (id, callBack) => {
-        pool.query(
-            `select id,email,refreshtoken,password from registration where id = ?`,
-            [id],
+            `select firstName,lastName,phone,email from Customer where email=?`,
+            [email],
             (error, results, fields) => {
                 if (error) {
                     callBack(error);

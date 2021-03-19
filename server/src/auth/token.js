@@ -2,10 +2,10 @@ const { sign } = require('jsonwebtoken');
 
 // Create tokens
 const createAccessToken = userEmail => {
-    return sign({ userEmail }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '15m', });
+    return sign({ userEmail }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '30m', });
 };
 const createRefreshToken = userEmail => {
-    return sign({ userEmail }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '2d', });
+    return sign({ userEmail }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '1h', });
 };
 // send tokens
 const sendAcessToken = (res, req, accesstoken) => {
@@ -22,6 +22,7 @@ const sendTokens = (res, req, refreshtoken, accesstoken) => {
     });
     res.send({
         accesstoken,
+        refreshtoken,
         email: req.body.email,
     });
 };

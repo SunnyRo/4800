@@ -40,40 +40,67 @@ class Stores extends Component {
         AuthenticationService.signOut();
         window.location.reload();
     };
-    getData(event) {
-        fetch("/home/stores", {
-            method: "POST",
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({}),
-        })
-            .then((Response) => Response.json())
-            .then((json) => {
-                this.setState({
-                    stores: json,
-                    isLoaded: true,
+    // getData(event) {
+    getData = async () => {
+        const user = AuthenticationService.getCurrentUser();
+        if (user) {
+            fetch("/home/stores", {
+                method: "POST",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    "authorization": "Bearer " + user.accesstoken,
+                },
+                body: JSON.stringify({}),
+            })
+                .then((Response) => Response.json())
+                .then((json) => {
+                    if (json.error === "TokenExpiredError") {
+                        console.log(json.error);
+                        localStorage.clear();
+                        this.props.history.push("/");
+                    } else {
+                        this.setState({
+                            stores: json,
+                            isLoaded: true,
+                        });
+                    }
                 });
-            });
+        } else {
+            // alert("please login")
+            this.props.history.push("/");
+        }
     }
-    handleClick = (e) => {
-        const store = e.currentTarget.dataset.buttonKey;
-        fetch("/home/products", {
-            method: "POST",
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                store: store,
-            }),
-        })
-            .then((Response) => Response.json())
-            .then((json) => {
-                localStorage.setItem("products", JSON.stringify(json));
-                this.props.history.push("/home/products");
-            });
+    handleClick = (event) => {
+        const store = event.currentTarget.dataset.buttonKey;
+        const user = AuthenticationService.getCurrentUser();
+        if (user) {
+            fetch("/home/products", {
+                method: "POST",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    "authorization": "Bearer " + user.accesstoken,
+                },
+                body: JSON.stringify({
+                    store: store,
+                }),
+            })
+                .then((Response) => Response.json())
+                .then((json) => {
+                    if (json.error === "TokenExpiredError") {
+                        console.log(json.error);
+                        localStorage.clear();
+                        this.props.history.push("/");
+                    } else {
+                        localStorage.setItem("products", JSON.stringify(json));
+                        this.props.history.push("/home/products");
+                    }
+
+                });
+        } else {
+            this.props.history.push("/");
+        }
     };
     componentDidMount() {
         this.getData();

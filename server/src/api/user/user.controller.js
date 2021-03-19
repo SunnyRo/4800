@@ -1,4 +1,4 @@
-const { createUser, deleteUser, updateToken, removeToken, getUserByUserEmail, getUserByUserId, updateUser } = require("./user.service");
+const { createUser, updateToken, removeToken, getUserByUserEmail, getUserByUserProfile, updateUser } = require("./user.service");
 const { createAccessToken, createRefreshToken, sendAcessToken, sendTokens } = require("../../auth/token");
 const { validationResult } = require("express-validator")
 const { verify } = require('jsonwebtoken');
@@ -93,7 +93,7 @@ module.exports = {
     },
     getProfile: (req, res) => {
         const userEmail = req.userEmail;
-        getUserByUserEmail(userEmail, async (err, results) => {
+        getUserByUserProfile(userEmail, async (err, results) => {
             if (err) {
                 console.log("profile not found");
                 res.send((err));
@@ -119,15 +119,17 @@ module.exports = {
     },
     refresh_token: async (req, res) => {
         const token = req.cookies.refreshtoken;
+        // const refreshtoken = localStorage.getItem("refreshtoken")
         if (!token) {
             console.log("cookies not found on /refresh_token");
             return res.send({ accesstoken: '' });
         }
+        // check if refreshtoken is valid
+        if (!token.includes(req.body.refreshtoken)) return res.sendStatus(403)
         let payload = null;
         try {
             payload = verify(token, process.env.REFRESH_TOKEN_SECRET);
         } catch (err) {
-            console.log("user email does not match")
             return res.send({ accesstoken: '' })
         }
         getUserByUserEmail(payload.userEmail, (err, results) => {

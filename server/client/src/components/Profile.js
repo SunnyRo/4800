@@ -11,16 +11,16 @@ export class Profile extends Component {
             token: '',
         };
     }
-    componentDidMount() {
-        const name = AuthenticationService.getCurrentUser();
-        if (name) {
+    // componentDidMount() {
+    //     const name = AuthenticationService.getCurrentUser();
+    //     if (name) {
 
-            this.setState({
-                email: name.email,
-                token: name.accesstoken
-            });
-        }
-    }
+    //         this.setState({
+    //             email: name.email,
+    //             token: name.accesstoken
+    //         });
+    //     }
+    // }
 
     render() {
         return (

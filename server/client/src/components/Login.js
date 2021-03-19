@@ -66,9 +66,9 @@ class Login extends Component {
           console.log(json.message);
           alert("User does not exist");
         } else {
-          this.setState({
-            accesstoken: "Bearer " + json.accesstoken
-          })
+          // this.setState({
+          //   accesstoken: "Bearer " + json.accesstoken
+          // })
           localStorage.setItem("user", JSON.stringify(json));
           this.props.history.push("/home/stores");
         }
