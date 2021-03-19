@@ -24,7 +24,8 @@ class Stores extends Component {
             name: "",
             address: "",
             phone: "",
-            item: [],
+            stores: [],
+            products: [],
             isLoaded: false,
             photo:
                 "https://1000logos.net/wp-content/uploads/2017/05/Walmart-logo.png",
@@ -53,24 +54,24 @@ class Stores extends Component {
             .then((Response) => Response.json())
             .then((json) => {
                 this.setState({
-                    items: json,
+                    stores: json,
                     isLoaded: true,
                 });
             });
     }
 
     /* Testing
-  handleClick = () => {
-    console.log(this.state.stores[0].name)
-    console.log(this.state.stores[0].phone)
-    console.log(this.state.stores[0].address)
-  }
-  */
+    handleClick = () => {
+        console.log(this.state.stores[0].name)
+        console.log(this.state.stores[0].phone)
+        console.log(this.state.stores[0].address)
+    }
+    */
 
     handleClick = (e) => {
         const store = e.target.value;
-        console.log(store);
-        fetch("/home/stores", {
+        console.log(e.currentTarget.dataset.buttonKey);
+        fetch("/home/products", {
             method: "POST",
             headers: {
                 Accept: "application/json",
@@ -83,14 +84,15 @@ class Stores extends Component {
             .then((Response) => Response.json())
             .then((json) => {
                 this.setState({
-                    items: json,
+                    products: json,
                     isLoaded: true,
                 });
+                this.props.history.push("/home/products");
             });
     };
 
     render() {
-        const { isLoaded, items } = this.state;
+        const { isLoaded, stores, products } = this.state;
 
         if (!isLoaded) {
             return (
@@ -122,43 +124,75 @@ class Stores extends Component {
                         <Navbar />
                         <div className="storesHeading">Featured Stores</div>
                         <ul>
-                            {items.map((item) => (
-                                <li key={item.id}>
+                            {stores.map((stores) => (
+                                <li key={stores.id}>
                                     <div className="storeButton">
-                                        <button
-                                            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-contained"
+                                        <Button
+                                            variant="contained"
                                             tabIndex="0"
                                             type="button"
                                             /*href or onClick to redirect user*/
-                                            value={item.name}
-                                            data-button-key={item.name}
-                                            onClick={(e) => {
-                                                console.log(e.currentTarget.dataset.buttonKey)
-                                            }}
+                                            value={stores.name}
+                                            data-button-key={stores.name}
+                                            onClick={this.handleClick}
                                         >
-                                                <span class="MuiButton-label">
-                                                    <img
-                                                        className="storePhoto"
-                                                        src={item.photo}
-                                                    ></img>
-                                                    <span class="MuiTouchRipple-root"></span>
-                                                </span>
-                                                <div className="storeDetails">
-                                                    <div className="storeName">
-                                                        {item.name}
-                                                    </div>
-                                                    <div className="storeAddress">
-                                                        {item.address}
-                                                    </div>
-                                                    <div className="storePhone">
-                                                        {item.phone}
-                                                    </div>
+                                            <span className="MuiButton-label">
+                                                {products.map((products) => (
+                                                    <li key={products.id}>
+                                                        <div className="productbutton">
+                                                            <Button
+                                                                variant="contained"
+                                                                value={
+                                                                    products.name
+                                                                }
+                                                                data-button-key={
+                                                                    products.name
+                                                                }
+                                                            >
+                                                                <div>
+                                                                    {
+                                                                        products.name
+                                                                    }
+                                                                </div>
+                                                            </Button>
+                                                        </div>
+                                                    </li>
+                                                ))}
+                                                <img
+                                                    className="storePhoto"
+                                                    src={stores.photo}
+                                                ></img>
+                                                <span className="MuiTouchRipple-root"></span>
+                                            </span>
+                                            <div className="storeDetails">
+                                                <div className="storeName">
+                                                    {stores.name}
                                                 </div>
-                                        </button>
+                                                <div className="storeAddress">
+                                                    {stores.address}
+                                                </div>
+                                                <div className="storePhone">
+                                                    {stores.phone}
+                                                </div>
+                                            </div>
+                                        </Button>
                                     </div>
                                 </li>
                             ))}
                         </ul>
+                        {products.map((products) => (
+                            <li key={products.id}>
+                                <div className="productbutton">
+                                    <Button
+                                        variant="contained"
+                                        value={products.name}
+                                        data-button-key={products.name}
+                                    >
+                                        <div>{products.name}</div>
+                                    </Button>
+                                </div>
+                            </li>
+                        ))}
                         <div>
                             <Button
                                 onClick={this.logout}
@@ -171,9 +205,6 @@ class Stores extends Component {
                         </div>
                     </ThemeProvider>
                 </div>
-                /*
-            </div>
-            */
             );
         }
     }
