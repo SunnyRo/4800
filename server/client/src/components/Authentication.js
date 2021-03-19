@@ -1,6 +1,7 @@
 class AuthenticationService {
     signOut() {
         localStorage.removeItem("user");
+        localStorage.removeItem("stores");
     }
 
     getCurrentUser() {

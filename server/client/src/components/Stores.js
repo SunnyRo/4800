@@ -69,8 +69,8 @@ class Stores extends Component {
     */
 
     handleClick = (e) => {
-        const store = e.target.value;
         console.log(e.currentTarget.dataset.buttonKey);
+        const store = e.currentTarget.dataset.buttonKey;
         fetch("/home/products", {
             method: "POST",
             headers: {
@@ -87,6 +87,14 @@ class Stores extends Component {
                     products: json,
                     isLoaded: true,
                 });
+                // console.log("products")
+                // console.log(JSON.stringify(json))
+                // console.log(this.state.products)
+                // this.props.history.push({
+                //     pathname: "/home/products",
+                //     state: json
+                // });
+                localStorage.setItem("products", JSON.stringify(json));
                 this.props.history.push("/home/products");
             });
     };

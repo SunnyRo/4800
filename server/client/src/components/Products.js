@@ -2,15 +2,17 @@ import React, { Component } from "react";
 import "./css/Products.css";
 import AuthenticationService from "./Authentication";
 import Navbar from "./Navbar";
+import { Button, createMuiTheme, ThemeProvider } from "@material-ui/core";
 
 class Product extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             name: "",
             unitPrice: "",
             type: "",
             item: [],
+            state: props.state,
             isLoaded: false,
         }
         this.logout = this.logout.bind(this);
@@ -23,6 +25,14 @@ class Product extends Component {
         this.props.history.push("/");
         window.location.reload();
     };
+    // componentDidMount() {
+    //     const products = JSON.parse(localStorage.getItem("products"));
+    //     console.log(products)
+    //     this.setState({
+    //         item: products
+    //     })
+    //     console.log(this.item)
+    // }
 
     getProducts(event) {
         fetch("/home/products", {
@@ -43,8 +53,26 @@ class Product extends Component {
     }
 
     render() {
+        const products = JSON.parse(localStorage.getItem("products"));
         return (
-            <Navbar />
+            <div>
+                {/* <Headers></Headers> */}
+                <ul>
+                    {products.map((products) => (
+                        <li key={products.id}>
+                            <div className="productbutton">
+                                <Button
+                                    variant="contained"
+                                    value={products.name}
+                                    data-button-key={products.name}
+                                >
+                                    <div>{products.name}</div>
+                                </Button>
+                            </div>
+                        </li>
+                    ))}
+                </ul>
+            </div>
         )
     }
 }
