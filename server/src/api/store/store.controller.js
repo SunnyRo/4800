@@ -1,39 +1,35 @@
 const pool = require("../../config/database");
-//const { getProducts } = require("./store.service");
+const { getProductByType, getProductsFromStore, getStores } = require("./store.service");
 module.exports = {
-    getData: (req, res) => {
-        console.log(req);
-        pool.query('SELECT * FROM Store', (err, rows, fields) => {
-            if (!err) {
-                res.send(rows);
+    allStore: (req, res) => {
+        const key = req.body;
+        getStores(key, async (err, results) => {
+            if (err) {
+                console.log(err)
+                res.send({ message: "error" })
             }
-            else {
-                console.log(err);
-            }
+            return res.send(results);
         });
     },
-    getProducts: (req, res) => {
-        console.log(req.body);
-        const body = req.body;
-        pool.query(
-            `SELECT Product.name, Product.unitPrice, Product.type, Product.quantity, Product.photo
-                FROM Product
-                JOIN Store ON (Product.storeID=Store.storeID)
-                WHERE Store.name=?`,
-            [
-                body.store
-            ],
-            (err, rows, fields) => {
-                if (!err) {
-                    res.send(rows);
-                }
-                else {
-                    console.log(err);
-                }
-            });
+    productsByStore: (req, res) => {
+        const key = req.body.store;
+        getProductsFromStore(key, async (err, results) => {
+            if (err) {
+                console.log(err)
+                res.send({ message: "error" })
+            }
+            return res.send(results);
+        });
+
+    },
+    productsByType: (req, res) => {
+        const key = req.body.type;
+        getProductByType(key, async (err, results) => {
+            if (err) {
+                console.log(err)
+                res.send({ message: "error" })
+            }
+            return res.send(results);
+        });
     }
-    //getStoreProducts: (req, res) => {
-    //console.log(req);
-    //getProducts(req, res);
-    //}
 };

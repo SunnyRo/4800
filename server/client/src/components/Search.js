@@ -4,6 +4,7 @@ import AuthenticationService from "./Authentication";
 import Header from "./Header";
 import { Button, createMuiTheme, ThemeProvider } from "@material-ui/core";
 import { Redirect } from "react-router";
+import Footer from "./Footer";
 
 class Product extends Component {
     constructor() {
@@ -77,7 +78,7 @@ class Product extends Component {
                         ))}
                     </div>
                     <Button onClick={this.backtoStore}>Back to Stores</Button>
-                    <div className="fixingFooter"></div>
+                    <Footer />
                 </div>
             )
 
