@@ -5,6 +5,7 @@ import AuthenticationService from "./Authentication";
 import Header from "./Header";
 import Carousel from "./Carousel.js";
 import { Carousel as GridCarousel } from "react-grid-carousel";
+import Footer from "./Footer";
 
 const theme = createMuiTheme({
     palette: {
@@ -325,6 +326,7 @@ class Stores extends Component {
                             </li>
                         ))}
                     </ThemeProvider>
+                    <Footer />
                 </div>
             );
         }

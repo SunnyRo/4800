@@ -2,51 +2,47 @@
     font-family: Merriweather-Regular;
     font-weight: 700;
     margin-top: 25px;
-}
-
-.signInHeading {
+  }
+  
+  .signInHeading {
     font-family: Merriweather-Regular;
     font-weight: 100;
     margin-top: 20px;
-}
-
-.loginContainer {
+  }
+  
+  .loginContainer {
     font-family: Arial;
-}
-
-.loginFields {
-    margin-top: 5;
-}
-
-.body {
+  }
+  
+  .body {
     font-family: Arial;
     font-weight: 100;
     font-size: medium;
     overflow: hidden;
-}
-
-.row {
+  }
+  
+  .row {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     width: 100;
-}
-
-.leftColumn {
+  }
+  
+  .leftColumn {
     display: flex;
     flex-direction: column;
     flex-basis: 100%;
     flex: 1;
-}
-
-.rightColumn {
+  }
+  
+  .rightColumn {
     display: flex;
     flex-direction: column;
     flex-basis: 100%;
     flex: 1;
-}
-
-.rightColumn::after {
+  }
+  
+  .rightColumn::after {
     content: "";
     background: url("../images/delivery.jpg");
     top: 0;
@@ -61,8 +57,8 @@
     background-position: center;
     height: calc(100vh-60px);
     width: auto;
-}
-.leftColumn::after {
+  }
+  .leftColumn::after {
     content: "";
     background: url("../images/background.jpg");
     top: 0;
@@ -77,74 +73,91 @@
     background-position: center;
     height: calc(100vh-60px);
     width: auto;
-}
-
-.leftColumn2 {
+  }
+  
+  .leftColumn2 {
     display: flex;
     flex-direction: column;
     flex-basis: 100%;
     flex: 1;
-}
-
-.rightColumn2 {
+  }
+  
+  .rightColumn2 {
     display: flex;
     flex-direction: column;
     flex-basis: 100%;
     flex: 1;
-}
-
-.leftColumn3 {
+  }
+  
+  .leftColumn3 {
     display: flex;
     flex-direction: column;
     flex-basis: 100%;
     flex: 1;
-}
-
-.rightColumn3 {
+  }
+  
+  .rightColumn3 {
     display: flex;
     flex-direction: column;
     flex-basis: 100%;
     flex: 1;
-}
-
-.localStoresHeading {
+  }
+  
+  .localStoresHeading {
     font-family: Merriweather-Regular;
     font-weight: 700;
     margin-top: 40%;
-}
-
-.localStoresBody {
+  }
+  
+  .localStoresBody {
     font-family: Arial;
     margin-top: 1%;
     padding-bottom: 100px;
-}
-
-.driversHeading {
+  }
+  
+  .driversHeading {
     font-family: Merriweather-Regular;
     font-weight: 700;
     margin-top: 40%;
-}
-
-.driversBody {
+  }
+  
+  .driversBody {
     font-family: Arial;
     margin-top: 1%;
     padding-bottom: 0px;
-}
-
-.signInFields {
+  }
+  
+  .signInFields {
     align-items: center;
-}
-
-.leftColumnHeading {
+  }
+  
+  .leftColumnHeading {
     font-family: Merriweather-Bold;
     text-align: center;
     margin-top: 20px;
-}
-
-.leftColumnBody {
+  }
+  
+  .leftColumnBody {
     font-family: Arial;
     font-weight: normal;
     text-align: left;
     margin-left: 20px;
     margin-top: 10px;
-}
+  }
+  
+  .driverImg img {
+    padding-top: 20px;
+    height: 300px;
+    max-height: 200%;
+    width: auto;
+    max-width: 200%;
+  }
+  
+  .storeImg img {
+    padding-top: 20px;
+    height: 300px;
+    max-height: 200%;
+    width: auto;
+    max-width: 200%;
+  }
+  
