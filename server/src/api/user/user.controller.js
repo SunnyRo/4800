@@ -11,7 +11,7 @@ module.exports = {
         const errors = validationResult(req);
         console.log(errors);
         if (!errors.isEmpty()) {
-            return res.status(422).send({ message: "invalid input" });
+            return res.send({ message: "invalid input" });
         }
         // get the body of req
         const body = req.body
@@ -37,7 +37,7 @@ module.exports = {
                     console.log(err);
                     res.send({ err });
                 }
-                res.send({ messsage: 'User created' });
+                return res.send({ message: "done" });
             });
         })
     },
@@ -53,13 +53,13 @@ module.exports = {
             const user = results;
             if (!user) {
                 console.log("User does not exist");
-                res.send({ message: "User does not exist" });
+                return res.send({ message: "User does not exist" });
             }
             // check if password is correct
             const valid = await compare(body.password, user.password);
             if (!valid) {
                 console.log("incorrect password");
-                res.send({ message: "incorrect password" });
+                return res.send({ message: "incorrect password" });
             }
             // create refresh and accesstoken (using email and secret to generate token)
             const accesstoken = createAccessToken(user.email);
@@ -74,7 +74,7 @@ module.exports = {
                 console.log("Updated refreshtoken in the database");
             });
             // send accesstoken to the request and refreshtoken to cookie
-            sendTokens(res, req, refreshtoken, accesstoken);
+            sendTokens(res, req, user.firstName, user.city, user.zipcode, refreshtoken, accesstoken);
         })
     },
     logout: (req, res) => {

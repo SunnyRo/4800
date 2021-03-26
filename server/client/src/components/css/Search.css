@@ -1,0 +1,28 @@
+.product__body{
+    margin: 20px 100px;
+    border-radius: 20px;
+ }
+ .product__layout{
+    display:flex;
+    align-items: center;
+    justify-content: space-evenly;
+    border-radius: 15px;
+    margin: 20px 0;
+    background-image: url(../images/block_image.jpg);
+    background-size: cover;
+ }
+ .product__img{
+    width: 800px;
+    height: 800px;
+  }
+ .product__img > img {
+    max-width: 100%;
+    max-height: 100%;
+  }
+ .product__name{
+    width:100%;
+    margin-right: 100px;
+ }
+ .product__detail{
+    width:100%;
+ }

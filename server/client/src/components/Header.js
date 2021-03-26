@@ -11,16 +11,46 @@ import AuthenticationService from "./Authentication";
 import CreateIcon from '@material-ui/icons/Create';
 import HowToRegIcon from '@material-ui/icons/HowToReg';
 import Profile from './Profile';
-
+import { useHistory, withRouter } from "react-router-dom";
 class Header extends Component {
     constructor(props) {
         super(props);
         this.state = {
             token: "",
             isload: false,
+            type: "",
+            user: "",
+            searchterm: ""
         };
         this.logout = this.logout.bind(this);
-        this.getProfile = this.getProfile.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+    getProfile = () => {
+        const user = AuthenticationService.getCurrentUser();
+        fetch("/profile", {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                "authorization": "Bearer " + user.accesstoken,
+            },
+            body: JSON.stringify({
+                searchterm: this.state.searchterm,
+            }),
+        })
+            .then((Response) => Response.json())
+            .then((json) => {
+                if (json.error === "TokenExpiredError") {
+                    console.log(json.error);
+                    localStorage.clear();
+                    this.props.history.push("/");
+                } else {
+                    localStorage.setItem("profile", JSON.stringify(json));
+                    this.props.history.push("/profile");
+                }
+            });
+
     }
     logout = () => {
         console.log("trying to log out");
@@ -28,16 +58,24 @@ class Header extends Component {
         // window.location.reload();
     };
 
-    getProfile = (event) => {
+    handleChange(event) {
+        this.setState({
+            [event.target.name]: event.target.value
+        });
+    }
+    handleSubmit(event) {
         const user = AuthenticationService.getCurrentUser();
-        if (user) {
-            fetch("/profile", {
+        if (this.state.type === '') {
+            fetch("/search/products", {
                 method: "POST",
                 headers: {
                     Accept: "application/json",
                     "Content-Type": "application/json",
                     "authorization": "Bearer " + user.accesstoken,
                 },
+                body: JSON.stringify({
+                    searchterm: this.state.searchterm,
+                }),
             })
                 .then((Response) => Response.json())
                 .then((json) => {
@@ -45,20 +83,50 @@ class Header extends Component {
                         console.log(json.error);
                         localStorage.clear();
                         this.props.history.push("/");
+                    } else if (json.message) {
+                        const empty = []
+                        localStorage.setItem("search", JSON.stringify(empty));
+                        this.props.history.push("/search");
                     } else {
-                        console.log(json);
-                        localStorage.setItem("profile", JSON.stringify(json));
-                        // this.props.history.push("/profile");
+                        localStorage.setItem("search", JSON.stringify(json));
+                        this.props.history.push("/search");
                     }
-
                 });
         } else {
-            this.props.history.push("/");
+            fetch("/search/products/type", {
+                method: "POST",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    "authorization": "Bearer " + user.accesstoken,
+                },
+                body: JSON.stringify({
+                    searchterm: this.state.searchterm,
+                    type: this.state.type,
+                }),
+            })
+                .then((Response) => Response.json())
+                .then((json) => {
+                    if (json.error === "TokenExpiredError") {
+                        console.log(json.error);
+                        localStorage.clear();
+                        this.props.history.push("/");
+                    } else if (json.message) {
+                        const empty = []
+                        localStorage.setItem("search", JSON.stringify(empty));
+                        this.props.history.push("/search");
+                    } else {
+                        localStorage.setItem("search", JSON.stringify(json));
+                        this.props.history.push("/search");
+                    }
+                });
         }
-    };
+        // event.preventDefault();
+    }
     render() {
-        const user = AuthenticationService.getCurrentUser();
-        if (user) {
+        const type = JSON.parse(localStorage.getItem("type"));
+        const user = JSON.parse(localStorage.getItem("user"));
+        if (user && type) {
             return (
                 <nav className="header" >
                     <div className="header__logo">
@@ -68,20 +136,26 @@ class Header extends Component {
                     </div>
                     <div className="header__location">
                         <LocationOnIcon />
-                        <span>Location</span>
+                        <span>{user.address}</span>
                     </div>
-                    <div className="header__search">
-                        <input type="text" className="header__searchInput"></input>
-                        <SearchIcon className="header__searchIcon"></SearchIcon>
-                    </div>
+                    <form className="header__search">
+                        <select className="header__searchCategory" type="type" name="type" value={this.state.type} onChange={this.handleChange}>
+                            <option value="">&nbsp;&nbsp;&nbsp;All</option>
+                            {type.map((type) => (
+                                <option value={type.type}>{type.type}</option>
+                            ))}
+                        </select>
+                        <input type="searchterm" name="searchterm" onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault(); }} value={this.state.searchterm} onChange={this.handleChange} className="header__searchInput"></input>
+                        <SearchIcon onClick={this.handleSubmit} type="submit" value="Submit" className="header__searchIcon"></SearchIcon>
+                    </form>
                     <div className="header__nav">
                         {/* 1st Link */}
-                        <Link to="/profile" onClick={this.getProfile} className="header__link">
+                        <Link onClick={this.getProfile} className="header__link">
                             <div className="header__mainOption">
                                 <AccountBoxIcon className="header_accountIcon" />
                                 <div className="header__option">
                                     <span className="header__optionLine1">Hello</span>
-                                    <span className="header__optionLine2">account</span>
+                                    <span className="header__optionLine2">{user.name}</span>
                                 </div>
                             </div>
                         </Link>
@@ -113,7 +187,7 @@ class Header extends Component {
                             </div>
                         </Link>
                     </div>
-                </nav>
+                </nav >
             );
         } else {
             return (
@@ -150,4 +224,4 @@ class Header extends Component {
         }
     };
 }
-export default Header
+export default withRouter(Header)

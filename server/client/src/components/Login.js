@@ -64,15 +64,33 @@ class Login extends Component {
       .then((json) => {
         if (json.message) {
           console.log(json.message);
-          alert("User does not exist");
+          alert(json.message);
         } else {
-          // this.setState({
-          //   accesstoken: "Bearer " + json.accesstoken
-          // })
           localStorage.setItem("user", JSON.stringify(json));
           this.props.history.push("/home/stores");
         }
       })
+    fetch("/search/type", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({}),
+    })
+      .then((Response) => Response.json())
+      .then((json) => {
+        if (json.error === "TokenExpiredError") {
+          console.log(json.error);
+          localStorage.clear();
+          this.props.history.push("/");
+        } else {
+          this.setState({
+            isType: true,
+          })
+          localStorage.setItem("type", JSON.stringify(json));
+        }
+      });
   }
   render() {
     return (
@@ -166,27 +184,23 @@ class Login extends Component {
           <div className="leftColumn3">
             <h2 className="localStoresHeading">
               Support Local Grocery Stores
-            </h2>
+                        </h2>
             <div className="localStoresBody">
               <div>
                 Shopping local helps local businesses and it also means your groceries
                 arrive in a timely manner.
-              </div>
-              <div className="storeImg">
-                <img src={Img} alt="groceryStore" />
-              </div>
+                            </div>
+              <img src={Img} alt="groceryStore" width="auto" height="150" />
             </div>
           </div>
           <div className="rightColumn3">
             <h2 className="driversHeading">
               Great Delivery Drivers
-            </h2>
+                        </h2>
             <div className="driversBody">
               Our delivery drivers are carefully selected in order to ensure great service.
-            </div>
-              <div className="driverImg">
-                <img src={Img2} alt="deliverydriver"/>
-              </div>
+                        </div>
+            <img src={Img2} alt="deliverydriver" width="auto" height="150" />
           </div>
         </div>
       </div>

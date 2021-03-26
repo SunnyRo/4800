@@ -8,7 +8,7 @@ import Profile from "./components/Profile";
 import Products from "./components/Products";
 import PrivateRoute from "./components/PrivateRoute";
 import Footer from "./components/Footer";
-
+import Search from "./components/Search";
 class App extends Component {
   constructor(props) {
     super(props);
@@ -23,21 +23,22 @@ class App extends Component {
 
   render() {
     return (
-      <div className="page-container">
-        <Router>
-          <div className="content-wrap">
-            <Switch>
-              <Route exact path="/" component={Login} />
-              <Route exact path="/signup" component={Signup} />
-              <PrivateRoute exact path="/home/stores" component={Stores} />
-              <PrivateRoute exact path="/home/products" component={Products} />
-              <PrivateRoute exact path="/profile" component={Profile} />
-              <Route exact component={Error} />
-            </Switch>
-          </div>
-          {/* <Footer /> */}
-        </Router>
-      </div>
+      // <div className="page-container">
+      <Router>
+        {/* <div className="content-wrap"> */}
+        <Switch>
+          <Route exact path="/" component={Login} />
+          <Route exact path="/signup" component={Signup} />
+          <PrivateRoute exact path="/home/stores" component={Stores} />
+          <PrivateRoute exact path="/home/products" component={Products} />
+          <PrivateRoute exact path="/profile" component={Profile} />
+          <PrivateRoute exact path="/search" component={Search} />
+          <Route exact component={Error} />
+        </Switch>
+        {/* </div> */}
+        {/* <Footer /> */}
+      </Router>
+      // </div>
     );
   }
 }

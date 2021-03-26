@@ -14,7 +14,7 @@ const sendAcessToken = (res, req, accesstoken) => {
         email: req.body.email,
     });
 };
-const sendTokens = (res, req, refreshtoken, accesstoken) => {
+const sendTokens = (res, req, name, city, zipcode, refreshtoken, accesstoken) => {
     console.log('send request token');
     res.cookie('refreshtoken', refreshtoken, {
         httpOnly: true,
@@ -22,8 +22,9 @@ const sendTokens = (res, req, refreshtoken, accesstoken) => {
     });
     res.send({
         accesstoken,
-        refreshtoken,
         email: req.body.email,
+        name: name,
+        address: city + ' ' + zipcode,
     });
 };
 module.exports = {

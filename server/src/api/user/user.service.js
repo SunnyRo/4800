@@ -1,22 +1,28 @@
 const pool = require("../../config/database");
 module.exports = {
     createUser: (data, callBack) => {
+        console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
         console.log(data)
         pool.query(
-            `insert into Customer(firstName, lastName, phone, email, password) 
-                values(?,?,?,?,?)`,
+            `insert into Customer(firstName, lastName, phone, email, password) VALUES(?,?,?,?,?);
+             insert into Address(number,street,city,zipcode,customerID) VALUES(?,?,?,?,LAST_INSERT_ID());`,
             [
                 data.firstname,
                 data.lastname,
                 data.phone,
                 data.email,
                 data.password,
+                data.number,
+                data.street,
+                data.city,
+                data.zipcode,
             ],
             (error, results, fields) => {
                 if (error) {
+                    console.log("error in customer")
                     callBack(error);
                 }
-                return callBack(null, results);
+                return callBack(null, results)
             }
         );
     },
@@ -39,7 +45,9 @@ module.exports = {
     },
     getUserByUserProfile: (email, callBack) => {
         pool.query(
-            `select firstName,lastName,phone,email from Customer where email=?`,
+            `select firstName,lastName,phone,email,number,street,city,zipcode,CCnumber,fullName,expirationDate
+             from Customer JOIN Address ON Customer.customerID=Address.customerID 
+             JOIN CreditCard ON Customer.customerID=CreditCard.customerID where email=?`,
             [email],
             (error, results, fields) => {
                 if (error) {
@@ -51,7 +59,9 @@ module.exports = {
     },
     getUserByUserEmail: (email, callBack) => {
         pool.query(
-            `select * from Customer where email=?`,
+            `select * from Customer JOIN Address ON Address.customerID=Customer.customerID
+             where email=?`,
+            // `select * from Customer where email=?`,
             [email],
             (error, results, fields) => {
                 if (error) {

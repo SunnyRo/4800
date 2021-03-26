@@ -16,7 +16,7 @@ module.exports = {
         console.log(req.body);
         const body = req.body;
         pool.query(
-            `SELECT Product.name, Product.unitPrice, Product.type, Product.quantity
+            `SELECT Product.name, Product.unitPrice, Product.type, Product.quantity, Product.photo
                 FROM Product
                 JOIN Store ON (Product.storeID=Store.storeID)
                 WHERE Store.name=?`,

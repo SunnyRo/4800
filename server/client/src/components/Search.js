@@ -6,16 +6,11 @@ import { Button, createMuiTheme, ThemeProvider } from "@material-ui/core";
 import { Redirect } from "react-router";
 
 class Product extends Component {
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
         this.state = {
-            // name: "",
-            // unitPrice: "",
-            // type: "",
-            // item: [],
-            // state: props.state,
-            // isLoaded: false,
-            products: undefined,
+            isLoaded: true,
+            search: '',
         }
         this.logout = this.logout.bind(this);
         // this.getProducts = this.getProducts.bind(this);
@@ -28,24 +23,43 @@ class Product extends Component {
         this.props.history.push("/");
         window.location.reload();
     };
-
-
     backtoStore(event) {
         this.props.history.push("/home/stores");
     }
     render() {
-        const products = JSON.parse(localStorage.getItem("products"));
-        if (!products.error) {
+        const search = JSON.parse(localStorage.getItem("search"));
+        if (search) {
             return (
                 <div>
                     <Header />
                     <div className="product__body">
-                        {products.map((product) => (
+                        {search.map((product) => (
                             <ul>
                                 <div className="product__layout">
-                                    <img src={product.photo}></img>
+                                    <div className="product__img">
+                                        <img src={product.productphoto}></img>
+                                    </div>
                                     <div className="product__name">
-                                        {product.name}
+                                        <div className="product__info">
+                                            Product
+                                        </div>
+                                        <div className="product__info">
+                                            {product.productname}
+                                        </div>
+                                    </div>
+                                    <div className="product__name">
+                                        <div className="product__info">
+                                            Store
+                                        </div>
+                                        <div className="product__info">
+                                            {product.storename}
+                                        </div>
+                                        <div className="product__info">
+                                            {product.phone}
+                                        </div>
+                                        <div className="product__info">
+                                            {product.address}
+                                        </div>
                                     </div>
                                     <div className="product__detail">
                                         <div className="product__info">
@@ -69,8 +83,10 @@ class Product extends Component {
 
         } else {
             return (
-                <Redirect to="/" />
-            )
+                <div className="storesContainer">
+                    Loading.............
+                </div>
+            );
         }
     }
 }

@@ -1,6 +1,6 @@
 .header{
     background-color: rgb(6, 193, 103);
-    height: 50px;
+    height: 60px;
     display: flex;
     justify-content: left;
     align-items: center;
@@ -35,21 +35,42 @@ img{
         display:flex;
         flex:0.8; 
         align-items: center;
-        height:50px;
+        /* height:60px; */
+        height:100%;
         margin: 0px 20px;
     }
+        .header__searchCategory{
+            height:38px;
+            border-radius: 8px 0px 0px 8px;
+            text-align: center;
+
+        }
         .header__searchIcon{
-            padding: 3px;
+            padding: 0 3px;
+            width:40px  !important;
             background-color: chartreuse;
-            height:30px !important;
-            border-radius: 0px 5px 5px 0px;
+            height:36px !important;
+            border-radius: 0px 8px 8px 0px;
+        }
+        .header__submit{
+            padding: 0 3px;
+            width:60px ;
+            background-color: chartreuse;
+            height:36px ;
+            border:1px;
+            border-radius: 0px 8px 8px 0px;
+            /* background-image: url("https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.pinclipart.com%2Fpicdir%2Fmiddle%2F485-4851736_free-clipart-icons.png&f=1&nofb=1");
+            background-size: 36px;
+            background-repeat: no-repeat; */
         }
         .header__searchInput{
             /* padding:5px; */
             border:none;
             width:100%;
-            height:30px;
-            border-radius: 5px 0 0 5px;
+            height:36px;
+            text-align: left;
+            text-indent: 3%;
+            /* border-radius: 5px 0 0 5px; */
         }
     .header__nav{
         display:flex;
