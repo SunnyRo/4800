@@ -8,6 +8,7 @@ import Profile from "./components/Profile";
 import Products from "./components/Products";
 import PrivateRoute from "./components/PrivateRoute";
 import Footer from "./components/Footer";
+
 class App extends Component {
   constructor(props) {
     super(props);

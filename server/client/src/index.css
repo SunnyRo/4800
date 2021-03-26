@@ -34,3 +34,10 @@ body {
     url("./fonts/Merriweather-Regular.ttf") format("truetype");
   font-weight: normal;
 }
+
+@font-face {
+  font-family: "LatoRegular";
+  src: local("LatoRegular"),
+    url("./fonts/Lato-Regular.ttf") format("truetype");
+  font-weight: normal;
+}

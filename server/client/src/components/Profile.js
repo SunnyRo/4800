@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import AuthenticationService from './Authentication';
 import "./css/Profile.css"
 import Header from './Header';
+
 export class Profile extends Component {
     constructor(props) {
         super(props);

@@ -11,6 +11,7 @@ import AuthenticationService from "./Authentication";
 import CreateIcon from '@material-ui/icons/Create';
 import HowToRegIcon from '@material-ui/icons/HowToReg';
 import Profile from './Profile';
+
 class Header extends Component {
     constructor(props) {
         super(props);
