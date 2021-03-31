@@ -3,7 +3,7 @@ module.exports = {
     getProduct: (key, callBack) => {
         console.log(key)
         pool.query(
-            `SELECT Product.name as productname,Product.photo as productphoto,Store.photo as storephoto, Store.name as storename, unitPrice, type, quantity, address, phone \
+            `SELECT Product.name as productname,Product.photo as productphoto,Product.productID,Store.photo as storephoto, Store.name as storename, unitPrice, type, quantity, address, phone \
              FROM Product JOIN Store ON Product.storeID=Store.storeID 
              WHERE Product.name REGEXP ?`,
             [
@@ -22,7 +22,7 @@ module.exports = {
         console.log(data)
         console.log("right there")
         pool.query(
-            `SELECT Product.name as productname, Product.photo as productphoto, Store.name as storename, unitPrice, type, quantity, address, phone\
+            `SELECT Product.name as productname, Product.photo as productphoto,Product.productID,Store.name as storename, unitPrice, type, quantity, address, phone\
             FROM Product JOIN Store ON Product.storeID=Store.storeID 
             WHERE Product.name REGEXP ? and type REGEXP ?`,
             [

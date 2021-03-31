@@ -5,7 +5,10 @@ import AuthenticationService from "./Authentication";
 import Carousel from "./Carousel.js";
 import Footer from "./Footer";
 import Header from "./Header";
-
+import { DistanceMatrixService } from "@react-google-maps/api";
+import Geocode from "react-geocode";
+Geocode.enableDebug();
+Geocode.setApiKey("AIzaSyDUENlRwq9j2Zgz9NUIxHHFN9cnUa7SuBk");
 const theme = createMuiTheme({
     palette: {
         primary: {
@@ -28,6 +31,7 @@ class Stores extends Component {
             products: [],
             isLoaded: false,
             type: "",
+            coordinate: []
         };
         this.logout = this.logout.bind(this);
         this.getData = this.getData.bind(this);
@@ -63,10 +67,10 @@ class Stores extends Component {
                             stores: json,
                             isLoad: true,
                         });
+
                     }
                 });
         } else {
-            // alert("please login")
             this.props.history.push("/");
         }
     };
@@ -93,8 +97,8 @@ class Stores extends Component {
                         localStorage.clear();
                         this.props.history.push("/");
                     } else {
-                        localStorage.setItem("products", JSON.stringify(json));
-                        this.props.history.push("/home/products");
+                        localStorage.setItem("search", JSON.stringify(json));
+                        this.props.history.push("/search");
                     }
                 });
         } else {
@@ -103,10 +107,22 @@ class Stores extends Component {
     };
 
     componentWillMount() {
-        console.log("willmount");
         this.getData();
+        const userAddress = JSON.parse(localStorage.getItem("user")).address;
+        Geocode.fromAddress(userAddress).then(
+            response => {
+                const { lat, lng } = response.results[0].geometry.location;
+                const coordinate = [`${lat},${lng}`]
+                this.setState({
+                    coordinate: coordinate
+                })
+            },
+            error => {
+                console.error(error);
+            }
+        );
     }
-    
+
     categoryClick = (event) => {
         const type = event.currentTarget.dataset.buttonKey;
         console.log(type);
@@ -140,8 +156,7 @@ class Stores extends Component {
     };
 
     render() {
-        const { isLoaded, stores, products } = this.state;
-
+        const { isLoaded, stores, products, coordinate } = this.state;
         if (isLoaded) {
             return <div className="storesContainer">Loading.............</div>;
         } else {
@@ -378,6 +393,26 @@ class Stores extends Component {
                                 ))}
                             </div>
                         </ul>
+                        <DistanceMatrixService
+                            options={{
+                                destinations:
+                                    [
+                                        '34.079962,-117.582877',
+                                        '34.136815,-117.442865',
+                                        '34.081100,-117.243605',
+                                        '34.023071,-117.408686',
+                                        '34.004858,-117.493887',
+                                        '33.922851,-117.367932',
+                                        '33.941081,-117.601548',
+                                        '34.114079,-117.359500',
+                                    ],
+                                origins: coordinate,
+                                travelMode: "DRIVING",
+                            }}
+                            callback={(response) => {
+                                localStorage.setItem("distances", JSON.stringify(response));
+                            }}
+                        />
                     </ThemeProvider>
                     <Footer />
                 </div>

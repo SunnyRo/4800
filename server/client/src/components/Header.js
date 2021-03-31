@@ -126,6 +126,7 @@ class Header extends Component {
     render() {
         const type = JSON.parse(localStorage.getItem("type"));
         const user = JSON.parse(localStorage.getItem("user"));
+        let cart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : {};
         if (user && type) {
             return (
                 <nav className="header">
@@ -187,12 +188,15 @@ class Header extends Component {
                             </div>
                         </Link>
                         {/* 3rd Link */}
-                        <Link to="/home/stores" className="header_link">
+                        <Link
+                            to="/cart"
+                            className="header_link"
+                        >
                             <div className="header_mainOption">
                                 <ShoppingCartIcon className="header_cartIcon" />
                                 <div className="header_cartCount">
                                     <span className="header_optionLine1">
-                                        0
+                                        {Object.keys(cart).length}
                                     </span>
                                     <span className="header_optionLine2">
                                         Cart

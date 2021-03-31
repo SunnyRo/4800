@@ -25,12 +25,15 @@ class Product extends Component {
         this.state = {
             isLoaded: true,
             search: "",
+            storeDistances: {},
+            quantity: 1,
+            productID: "",
         };
         this.logout = this.logout.bind(this);
-        // this.getProducts = this.getProducts.bind(this);
         this.backtoStore = this.backtoStore.bind(this);
+        this.handleInputChange = this.handleInputChange.bind(this);
     }
-
+    handleInputChange = event => this.setState({ [event.target.name]: event.target.value })
     logout = () => {
         console.log("trying to log out");
         AuthenticationService.signOut();
@@ -40,8 +43,65 @@ class Product extends Component {
     backtoStore(event) {
         this.props.history.push("/home/stores");
     }
-    render() {
+    componentWillMount() {
+        const distances = JSON.parse(localStorage.getItem("distances"))
+        const names = ['Walmart', 'Whole Foods', "Trader Joe's", 'Ralphs', 'Vons', 'Costco', 'Safeway', 'Albertsons']
+        const storeDistances = {}
+        console.log(distances.rows[0].elements[0].distance.text)
+        distances.rows[0].elements.forEach((element, i) => {
+            storeDistances[names[i]] = element.distance.text
+        });
+        localStorage.setItem("storeDistances", JSON.stringify(storeDistances));
         const search = JSON.parse(localStorage.getItem("search"));
+        this.setState({
+            storeDistances: storeDistances,
+            search: search,
+        })
+    }
+    addToCart = (event) => {
+        console.log("Add to cart")
+        const productID = event.currentTarget.getAttribute("productID");
+        const instock = parseInt(event.currentTarget.getAttribute("instock"), 10);
+        const productName = event.currentTarget.getAttribute("productName");
+        const productPrice = event.currentTarget.getAttribute("productPrice");
+        const productType = event.currentTarget.getAttribute("productType");
+        const productPhoto = event.currentTarget.getAttribute("productPhoto");
+        const productAddress = event.currentTarget.getAttribute("productAddress");
+        const productPhone = event.currentTarget.getAttribute("productPhone");
+        const storeName = event.currentTarget.getAttribute("storeName");
+        let cart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : {};
+        let id = productID.toString();
+        if (cart[id]) {
+            cart[id] = cart[id]
+        } else {
+            cart[id] = 0
+            let cartInfo = localStorage.getItem('cartInfo') ? JSON.parse(localStorage.getItem('cartInfo')) : [];
+            let item = {
+                'id': id,
+                'name': productName,
+                'price': productPrice,
+                'type': productType,
+                'photo': productPhoto,
+                'address': productAddress,
+                'phone': productPhone,
+                'store': storeName,
+            };
+            cartInfo.push(item);
+            localStorage.setItem('cartInfo', JSON.stringify(cartInfo));
+        }
+        let quantity = cart[id] + parseInt(this.state.quantity);
+        if (instock < quantity) {
+            cart[id] = instock;
+        } else {
+            cart[id] = quantity
+        }
+        localStorage.setItem('cart', JSON.stringify(cart));
+    }
+
+    render() {
+        const { storeDistances } = this.state;
+        const search = JSON.parse(localStorage.getItem("search"));
+
         if (search) {
             return (
                 <div className="search">
@@ -83,16 +143,33 @@ class Product extends Component {
                                                     {product.phone}
                                                 </div>
                                                 <div className="store_distance">
-                                                    0.5 miles
+                                                    {storeDistances[product.storename]} away.
                                                 </div>
                                             </div>
-                                            <Button
-                                                className="add_to_cart_button"
-                                                variant="contained"
-                                                color="primary"
-                                            >
-                                                Add to Cart
-                                            </Button>
+                                            {parseInt(product.quantity, 10) > 0 ?
+                                                <div className="addtocart_div">
+
+                                                    <Button
+                                                        className="add_to_cart_button"
+                                                        variant="contained"
+                                                        color="primary"
+                                                        onClick={this.addToCart}
+                                                        productID={product.productID}
+                                                        instock={product.quantity}
+                                                        productName={product.productname}
+                                                        productPrice={product.unitPrice}
+                                                        productType={product.type}
+                                                        productPhoto={product.productphoto}
+                                                        productAddress={product.address}
+                                                        productPhone={product.phone}
+                                                        storeName={product.storename}
+                                                    >
+                                                        Add to Cart
+                                                    </Button>
+                                                    <input type="number" value={this.state.quantity} name="quantity" onChange={this.handleInputChange} className="quantity_input" />
+                                                </div> :
+                                                <div className="text-danger">Product is out of stock</div>
+                                            }
                                         </div>
                                     ))}
                                 </div>

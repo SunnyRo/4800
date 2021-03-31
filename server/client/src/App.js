@@ -5,10 +5,10 @@ import Login from "./components/Login";
 import Signup from "./components/Signup";
 import Stores from "./components/Stores"
 import Profile from "./components/Profile";
-import Products from "./components/Products";
 import PrivateRoute from "./components/PrivateRoute";
 import Footer from "./components/Footer";
 import Search from "./components/Search";
+import Cart from "./components/Cart";
 class App extends Component {
   constructor(props) {
     super(props);
@@ -30,9 +30,9 @@ class App extends Component {
           <Route exact path="/" component={Login} />
           <Route exact path="/signup" component={Signup} />
           <PrivateRoute exact path="/home/stores" component={Stores} />
-          <PrivateRoute exact path="/home/products" component={Products} />
           <PrivateRoute exact path="/profile" component={Profile} />
           <PrivateRoute exact path="/search" component={Search} />
+          <PrivateRoute exact path="/cart" component={Cart} />
           <Route exact component={Error} />
         </Switch>
         {/* </div> */}
