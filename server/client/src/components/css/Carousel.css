@@ -19,12 +19,13 @@
 .carousel-content {
     display: flex;
     transition: all 250ms linear;
-    -ms-overflow-style: none;  /* hide scrollbar in IE and Edge */
-    scrollbar-width: none;  /* hide scrollbar in Firefox */
+    -ms-overflow-style: none; /* hide scrollbar in IE and Edge */
+    scrollbar-width: none; /* hide scrollbar in Firefox */
 }
 
 /* hide scrollbar in webkit browser */
-.carousel-content::-webkit-scrollbar, .carousel-content::-webkit-scrollbar {
+.carousel-content::-webkit-scrollbar,
+.carousel-content::-webkit-scrollbar {
     display: none;
 }
 
@@ -48,7 +49,8 @@
     width: calc(100% / 4);
 }
 
-.left-arrow, .right-arrow {
+.left-arrow,
+.right-arrow {
     position: absolute;
     z-index: 1;
     top: 50%;
@@ -69,7 +71,8 @@
 }
 
 @media (hover: none) and (pointer: coarse) {
-    .left-arrow, .right-arrow {
+    .left-arrow,
+    .right-arrow {
         display: none;
     }
 }

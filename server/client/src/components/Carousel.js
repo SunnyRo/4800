@@ -6,7 +6,7 @@ const Carousel = (props) => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [length, setLength] = useState(children.length);
     const [touchPosition, setTouchPosition] = useState(null);
-    const [style, setStyle] = useState({ display: 'none' });
+    const [style, setStyle] = useState({ display: "none" });
 
     // Set the length to match current children from props
     useEffect(() => {
@@ -59,11 +59,11 @@ const Carousel = (props) => {
                     <button
                         onClick={prev}
                         className="left-arrow"
-                        onMouseEnter={e => {
-                            setStyle({ display: 'block' });
+                        onMouseEnter={(e) => {
+                            setStyle({ display: "block" });
                         }}
-                        onMouseLeave={e => {
-                            setStyle({ display: 'none' })
+                        onMouseLeave={(e) => {
+                            setStyle({ display: "none" });
                         }}
                     >
                         &lt;
@@ -77,8 +77,9 @@ const Carousel = (props) => {
                     <div
                         className={`carousel-content show-${show}`}
                         style={{
-                            transform: `translateX(-${currentIndex * (100 / show)
-                                }%)`,
+                            transform: `translateX(-${
+                                currentIndex * (100 / show)
+                            }%)`,
                         }}
                     >
                         {children}
@@ -89,11 +90,11 @@ const Carousel = (props) => {
                     <button
                         onClick={next}
                         className="right-arrow"
-                        onMouseEnter={e => {
-                            setStyle({ display: 'block' });
+                        onMouseEnter={(e) => {
+                            setStyle({ display: "block" });
                         }}
-                        onMouseLeave={e => {
-                            setStyle({ display: 'none' })
+                        onMouseLeave={(e) => {
+                            setStyle({ display: "none" });
                         }}
                     >
                         &gt;

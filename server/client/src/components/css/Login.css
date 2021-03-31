@@ -2,47 +2,47 @@
     font-family: Merriweather-Regular;
     font-weight: 700;
     margin-top: 25px;
-  }
-  
-  .signInHeading {
+}
+
+.sign_in_heading {
     font-family: Merriweather-Regular;
     font-weight: 100;
     margin-top: 20px;
-  }
-  
-  .loginContainer {
+}
+
+.login_container {
     font-family: Arial;
-  }
-  
-  .body {
+}
+
+.body {
     font-family: Arial;
     font-weight: 100;
     font-size: medium;
     overflow: hidden;
-  }
-  
-  .row {
+}
+
+.row {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     width: 100;
-  }
-  
-  .leftColumn {
+}
+
+.left_column {
     display: flex;
     flex-direction: column;
     flex-basis: 100%;
     flex: 1;
-  }
-  
-  .rightColumn {
+}
+
+.right_column {
     display: flex;
     flex-direction: column;
     flex-basis: 100%;
     flex: 1;
-  }
-  
-  .rightColumn::after {
+}
+
+.right_column::after {
     content: "";
     background: url("../images/delivery.jpg");
     top: 0;
@@ -57,8 +57,8 @@
     background-position: center;
     height: calc(100vh-60px);
     width: auto;
-  }
-  .leftColumn::after {
+}
+.left_column::after {
     content: "";
     background: url("../images/background.jpg");
     top: 0;
@@ -73,91 +73,94 @@
     background-position: center;
     height: calc(100vh-60px);
     width: auto;
-  }
-  
-  .leftColumn2 {
+}
+
+.left_column2 {
     display: flex;
     flex-direction: column;
     flex-basis: 100%;
     flex: 1;
-  }
-  
-  .rightColumn2 {
+}
+
+.right_column2 {
     display: flex;
     flex-direction: column;
     flex-basis: 100%;
     flex: 1;
-  }
-  
-  .leftColumn3 {
+}
+
+.left_column3 {
     display: flex;
     flex-direction: column;
     flex-basis: 100%;
     flex: 1;
-  }
-  
-  .rightColumn3 {
+}
+
+.right_column3 {
     display: flex;
     flex-direction: column;
     flex-basis: 100%;
     flex: 1;
-  }
-  
-  .localStoresHeading {
+}
+
+.local_stores_heading {
     font-family: Merriweather-Regular;
     font-weight: 700;
     margin-top: 40%;
-  }
-  
-  .localStoresBody {
+}
+
+.local_stores_body {
     font-family: Arial;
     margin-top: 1%;
     padding-bottom: 100px;
-  }
-  
-  .driversHeading {
+}
+
+.drivers_heading {
     font-family: Merriweather-Regular;
     font-weight: 700;
     margin-top: 40%;
-  }
-  
-  .driversBody {
+}
+
+.drivers_body {
     font-family: Arial;
     margin-top: 1%;
     padding-bottom: 0px;
-  }
-  
-  .signInFields {
+}
+
+.sign_in_fields {
     align-items: center;
-  }
-  
-  .leftColumnHeading {
+}
+
+.sign_up_fields {
+    padding: 15px;
+}
+
+.left_column_heading {
     font-family: Merriweather-Bold;
     text-align: center;
     margin-top: 20px;
-  }
-  
-  .leftColumnBody {
+}
+
+.left_column_body {
     font-family: Arial;
     font-weight: normal;
     text-align: left;
     margin-left: 20px;
     margin-top: 10px;
-  }
-  
-  .driverImg img {
+}
+
+.driver_img img {
     padding-top: 20px;
     height: 300px;
     max-height: 200%;
     width: auto;
     max-width: 200%;
-  }
-  
-  .storeImg img {
+}
+
+.store_img img {
     padding-top: 20px;
     height: 300px;
     max-height: 200%;
     width: auto;
     max-width: 200%;
-  }
-  
+}

@@ -1,28 +1,101 @@
-.product__body{
-    margin: 20px 100px;
-    border-radius: 20px;
- }
- .product__layout{
-    display:flex;
+.search .product_body {
+    margin: 1rem 5rem;
+    padding: 1rem;
+}
+
+.search .products_grid_wrapper {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    row-gap: 2rem;
+    column-gap: 2rem;
+    list-style-type: none;
+    margin: 2rem;
+}
+
+.search .product_layout {
+    display: block;
+    width: auto;
+    height: auto;
+    font-family: Arial;
+    font-size: 1rem;
+    padding: 1.5rem;
+    border-color: black;
+    border-style: solid;
+    border-width: 0.1rem;
+}
+
+.search .store_details {
+    font-family: Arial;
+    font-size: 1rem;
+}
+
+.search .store_name {
+    text-align: center;
+    padding-bottom: 0.5rem;
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.search .store_phone {
+    text-align: left;
+    padding-bottom: 0.5rem;
+}
+
+.search .store_address {
+    text-align: left;
+    padding-bottom: 0.5rem;
+}
+
+.search .store_distance {
+    text-align: left;
+    padding-bottom: 0.5rem;
+}
+
+.search .product_image_container {
     align-items: center;
-    justify-content: space-evenly;
-    border-radius: 15px;
-    margin: 20px 0;
-    background-image: url(../images/block_image.jpg);
-    background-size: cover;
- }
- .product__img{
-    width: 800px;
-    height: 800px;
-  }
- .product__img > img {
-    max-width: 100%;
-    max-height: 100%;
-  }
- .product__name{
-    width:100%;
-    margin-right: 100px;
- }
- .product__detail{
-    width:100%;
- }
+    justify-content: center;
+}
+
+.search .product_image {
+    min-height: 150px;
+    max-height: 150px;
+    min-width: 150px;
+    max-width: 150px;
+}
+
+.search .product_name {
+    padding: 0.5rem;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.search .product_details {
+    padding-bottom: 0.5rem;
+}
+
+.search .product_type {
+    padding-bottom: 0.5rem;
+    text-align: left;
+}
+
+.search .product_price {
+    font-size: 1rem;
+    font-weight: 700;
+    padding-bottom: 0.5rem;
+    text-align: left;
+}
+
+.search .product_quantity {
+    text-align: left;
+    padding-bottom: 0.5rem;
+}
+
+.search Button.add_to_cart_button {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.search Button.back_to_store {
+    margin-bottom: 0.5rem;
+}

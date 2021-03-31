@@ -6,24 +6,24 @@
     position: relative;
     bottom: 0;
     width: 100%;
-  }
-  
-  .column {
+}
+
+.column {
     padding-left: 8%;
     padding-right: 8%;
     padding-bottom: 20px;
-  }
-  
-  .googlePlay {
+}
+
+.googlePlay {
     background-image: url("../images/google-play-badge-128x128.png");
     background-size: contain;
     background-repeat: no-repeat;
     width: 300%;
     height: 150px;
     margin-top: -50%;
-  }
-  
-  .appStore {
+}
+
+.appStore {
     background-image: url("../images/AppStoreIcon.png");
     background-size: contain;
     background-repeat: no-repeat;
@@ -31,89 +31,88 @@
     height: 150px;
     margin-top: -100%;
     margin-bottom: -50%;
-  }
-  
-  .list div {
+}
+
+.list div {
     text-align: left;
-  }
-  
-  a:link {
+}
+
+a:link {
     text-decoration: none;
-  }
-  
-  a:visited {
+}
+
+a:visited {
     text-decoration: none;
-  }
-  
-  a:hover {
+}
+
+a:hover {
     text-decoration: none;
-  }
-  
-  a:active {
+}
+
+a:active {
     text-decoration: none;
-  }
-  
-  .column2 {
+}
+
+.column2 {
     padding-left: 8%;
     padding-right: 8%;
     padding-bottom: 20px;
-  }
-  
-  .icons {
+}
+
+.icons {
     position: relative;
     bottom: 25px;
     right: 10%;
-  }
-  .instagram img {
+}
+.instagram img {
     /*background-color: white;*/
     display: flex;
     flex-direction: column;
     height: 1.5%;
     width: 1.5%;
     float: right;
-  }
-  
-  .twitter img {
+}
+
+.twitter img {
     /*background-color: white;*/
     display: flex;
     flex-direction: column;
     height: 1.5%;
     width: 1.5%;
     float: right;
-  }
-  
-  .facebook img {
+}
+
+.facebook img {
     /*background-color: white;*/
     display: flex;
     flex-direction: column;
     height: 1.5%;
     width: 1.5%;
     float: right;
-  }
-  
-  .youtube img {
+}
+
+.youtube img {
     /*background-color: white;*/
     display: flex;
     flex-direction: column;
     height: 1.5%;
     width: 1.5%;
     float: right;
-  }
-  
-  .linkedin img {
+}
+
+.linkedin img {
     /*background-color: white;*/
     display: flex;
     flex-direction: column;
     height: 1.5%;
     width: 1.5%;
     float: right;
-  }
-  .pinterest img {
+}
+.pinterest img {
     /*background-color: white;*/
     display: flex;
     flex-direction: column;
     height: 1.5%;
     width: 1.5%;
     float: right;
-  }
-  
+}

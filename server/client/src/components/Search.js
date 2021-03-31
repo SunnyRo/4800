@@ -1,18 +1,31 @@
 import React, { Component } from "react";
-import "./css/Products.css";
+import "./css/Search.css";
 import AuthenticationService from "./Authentication";
 import Header from "./Header";
 import { Button, createMuiTheme, ThemeProvider } from "@material-ui/core";
-import { Redirect } from "react-router";
 import Footer from "./Footer";
+
+const theme = createMuiTheme({
+    palette: {
+        primary: {
+            main: "#06C167",
+        },
+        secondary: {
+            main: "#06C167",
+        },
+        background: {
+            main: "#06C167",
+        },
+    },
+});
 
 class Product extends Component {
     constructor() {
         super();
         this.state = {
             isLoaded: true,
-            search: '',
-        }
+            search: "",
+        };
         this.logout = this.logout.bind(this);
         // this.getProducts = this.getProducts.bind(this);
         this.backtoStore = this.backtoStore.bind(this);
@@ -31,63 +44,74 @@ class Product extends Component {
         const search = JSON.parse(localStorage.getItem("search"));
         if (search) {
             return (
-                <div>
-                    <Header />
-                    <div className="product__body">
-                        {search.map((product) => (
+                <div className="search">
+                    <ThemeProvider theme={theme}>
+                        <Header />
+                        <div className="product_body">
                             <ul>
-                                <div className="product__layout">
-                                    <div className="product__img">
-                                        <img src={product.productphoto}></img>
-                                    </div>
-                                    <div className="product__name">
-                                        <div className="product__info">
-                                            Product
+                                <div className="products_grid_wrapper">
+                                    {search.map((product) => (
+                                        <div className="product_layout">
+                                            <div className="store_name">
+                                                {product.storename}
+                                            </div>
+                                            <div className="product_image_container">
+                                                <img
+                                                    className="product_image"
+                                                    src={product.productphoto}
+                                                ></img>
+                                            </div>
+                                            <div className="product_details">
+                                                <div className="product_name">
+                                                    {product.productname}
+                                                </div>
+                                                <div className="product_price">
+                                                    ${product.unitPrice}
+                                                </div>
+                                                <div className="product_type">
+                                                    Type: {product.type}
+                                                </div>
+                                                <div className="product_quantity">
+                                                    Currently {product.quantity} in stock!
+                                                </div>
+                                            </div>
+                                            <div className="store_details">
+                                                <div className="store_address">
+                                                    {product.address}
+                                                </div>
+                                                <div className="store_phone">
+                                                    {product.phone}
+                                                </div>
+                                                <div className="store_distance">
+                                                    0.5 miles
+                                                </div>
+                                            </div>
+                                            <Button
+                                                className="add_to_cart_button"
+                                                variant="contained"
+                                                color="primary"
+                                            >
+                                                Add to Cart
+                                            </Button>
                                         </div>
-                                        <div className="product__info">
-                                            {product.productname}
-                                        </div>
-                                    </div>
-                                    <div className="product__name">
-                                        <div className="product__info">
-                                            Store
-                                        </div>
-                                        <div className="product__info">
-                                            {product.storename}
-                                        </div>
-                                        <div className="product__info">
-                                            {product.phone}
-                                        </div>
-                                        <div className="product__info">
-                                            {product.address}
-                                        </div>
-                                    </div>
-                                    <div className="product__detail">
-                                        <div className="product__info">
-                                            Type: {product.type}
-                                        </div>
-                                        <div className="product__info">
-                                            Price: ${product.unitPrice}
-                                        </div>
-                                        <div className="product__info">
-                                            In stock: {product.quantity}
-                                        </div>
-                                    </div>
+                                    ))}
                                 </div>
                             </ul>
-                        ))}
-                    </div>
-                    <Button onClick={this.backtoStore}>Back to Stores</Button>
-                    <Footer />
-                </div>
-            )
-
-        } else {
-            return (
-                <div className="storesContainer">
-                    Loading.............
+                        </div>
+                        <Button
+                            className="back_to_store"
+                            variant="contained"
+                            color="primary"
+                            onClick={this.backtoStore}
+                        >
+                            Back to Stores
+                        </Button>
+                        <Footer />
+                    </ThemeProvider>
                 </div>
             );
+        } else {
+            return <div className="storesContainer">Loading.............</div>;
         }
     }
 }
