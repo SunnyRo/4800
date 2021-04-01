@@ -5,6 +5,7 @@ import Header from "./Header";
 import Footer from "./Footer";
 import SearchItem from "./SearchItem";
 
+import { Button, createMuiTheme, ThemeProvider } from "@material-ui/core";
 const theme = createMuiTheme({
     palette: {
         primary: {
