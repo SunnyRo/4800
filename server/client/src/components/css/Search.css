@@ -92,28 +92,41 @@
 }
 
 .search Button.add_to_cart_button {
-    /* display: flex;
-    justify-content: flex-end; */
-    /* flex:1; */
-    height:2.5rem;
-    width: 50%;
+    display: flex;
+    margin-right: 0;
+    text-align: center;
+    font-family: Arial;
+    font-size: 0.95rem;
+    height: 2.5rem;
+    width: 100%;
 }
-.search Button{
+
+.search Button {
     /* font-size: 10px; */
     font-size: 0.6rem;
     font-weight: bold;
 }
 
 .search Button.back_to_store {
+    font-family: Arial;
+    font-weight: 600;
+    font-size: 0.8rem;
+    height: 3rem;
+    width: 10%;
     margin-bottom: 0.5rem;
 }
-.addtocart_div{
-    display:flex;
+
+.addtocart_div {
+    display: flex;
     align-items: center;
-    height:10px;
+    height: 1rem;
     margin: 1rem 0.5rem;
 }
-.quantity_input{
-    width: 50%;
-    margin:0 15px;
+
+.search .quantity_input {
+    font-family: "Arial";
+    font-weight: 600;
+    text-align: center;
+    width: 100%;
+    height: 2.5rem;
 }
