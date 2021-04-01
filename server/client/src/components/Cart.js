@@ -44,6 +44,10 @@ export default class Cart extends React.Component {
     callBack = () => {
         this.forceUpdate();
     }
+    checkout = () => {
+        this.props.history.push("/checkout");
+
+    }
     convertDistance = (distance) => {
         const floatDistance = parseFloat(distance);
         const result = (floatDistance * 0.621371).toFixed(2);
@@ -108,7 +112,7 @@ export default class Cart extends React.Component {
 
                                     <Button
                                         className="checkout_button"
-                                        // component={Link}
+                                        onClick={this.checkout}
                                         to="/checkout"
                                         variant="contained"
                                         color="primary"
