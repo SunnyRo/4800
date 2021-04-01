@@ -6,10 +6,9 @@ export default class SearchItem extends React.Component {
         super(props);
         this.state = {
             quantity: 1,
-            cart: {}
         }
     }
-    addToCart = (event) => {
+    addToCart = () => {
         console.log("Add to cart")
         let cart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : {};
         let id = this.props.product.productID.toString();
@@ -39,7 +38,7 @@ export default class SearchItem extends React.Component {
             cart[id] = quantity
         }
         localStorage.setItem('cart', JSON.stringify(cart));
-        this.props.remove()
+        this.props.update()
     }
     handleInputChange = event => this.setState({ [event.target.name]: event.target.value })
     render() {
@@ -77,7 +76,7 @@ export default class SearchItem extends React.Component {
                         {product.phone}
                     </div>
                     <div className="store_distance">
-                        {storeDistances[product.storename]} away.
+                        {this.props.convert(storeDistances[product.storename])} miles away.
                                                 </div>
                 </div>
                 {parseInt(product.quantity, 10) > 0 ?
@@ -90,7 +89,7 @@ export default class SearchItem extends React.Component {
                             onClick={this.addToCart}
                         >
                             Add to Cart
-                                                    </Button>
+                        </Button>
                         <input type="number" value={this.state.quantity} name="quantity" onChange={this.handleInputChange} className="quantity_input" />
                     </div> :
                     <div className="text-danger">Product is out of stock</div>

@@ -19,11 +19,6 @@ const theme = createMuiTheme({
     },
 });
 
-const convertDistance = (distance) => {
-    const floatDistance = parseFloat(distance);
-    const result = (floatDistance * 0.621371).toFixed(2);
-    return result;
-};
 
 export default class Cart extends React.Component {
     constructor(props) {
@@ -49,6 +44,11 @@ export default class Cart extends React.Component {
     callBack = () => {
         this.forceUpdate();
     }
+    convertDistance = (distance) => {
+        const floatDistance = parseFloat(distance);
+        const result = (floatDistance * 0.621371).toFixed(2);
+        return result;
+    };
     clearCart = () => {
         localStorage.removeItem("cart");
         localStorage.removeItem("cartInfo");
@@ -94,41 +94,53 @@ export default class Cart extends React.Component {
                     <ThemeProvider theme={theme}>
                         <Header />
                         <div className="product_body">
-                            <Button
-                                className="checkout_button"
-                                component={Link}
-                                to="/checkout"
-                                variant="contained"
-                                color="primary"
-                            >
-                                Continue to checkout
-                        </Button>
                             <ul>
                                 <div className="products_grid_wrapper">
                                     {
                                         cartInfo.map((product) =>
-                                            <CartItem product={product} storeDistances={storeDistances} cart={cart} remove={this.callBack} />
+                                            <CartItem product={product} storeDistances={storeDistances} cart={cart} update={this.callBack} convert={this.convertDistance} />
                                         )
                                     }
                                 </div>
                             </ul>
+                            <div className="menu_buttons">
+                                <div className="button_div">
+
+                                    <Button
+                                        className="checkout_button"
+                                        // component={Link}
+                                        to="/checkout"
+                                        variant="contained"
+                                        color="primary"
+                                    >
+                                        Continue to checkout
+                                    </Button>
+                                </div>
+                                <div className="button_div">
+
+                                    <Button
+                                        className="clear_cart_button"
+                                        variant="contained"
+                                        color="primary"
+                                        onClick={this.clearCart}
+                                    >
+                                        Clear Cart
+                                    </Button>
+                                </div>
+                                <div className="button_div">
+                                    <Button
+                                        className="back_to_stores_button"
+                                        variant="contained"
+                                        color="primary"
+                                        onClick={this.backtoStore}
+                                    >
+                                        Back to Stores
+                                    </Button>
+                                </div>
+
+                            </div>
                         </div>
-                        <Button
-                            className="clear_cart_button"
-                            variant="contained"
-                            color="primary"
-                            onClick={this.clearCart}
-                        >
-                            Clear Cart
-                        </Button>
-                        <Button
-                            className="back_to_stores_button"
-                            variant="contained"
-                            color="primary"
-                            onClick={this.backtoStore}
-                        >
-                            Back to Stores
-                        </Button>
+
                         <Footer />
                     </ThemeProvider>
                 </div>

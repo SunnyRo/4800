@@ -22,23 +22,20 @@ export default class CartItem extends React.Component {
         let cart = JSON.parse(localStorage.getItem('cart'));
         let cartInfo = JSON.parse(localStorage.getItem('cartInfo'));
         const filteredItems = cartInfo.filter(item => item.id !== productID)
-        // const index = cartInfo.indexOf(productID)
         delete cart[productID];
-        this.setState({
-            cart: cart
-        })
         localStorage.setItem('cart', JSON.stringify(cart));
         localStorage.setItem('cartInfo', JSON.stringify(filteredItems));
-        // let total = this.state.total - (product.qty * product.price)
-        // this.setState({ products, total });
-        this.props.remove()
+        this.props.update()
     }
     handleInputChange = event => this.setState({ [event.target.name]: event.target.value })
     updateCart = () => {
         let cart = JSON.parse(localStorage.getItem('cart'));
         const productID = this.props.product.id;
-        cart[productID] = this.state.quantity
+        console.log(cart[productID])
+        const quantity = parseInt(this.state.quantity)
+        cart[productID] = quantity
         localStorage.setItem('cart', JSON.stringify(cart));
+        this.props.update()
     }
     render() {
         const { product, storeDistances } = this.props;
@@ -72,27 +69,33 @@ export default class CartItem extends React.Component {
                         {product.phone}
                     </div>
                     <div className="store_distance">
-                        {storeDistances[product.store]} away.
-            </div>
+                        {this.props.convert(storeDistances[product.store])} miles away.
+                    </div>
                 </div>
                 <div className="product_quantity">
                     <div>Quantity</div>
                     <input type="number" value={this.state.quantity} name="quantity" onChange={this.handleInputChange} className="quantity_input" />
                 </div>
-                <Button
-                    variant="contained"
-                    color="primary"
-                    productID={product.id}
-                    onClick={this.updateCart}
-                >save
-            </Button>
-                <Button
-                    variant="contained"
-                    color="primary"
-                    productID={product.id}
-                    onClick={this.removeFromCart}
-                >Remove
-            </Button>
+                <div className="buttons">
+                    <div className="button_item">
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            productID={product.id}
+                            onClick={this.updateCart}
+                        >save
+                    </Button>
+                    </div>
+                    <div className="button_item">
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            productID={product.id}
+                            onClick={this.removeFromCart}
+                        >Remove
+                    </Button>
+                    </div>
+                </div>
             </div>
         )
     }

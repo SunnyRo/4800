@@ -19,13 +19,6 @@ const theme = createMuiTheme({
         },
     },
 });
-
-const convertDistance = (distance) => {
-    const floatDistance = parseFloat(distance);
-    const result = (floatDistance * 0.621371).toFixed(2);
-    return result;
-};
-
 class Product extends Component {
     constructor() {
         super();
@@ -53,7 +46,7 @@ class Product extends Component {
         window.location.reload();
     };
 
-    backtoStore(event) {
+    backtoStore() {
         this.props.history.push("/home/stores");
     }
 
@@ -84,7 +77,11 @@ class Product extends Component {
     callBack = () => {
         this.forceUpdate();
     }
-
+    convertDistance = (distance) => {
+        const floatDistance = parseFloat(distance);
+        const result = (floatDistance * 0.621371).toFixed(2);
+        return result;
+    };
     render() {
         const { storeDistances } = this.state;
         const search = JSON.parse(localStorage.getItem("search"));
@@ -98,7 +95,7 @@ class Product extends Component {
                             <ul>
                                 <div className="products_grid_wrapper">
                                     {search.map((product) =>
-                                        <SearchItem product={product} storeDistances={storeDistances} remove={this.callBack} />
+                                        <SearchItem product={product} storeDistances={storeDistances} update={this.callBack} convert={this.convertDistance} />
                                     )}
                                 </div>
                             </ul>
