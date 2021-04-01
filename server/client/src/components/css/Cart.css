@@ -89,6 +89,7 @@
 .search .product_quantity {
     text-align: left;
     padding-bottom: 0.5rem;
+    display:flex
 }
 
 .search Button.add_to_cart_button {
