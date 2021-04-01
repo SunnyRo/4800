@@ -88,6 +88,7 @@
 .cart .product_quantity {
     text-align: left;
     padding-bottom: 0.5rem;
+    display:flex
 }
 
 .cart Button.add_to_cart_button {
@@ -99,42 +100,58 @@
 }
 
 .cart Button.clear_cart_button {
-    display: flex;
-    margin-left: auto;
-    margin-right: 2rem;
+    /* display: flex; */
+    /* margin-left: auto;
+    margin-right: 2rem; */
     font-family: Arial;
     font-weight: 600;
     font-size: 0.8rem;
     height: 3rem;
-    width: 10%;
-    margin-bottom: 0.5rem;
+    width: 80%;
+    /* margin-bottom: 0.5rem; */
 }
 
 .cart Button.checkout_button {
-    display: flex;
-    margin-left: auto;
+    /* display: flex; */
+    /* margin-left: auto; */
+    font-family: Arial;
     font-weight: 600;
     font-size: 0.8rem;
     height: 3rem;
-    margin-bottom: 0.5rem;
+    width: 80%;
+    /* margin-bottom: 0.5rem; */
 }
+
 
 .cart Button.back_to_stores_button {
     font-family: Arial;
     font-weight: 600;
     font-size: 0.8rem;
     height: 3rem;
-    width: 10%;
-    margin-bottom: 0.5rem;
+    width: 80%;
+    /* margin-bottom: 0.5rem; */
 }
-
-.addtocart_div{
+.button_div{
+    width: 100%;
+}
+.buttons{
     display: flex;
     align-items: center;
     height: 1rem;
+    justify-content: left;
     margin: 1rem 0.5rem;
+    width: 100%;
 }
-
+.button_item{
+    padding: 1rem;
+}
+.menu_buttons{
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 20%;
+    /* padding: 0 10%; */
+}
 .quantity_input{
     width: 50%;
     margin:0 15px;

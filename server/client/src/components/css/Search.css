@@ -92,11 +92,11 @@
 }
 
 .search Button.add_to_cart_button {
-    display: flex;
+    /* display: flex; */
     margin-right: 0;
     text-align: center;
     font-family: Arial;
-    font-size: 0.95rem;
+    font-size: 0.80rem;
     height: 2.5rem;
     width: 100%;
 }
@@ -127,6 +127,6 @@
     font-family: "Arial";
     font-weight: 600;
     text-align: center;
-    width: 100%;
+    width: 50%;
     height: 2.5rem;
 }

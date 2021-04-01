@@ -22,6 +22,7 @@ class Header extends Component {
             type: "",
             user: "",
             searchterm: "",
+            cart: "",
         };
         this.logout = this.logout.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -59,7 +60,6 @@ class Header extends Component {
         AuthenticationService.signOut();
         // window.location.reload();
     };
-
     handleChange(event) {
         this.setState({
             [event.target.name]: event.target.value,
@@ -131,6 +131,8 @@ class Header extends Component {
         const type = JSON.parse(localStorage.getItem("type"));
         const user = JSON.parse(localStorage.getItem("user"));
         let cart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : {};
+        // let cartInfo = localStorage.getItem('cartInfo') ? JSON.parse(localStorage.getItem('cartInfo')) : [];
+        // const cart = this.state
         if (user && type) {
             return (
                 <nav className="header">
@@ -201,6 +203,7 @@ class Header extends Component {
                                 <div className="header_cartCount">
                                     <span className="header_optionLine1">
                                         {Object.keys(cart).length}
+                                        {/* {cartInfo.length} */}
                                     </span>
                                     <span className="header_optionLine2">
                                         Cart

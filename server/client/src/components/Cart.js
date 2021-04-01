@@ -2,9 +2,9 @@ import React from "react";
 import { Button, createMuiTheme, ThemeProvider } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import "./css/Cart.css";
-import Footer from "./Footer";
-import Header from "./Header";
-
+import Footer from './Footer';
+import Header from './Header';
+import CartItem from './CartItem';
 const theme = createMuiTheme({
     palette: {
         primary: {
@@ -19,11 +19,6 @@ const theme = createMuiTheme({
     },
 });
 
-const convertDistance = (distance) => {
-    const floatDistance = parseFloat(distance);
-    const result = (floatDistance * 0.621371).toFixed(2);
-    return result;
-};
 
 export default class Cart extends React.Component {
     constructor(props) {
@@ -32,7 +27,7 @@ export default class Cart extends React.Component {
             products: [],
             cart: {},
             total: 0,
-            storeDistances: {},
+            quantity: 1,
         };
         this.backtoStore = this.backtoStore.bind(this);
     }
@@ -40,23 +35,14 @@ export default class Cart extends React.Component {
     backtoStore(event) {
         this.props.history.push("/home/stores");
     }
-
-    removeFromCart = (event) => {
-        const productID = event.currentTarget.getAttribute("productID");
-        let cart = JSON.parse(localStorage.getItem("cart"));
-        let cartInfo = JSON.parse(localStorage.getItem("cartInfo"));
-        const filteredItems = cartInfo.filter((item) => item.id !== productID);
-        // const index = cartInfo.indexOf(productID)
-        delete cart[productID];
-        this.setState({
-            cart: cart,
-        });
-        localStorage.setItem("cart", JSON.stringify(cart));
-        localStorage.setItem("cartInfo", JSON.stringify(filteredItems));
-        // let total = this.state.total - (product.qty * product.price)
-        // this.setState({ products, total });
+    callBack = () => {
+        this.forceUpdate();
+    }
+    convertDistance = (distance) => {
+        const floatDistance = parseFloat(distance);
+        const result = (floatDistance * 0.621371).toFixed(2);
+        return result;
     };
-
     clearCart = () => {
         localStorage.removeItem("cart");
         localStorage.removeItem("cartInfo");
@@ -102,86 +88,53 @@ export default class Cart extends React.Component {
                     <ThemeProvider theme={theme}>
                         <Header />
                         <div className="product_body">
-                        <Button
-                            className="checkout_button"
-                            component={Link}
-                            to="/checkout"
-                            variant="contained"
-                            color="primary"
-                        >
-                            Continue to checkout
-                        </Button>
                             <ul>
                                 <div className="products_grid_wrapper">
-                                    {cartInfo.map((product) => (
-                                        <div className="product_layout">
-                                            <div className="store_name">
-                                                {product.store}
-                                            </div>
-                                            <div className="product_image_container">
-                                                <img
-                                                    className="product_image"
-                                                    src={product.photo}
-                                                ></img>
-                                            </div>
-                                            <div className="product_details">
-                                                <div className="product_name">
-                                                    {product.name}
-                                                </div>
-                                                <div className="product_price">
-                                                    $
-                                                    {parseFloat(
-                                                        product.price
-                                                    ).toFixed(2)}
-                                                </div>
-                                                <div className="product_type">
-                                                    Type: {product.type}
-                                                </div>
-                                                <div className="product_quantity">
-                                                    Quantity: {cart[product.id]}
-                                                </div>
-                                            </div>
-                                            <div className="store_details">
-                                                <div className="store_address">
-                                                    {product.address}
-                                                </div>
-                                                <div className="store_phone">
-                                                    {product.phone}
-                                                </div>
-                                                <div className="store_distance">
-                                                    {convertDistance(storeDistances[product.store])}
-                                                    {" miles away"}
-                                                </div>
-                                            </div>
-                                            <Button
-                                                className="remove_button"
-                                                color="primary"
-                                                productID={product.id}
-                                                onClick={this.removeFromCart}
-                                            >
-                                                Remove
-                                            </Button>
-                                        </div>
-                                    ))}
+                                    {
+                                        cartInfo.map((product) =>
+                                            <CartItem product={product} storeDistances={storeDistances} cart={cart} update={this.callBack} convert={this.convertDistance} />
+                                        )
+                                    }
                                 </div>
                             </ul>
+                            <div className="menu_buttons">
+                                <div className="button_div">
+
+                                    <Button
+                                        className="checkout_button"
+                                        // component={Link}
+                                        to="/checkout"
+                                        variant="contained"
+                                        color="primary"
+                                    >
+                                        Continue to checkout
+                                    </Button>
+                                </div>
+                                <div className="button_div">
+
+                                    <Button
+                                        className="clear_cart_button"
+                                        variant="contained"
+                                        color="primary"
+                                        onClick={this.clearCart}
+                                    >
+                                        Clear Cart
+                                    </Button>
+                                </div>
+                                <div className="button_div">
+                                    <Button
+                                        className="back_to_stores_button"
+                                        variant="contained"
+                                        color="primary"
+                                        onClick={this.backtoStore}
+                                    >
+                                        Back to Stores
+                                    </Button>
+                                </div>
+
+                            </div>
                         </div>
-                        <Button
-                            className="clear_cart_button"
-                            variant="contained"
-                            color="primary"
-                            onClick={this.clearCart}
-                        >
-                            Clear Cart
-                        </Button>
-                        <Button
-                            className="back_to_stores_button"
-                            variant="contained"
-                            color="primary"
-                            onClick={this.backtoStore}
-                        >
-                            Back to Stores
-                        </Button>
+
                         <Footer />
                     </ThemeProvider>
                 </div>
