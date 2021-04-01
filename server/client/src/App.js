@@ -9,6 +9,8 @@ import PrivateRoute from "./components/PrivateRoute";
 import Footer from "./components/Footer";
 import Search from "./components/Search";
 import Cart from "./components/Cart";
+import Checkout from "./components/Checkout";
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -17,6 +19,7 @@ class App extends Component {
       uploadScreen: []
     };
   }
+
   componentDidMount() {
     localStorage.clear();
   }
@@ -33,6 +36,7 @@ class App extends Component {
           <PrivateRoute exact path="/profile" component={Profile} />
           <PrivateRoute exact path="/search" component={Search} />
           <PrivateRoute exact path="/cart" component={Cart} />
+          <PrivateRoute exact path="/checkout" component={Checkout} />
           <Route exact component={Error} />
         </Switch>
         {/* </div> */}

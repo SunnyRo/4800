@@ -28,6 +28,7 @@ class Header extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
+    
     getProfile = () => {
         const user = AuthenticationService.getCurrentUser();
         fetch("/profile", {
@@ -53,6 +54,7 @@ class Header extends Component {
                 }
             });
     };
+
     logout = () => {
         console.log("trying to log out");
         AuthenticationService.signOut();
@@ -63,6 +65,7 @@ class Header extends Component {
             [event.target.name]: event.target.value,
         });
     }
+    
     handleSubmit(event) {
         const user = AuthenticationService.getCurrentUser();
         if (this.state.type === "") {
@@ -123,6 +126,7 @@ class Header extends Component {
         }
         // event.preventDefault();
     }
+
     render() {
         const type = JSON.parse(localStorage.getItem("type"));
         const user = JSON.parse(localStorage.getItem("user"));
@@ -213,10 +217,10 @@ class Header extends Component {
                                 <ReceiptIcon className="header_orderIcon" />
                                 <div className="header_option">
                                     <span className="header_optionLine1">
-                                        returns
+                                        Returns
                                     </span>
                                     <span className="header_optionLine2">
-                                        orders
+                                        Orders
                                     </span>
                                 </div>
                             </div>
@@ -277,4 +281,5 @@ class Header extends Component {
         }
     }
 }
+
 export default withRouter(Header);

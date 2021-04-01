@@ -1,0 +1,109 @@
+.checkout .products_grid_wrapper {
+    display: grid;
+    grid-template-columns: 1fr;
+    row-gap: 2rem;
+    column-gap: 2rem;
+    list-style-type: none;
+    margin: 2rem;
+}
+
+.checkout .product_layout {
+    display: inline-block;
+    width: 30%;
+    height: auto;
+    font-family: Arial;
+    font-size: 1rem;
+    padding: 1.5rem;
+    border-color: black;
+    border-style: solid;
+    border-width: 0.1rem;
+    margin: 2rem;
+}
+
+.checkout .store_details {
+    font-family: Arial;
+    font-size: 1rem;
+}
+
+.checkout .store_name {
+    text-align: center;
+    padding-bottom: 0.5rem;
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.checkout .store_phone {
+    text-align: left;
+    padding-bottom: 0.5rem;
+}
+
+.checkout .store_address {
+    text-align: left;
+    padding-bottom: 0.5rem;
+}
+
+.checkout .store_distance {
+    text-align: left;
+    padding-bottom: 0.5rem;
+}
+
+.checkout .product_image_container {
+    align-items: center;
+    justify-content: center;
+}
+
+.checkout .product_image {
+    min-height: 150px;
+    max-height: 150px;
+    min-width: 150px;
+    max-width: 150px;
+}
+
+.checkout .product_name {
+    padding: 0.4rem;
+    text-align: center;
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+
+.checkout .product_details {
+}
+
+.checkout .product_type {
+    padding-bottom: 0.5rem;
+    text-align: left;
+}
+
+.checkout .product_price {
+    font-size: 1rem;
+    font-weight: 700;
+    padding-bottom: 0.5rem;
+    text-align: left;
+}
+
+.checkout .product_quantity {
+    text-align: left;
+    padding-bottom: 0.5rem;
+}
+
+.checkout .remove_button {
+    display: flex;
+    margin-left: auto;
+    text-decoration: underline;
+}
+
+.checkout Button.return_to_cart {
+    display: flex;
+    font-size: 1.2rem;
+    margin: 0.5rem;
+}
+
+.checkout .checkout_details {
+    display: inline-block;
+    vertical-align: top;
+    margin: 2rem;
+    margin-left: auto;
+    font-family: "Arial";
+    font-size: 2rem;
+    text-align: right;
+}

@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import "./css/Search.css";
 import AuthenticationService from "./Authentication";
 import Header from "./Header";
-import { Button, createMuiTheme, ThemeProvider } from "@material-ui/core";
 import Footer from "./Footer";
 import SearchItem from "./SearchItem";
 
@@ -20,6 +19,12 @@ const theme = createMuiTheme({
     },
 });
 
+const convertDistance = (distance) => {
+    const floatDistance = parseFloat(distance);
+    const result = (floatDistance * 0.621371).toFixed(2);
+    return result;
+};
+
 class Product extends Component {
     constructor() {
         super();
@@ -34,30 +39,46 @@ class Product extends Component {
         this.backtoStore = this.backtoStore.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
     }
-    handleInputChange = event => this.setState({ [event.target.name]: event.target.value })
+
+    handleInputChange = (event) => {
+        this.setState({ [event.target.name]: event.target.value });
+        console.log(this.state.quantity);
+    };
+
     logout = () => {
         console.log("trying to log out");
         AuthenticationService.signOut();
         this.props.history.push("/");
         window.location.reload();
     };
+
     backtoStore(event) {
         this.props.history.push("/home/stores");
     }
+
     componentWillMount() {
-        const distances = JSON.parse(localStorage.getItem("distances"))
-        const names = ['Walmart', 'Whole Foods', "Trader Joe's", 'Ralphs', 'Vons', 'Costco', 'Safeway', 'Albertsons']
-        const storeDistances = {}
-        console.log(distances.rows[0].elements[0].distance.text)
+        const distances = JSON.parse(localStorage.getItem("distances"));
+        const names = [
+            "Walmart",
+            "Whole Foods",
+            "Trader Joe's",
+            "Ralphs",
+            "Vons",
+            "Costco",
+            "Safeway",
+            "Albertsons",
+        ];
+        const storeDistances = {};
+        console.log(distances.rows[0].elements[0].distance.text);
         distances.rows[0].elements.forEach((element, i) => {
-            storeDistances[names[i]] = element.distance.text
+            storeDistances[names[i]] = element.distance.text;
         });
         localStorage.setItem("storeDistances", JSON.stringify(storeDistances));
         const search = JSON.parse(localStorage.getItem("search"));
         this.setState({
             storeDistances: storeDistances,
             search: search,
-        })
+        });
     }
     callBack = () => {
         this.forceUpdate();
