@@ -26,6 +26,8 @@ export default class Cart extends React.Component {
         this.state = {
             products: [],
             cart: {},
+            cartInfo: [],
+            storeDistances: {},
             total: 0,
             quantity: 1,
         };
@@ -38,61 +40,70 @@ export default class Cart extends React.Component {
         this.setState({ [event.target.name]: event.target.value })
     }
 
-    backtoStore(event) {
-        this.props.history.push("/home/stores");
-    }
-    callBack = () => {
-        this.forceUpdate();
-    }
-    checkout = () => {
-        this.props.history.push("/checkout");
-
-    }
     convertDistance = (distance) => {
         const floatDistance = parseFloat(distance);
         const result = (floatDistance * 0.621371).toFixed(2);
         return result;
     };
-    clearCart = () => {
-        localStorage.removeItem("cart");
-        localStorage.removeItem("cartInfo");
-        this.setState({ products: [] });
-        this.props.history.push("/home/stores");
-    };
-
-    componentWillMount() {
-        const distances = JSON.parse(localStorage.getItem("distances"));
-        const names = [
-            "Walmart",
-            "Whole Foods",
-            "Trader Joe's",
-            "Ralphs",
-            "Vons",
-            "Costco",
-            "Safeway",
-            "Albertsons",
-        ];
-        const storeDistances = {};
-        console.log(distances.rows[0].elements[0].distance.text);
-        distances.rows[0].elements.forEach((element, i) => {
-            storeDistances[names[i]] = element.distance.text;
-        });
-        localStorage.setItem("storeDistances", JSON.stringify(storeDistances));
-        const search = JSON.parse(localStorage.getItem("search"));
+    removeFromCart = (product) => {
+        const productID = product.id;
+        console.log(productID)
+        let cart = JSON.parse(localStorage.getItem('cart'));
+        let cartInfo = JSON.parse(localStorage.getItem('cartInfo'));
+        const filteredItems = cartInfo.filter(item => item.id !== productID)
+        delete cart[productID];
+        localStorage.setItem('cart', JSON.stringify(cart));
+        localStorage.setItem('cartInfo', JSON.stringify(filteredItems));
         this.setState({
+            cart: cart,
+            cartInfo: filteredItems,
+        })
+    }
+    updateCart = (product, quantity) => {
+        let cart = JSON.parse(localStorage.getItem('cart'));
+        const productID = product.id;
+        console.log(cart[productID])
+        cart[productID] = quantity
+        localStorage.setItem('cart', JSON.stringify(cart));
+        this.setState({
+            cart: cart
+        })
+    }
+    componentWillMount() {
+        const cart = JSON.parse(localStorage.getItem("cart"));
+        const cartInfo = JSON.parse(localStorage.getItem("cartInfo"));
+        const storeDistances = JSON.parse(localStorage.getItem("storeDistances"));
+        this.setState({
+            cart: cart,
+            cartInfo: cartInfo,
             storeDistances: storeDistances,
-            search: search,
         });
     }
+    backtoStore() {
+        this.props.history.push("/home/stores");
+    }
+    checkout = () => {
+        this.props.history.push("/checkout");
+
+    }
+    clearCart = () => {
+        // localStorage.removeItem("cart");
+        // localStorage.removeItem("cartInfo");
+        let cart = {}
+        let cartInfo = []
+        this.setState({
+            cartInfo: cartInfo,
+            cart: cart,
+        });
+        localStorage.setItem('cart', JSON.stringify(cart));
+        localStorage.setItem('cartInfo', JSON.stringify(cartInfo));
+        this.props.history.push("/home/stores");
+        console.log(document.documentElement.offsetHeight)
+    };
 
     render() {
-        const storeDistances = JSON.parse(
-            localStorage.getItem("storeDistances")
-        );
-        const cartInfo = JSON.parse(localStorage.getItem("cartInfo"));
-        const cart = JSON.parse(localStorage.getItem("cart"));
-
-        if (cartInfo) {
+        const { cartInfo, cart, storeDistances } = this.state
+        if (cartInfo.length != 0) {
             return (
                 <div className="cart">
                     <ThemeProvider theme={theme}>
@@ -101,8 +112,8 @@ export default class Cart extends React.Component {
                             <ul>
                                 <div className="products_grid_wrapper">
                                     {
-                                        cartInfo.map((product) =>
-                                            <CartItem product={product} storeDistances={storeDistances} cart={cart} update={this.callBack} convert={this.convertDistance} />
+                                        cartInfo.map((product, index) =>
+                                            <CartItem product={product} storeDistances={storeDistances} cart={cart} remove={this.removeFromCart} update={this.updateCart} convert={this.convertDistance} key={index} />
                                         )
                                     }
                                 </div>
@@ -167,7 +178,7 @@ export default class Cart extends React.Component {
                         </div>
                         <Footer />
                     </ThemeProvider>
-                </div>
+                </div >
             );
         }
     }

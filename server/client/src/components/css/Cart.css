@@ -5,7 +5,7 @@
 
 .cart .products_grid_wrapper {
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     row-gap: 2rem;
     column-gap: 2rem;
     list-style-type: none;

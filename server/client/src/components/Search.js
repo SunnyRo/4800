@@ -31,13 +31,8 @@ class Product extends Component {
         };
         this.logout = this.logout.bind(this);
         this.backtoStore = this.backtoStore.bind(this);
-        this.handleInputChange = this.handleInputChange.bind(this);
     }
 
-    handleInputChange = (event) => {
-        this.setState({ [event.target.name]: event.target.value });
-        console.log(this.state.quantity);
-    };
 
     logout = () => {
         console.log("trying to log out");
@@ -74,8 +69,37 @@ class Product extends Component {
             search: search,
         });
     }
-    callBack = () => {
-        this.forceUpdate();
+    addToCart = (product, qty) => {
+        console.log("Add to cart")
+        let cart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : {};
+        let id = product.productID.toString();
+        if (cart[id]) {
+            cart[id] = cart[id]
+        } else {
+            cart[id] = 0
+
+            let cartInfo = localStorage.getItem('cartInfo') ? JSON.parse(localStorage.getItem('cartInfo')) : [];
+            let item = {
+                'id': id,
+                'name': product.productname,
+                'price': product.unitPrice,
+                'type': product.type,
+                'photo': product.productphoto,
+                'address': product.address,
+                'phone': product.phone,
+                'store': product.storename,
+            };
+            cartInfo.push(item);
+            localStorage.setItem('cartInfo', JSON.stringify(cartInfo));
+        }
+        let quantity = cart[id] + parseInt(qty);
+        if (product.quantity < quantity) {
+            cart[id] = product.quantity;
+        } else {
+            cart[id] = quantity
+        }
+        localStorage.setItem('cart', JSON.stringify(cart));
+        this.forceUpdate()
     }
     convertDistance = (distance) => {
         const floatDistance = parseFloat(distance);
@@ -95,7 +119,7 @@ class Product extends Component {
                             <ul>
                                 <div className="products_grid_wrapper">
                                     {search.map((product) =>
-                                        <SearchItem product={product} storeDistances={storeDistances} update={this.callBack} convert={this.convertDistance} />
+                                        <SearchItem product={product} storeDistances={storeDistances} addToCart={this.addToCart} convert={this.convertDistance} />
                                     )}
                                 </div>
                             </ul>

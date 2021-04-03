@@ -23,12 +23,13 @@ class Header extends Component {
             user: "",
             searchterm: "",
             cart: "",
+            itemsNum: 0,
         };
         this.logout = this.logout.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
-    
+
     getProfile = () => {
         const user = AuthenticationService.getCurrentUser();
         fetch("/profile", {
@@ -54,18 +55,16 @@ class Header extends Component {
                 }
             });
     };
-
     logout = () => {
         console.log("trying to log out");
         AuthenticationService.signOut();
-        // window.location.reload();
     };
     handleChange(event) {
         this.setState({
             [event.target.name]: event.target.value,
         });
     }
-    
+
     handleSubmit(event) {
         const user = AuthenticationService.getCurrentUser();
         if (this.state.type === "") {
@@ -124,7 +123,6 @@ class Header extends Component {
                     }
                 });
         }
-        // event.preventDefault();
     }
 
     render() {
@@ -133,6 +131,7 @@ class Header extends Component {
         let cart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : {};
         // let cartInfo = localStorage.getItem('cartInfo') ? JSON.parse(localStorage.getItem('cartInfo')) : [];
         // const cart = this.state
+        const { itemsNum } = this.state
         if (user && type) {
             return (
                 <nav className="header">
@@ -203,7 +202,6 @@ class Header extends Component {
                                 <div className="header_cartCount">
                                     <span className="header_optionLine1">
                                         {Object.keys(cart).length}
-                                        {/* {cartInfo.length} */}
                                     </span>
                                     <span className="header_optionLine2">
                                         Cart
