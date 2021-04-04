@@ -26,7 +26,7 @@ export class Profile extends Component {
             <div>
                 <Header />
                 <div className="profile">
-                    <div className="profile__header">My profile</div>
+                    <div className="profile__header">Your Account</div>
                     <div className="profile__body">
                         <div className="profile__columnLeft">
                             <div>Account</div>

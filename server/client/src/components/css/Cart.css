@@ -1,3 +1,11 @@
+.cart_header {
+    font-size: 3rem;
+    font-weight: 600;
+    text-align: left;
+    margin-left: 10%;
+    margin-top: 1%;
+}
+
 .cart .product_body {
     margin: 1rem 5rem;
     padding: 1rem;
@@ -88,7 +96,7 @@
 .cart .product_quantity {
     text-align: left;
     padding-bottom: 0.5rem;
-    display:flex
+    display: flex
 }
 
 .cart Button.add_to_cart_button {
@@ -153,7 +161,7 @@
     /* padding: 0 10%; */
 }
 .quantity_input{
-    width: 50%;
+    width: 30%;
     margin:0 15px;
 }
 

@@ -9,6 +9,11 @@
     opacity: 0.8;
 }
 
+.profile__header {
+    font-size: 3rem;
+    font-weight: 600;
+}
+
 .profile__body {
     border-radius: 30px;
     display: flex;
