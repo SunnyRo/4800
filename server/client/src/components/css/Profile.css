@@ -1,17 +1,30 @@
+.background {
+    background: url("../images/profilebackground.jpg");
+    min-height: 100%;
+    min-width: 1024px;
+    width: 100%;
+    height: auto;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
 .profile {
     border-radius: 30px;
-    background-color: beige;
+    background: rgba(255, 255, 255, 0.5);
     display: flex;
     flex-direction: column;
-    margin: 40px 200px;
-    padding: 30px 0px;
-    /* background-image: url(../images/block_image2.jpg); */
-    opacity: 0.8;
+    margin: 1%;
+    margin-left: 3%;
+    margin-right: 3%;
+    padding: 0px;
+    box-sizing: border-box;
+    padding: 5px;
 }
 
 .profile__header {
-    font-size: 3rem;
-    font-weight: 600;
+    font-size: 2rem;
 }
 
 .profile__body {
@@ -19,17 +32,22 @@
     display: flex;
     align-items: center;
     justify-content: space-evenly;
-    padding: 0 300px;
+    padding: 0 100px;
 }
 
 .profile__columnLeft {
+    background-color: lightgray;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     justify-content: space-evenly;
     border-radius: 30px;
     padding: 50px 50px;
-    background-image: url(../images/block_image.jpg);
+    max-width: 100%;
+    height: auto;
+    border: 10px solid gray;
+    box-shadow: 10px 5px 5px darkgray;
+    box-sizing: border-box;
 }
 
 .profile__columnRight {
@@ -39,6 +57,7 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    /*border: 10px solid black;*/
 }
 
 .profile_smallBlock {
@@ -49,16 +68,25 @@
     padding: 50px 0px;
     margin: 25px;
     height: 240px;
+    max-width: 100%;
+    background-color: lightgray;
+    border: 10px solid gray;
+    box-shadow: 10px 5px 5px darkgray;
 
-    background-image: url(../images/block_image.jpg);
+    box-sizing: border-box;
+    width: 100%;
+    padding: 5px;
 }
 
 .profile__image {
     background-color: red;
     background-image: url(../images/profile_picture.jpeg);
     background-size: cover;
-    height: 300px;
+    min-width: 100%;
+    height: 250px;
+    /*height: 300px;
     width: 300px;
+    max-width: 100%;*/
 }
 
 .line {
@@ -74,4 +102,20 @@
 
 .profile__link {
     text-decoration: none;
+}
+
+.edit {
+    cursor: pointer;
+    border: transparent;
+    background-color: transparent;
+    height: 35px;
+    width: 35px;
+    color: yellowgreen;
+}
+
+.add {
+    cursor: pointer;
+    border: transparent;
+    background-color: transparent;
+    color: yellowgreen;
 }

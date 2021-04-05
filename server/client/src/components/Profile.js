@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import AuthenticationService from "./Authentication";
 import "./css/Profile.css";
 import Header from "./Header";
+import Footer from "./Footer";
 import EmojiEmotionsIcon from "@material-ui/icons/EmojiEmotions";
 import PhoneIphoneIcon from "@material-ui/icons/PhoneIphone";
 import EmailIcon from "@material-ui/icons/Email";
@@ -25,11 +26,16 @@ export class Profile extends Component {
         return (
             <div>
                 <Header />
+                <div className="background"></div>
                 <div className="profile">
-                    <div className="profile__header">Your Account</div>
+                    <div className="profile__header">
+                        <h2>{profile.firstName}'s Profile</h2>
+                    </div>
                     <div className="profile__body">
                         <div className="profile__columnLeft">
-                            <div>Account</div>
+                            <div>
+                                <h3> My Account</h3>
+                            </div>
                             <div className="profile__image"></div>
                             <div className="line">
                                 <EmojiEmotionsIcon />
@@ -37,18 +43,27 @@ export class Profile extends Component {
                                     Full Name: {profile.firstName}{" "}
                                     {profile.lastName}
                                 </div>
+                                <button className="edit">
+                                    <EditIcon />
+                                </button>
                             </div>
                             <div className="line">
                                 <PhoneIphoneIcon />
                                 <div className="profile__block">
                                     Phone: {profile.phone}
                                 </div>
+                                <button className="edit">
+                                    <EditIcon />
+                                </button>
                             </div>
                             <div className="line">
                                 <EmailIcon />
                                 <div className="profile__block">
                                     Email: {profile.email}
                                 </div>
+                                <button className="edit">
+                                    <EditIcon />
+                                </button>
                             </div>
                         </div>
                         <div className="profile__columnRight">
@@ -60,6 +75,9 @@ export class Profile extends Component {
                                     <div className="profile__block">
                                         {profile.CCnumber}
                                     </div>
+                                    <button className="edit">
+                                        <EditIcon />
+                                    </button>
                                 </div>
                                 <div className="line">
                                     <div className="profile__block">
@@ -68,6 +86,9 @@ export class Profile extends Component {
                                     <div className="profile__block">
                                         {profile.fullName}
                                     </div>
+                                    <button className="edit">
+                                        <EditIcon />
+                                    </button>
                                 </div>
                                 <div className="line">
                                     <div className="profile__block">
@@ -76,16 +97,21 @@ export class Profile extends Component {
                                     <div className="profile__block">
                                         {profile.expirationDate}
                                     </div>
+                                    <button className="edit">
+                                        <EditIcon />
+                                    </button>
                                 </div>
                                 <div className="line">
-                                    <AddCircleIcon>
-                                        <div>Add an address</div>
-                                    </AddCircleIcon>
+                                    <button className="add">
+                                        <AddCircleIcon>
+                                            <div>Add a credit card</div>
+                                        </AddCircleIcon>
+                                    </button>
                                 </div>
                             </div>
 
                             <div className="profile_smallBlock">
-                                <div>Delivery Adress</div>
+                                <div>Delivery Address</div>
                                 <div className="line">
                                     <HomeOutlinedIcon />
                                     <div className="profile__block">
@@ -94,15 +120,18 @@ export class Profile extends Component {
                                     </div>
                                 </div>
                                 <div className="line">
-                                    <AddCircleIcon>
-                                        <div>Add an address</div>
-                                    </AddCircleIcon>
+                                    <button className="add">
+                                        <AddCircleIcon>
+                                            <div>Add an address</div>
+                                        </AddCircleIcon>
+                                    </button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div className="fixingFooter"></div>
+                <Footer />
             </div>
         );
     }

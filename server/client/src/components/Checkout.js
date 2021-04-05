@@ -99,12 +99,7 @@ class Checkout extends Component {
     }
 
     componentWillMount() {
-        console.log("componentWillMount")
-        console.log(this.state.testNumber)
-        this.setState({
-            testNumber: "5"
-        });
-        console.log(this.state.testNumber)
+        this.change_card_info();
         // console.log(this.state.cardNumber.charAt(0));
         // this.change_card_info();
         // console.log("componentWillMount");
@@ -112,42 +107,8 @@ class Checkout extends Component {
         // console.log(this.state.card_image);
     }
 
-    /*
-    componentDidMount() {
-        this.setState({
-            first_number: this.state.cardNumber.charAt(0),
-        });
-        console.log(this.state.img_src, this.state.card_company, this.state.first_number);
-        if (this.state.first_number == "3") {
-            this.setState({
-                img_src: { AmEx },
-                card_company: "American Express",
-            });
-        }
-        if (this.state.first_number == "4") {
-            this.setState({
-                img_src: { Visa },
-                card_company: "Visa",
-            });
-        }
-        if (this.state.first_number == "5") {
-            this.setState({
-                img_src: { Mastercard },
-                card_company: "Mastercard",
-            });
-        }
-        if (this.state.first_number == "6") {
-            this.setState({
-                img_src: { Discover },
-                card_company: "Discover",
-            });
-        }
-    }
-    */
-
     render() {
-        const img_src = this.state.img_src;
-        const card_company = this.state.card_company;
+        const {img_src, card_company} = this.state;
         const storeDistances = JSON.parse(
             localStorage.getItem("storeDistances")
         );
@@ -223,10 +184,10 @@ class Checkout extends Component {
                                 {/* TODO */}
                                 <img
                                     className="card_logo"
-                                    src={this.state.img_src}
+                                    src={img_src}
                                 />
                                 <div className="card_company">
-                                    {this.state.card_company}
+                                    {card_company}
                                 </div>
                                 <div className="card_info">
                                     {" ending in "}
