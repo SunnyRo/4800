@@ -7,6 +7,7 @@ import Footer from "./Footer";
 import Header from "./Header";
 import { DistanceMatrixService } from "@react-google-maps/api";
 import Geocode from "react-geocode";
+
 Geocode.enableDebug();
 Geocode.setApiKey("AIzaSyDUENlRwq9j2Zgz9NUIxHHFN9cnUa7SuBk");
 const theme = createMuiTheme({
@@ -31,7 +32,7 @@ class Stores extends Component {
             products: [],
             isLoaded: false,
             type: "",
-            coordinate: []
+            coordinate: [],
         };
         this.logout = this.logout.bind(this);
         this.getData = this.getData.bind(this);
@@ -67,7 +68,6 @@ class Stores extends Component {
                             stores: json,
                             isLoad: true,
                         });
-
                     }
                 });
         } else {
@@ -75,8 +75,10 @@ class Stores extends Component {
         }
     };
 
-    handleClick = (event) => {
-        const store = event.currentTarget.dataset.buttonKey;
+    handleClick = (stores) => {
+        const store = stores.name;
+        console.log(stores);
+        console.log("TEST");
         const user = AuthenticationService.getCurrentUser();
         if (user) {
             fetch("/home/products", {
@@ -97,8 +99,9 @@ class Stores extends Component {
                         localStorage.clear();
                         this.props.history.push("/");
                     } else {
+                        localStorage.setItem("store_name", JSON.stringify(stores));
                         localStorage.setItem("search", JSON.stringify(json));
-                        this.props.history.push("/search");
+                        this.props.history.push("/store");
                     }
                 });
         } else {
@@ -110,14 +113,14 @@ class Stores extends Component {
         this.getData();
         const userAddress = JSON.parse(localStorage.getItem("user")).address;
         Geocode.fromAddress(userAddress).then(
-            response => {
+            (response) => {
                 const { lat, lng } = response.results[0].geometry.location;
-                const coordinate = [`${lat},${lng}`]
+                const coordinate = [`${lat},${lng}`];
                 this.setState({
-                    coordinate: coordinate
-                })
+                    coordinate: coordinate,
+                });
             },
-            error => {
+            (error) => {
                 console.error(error);
             }
         );
@@ -125,7 +128,6 @@ class Stores extends Component {
 
     categoryClick = (event) => {
         const type = event.currentTarget.dataset.buttonKey;
-        console.log(type);
         const user = AuthenticationService.getCurrentUser();
         fetch("/home/type", {
             method: "POST",
@@ -147,10 +149,11 @@ class Stores extends Component {
                 } else if (json.message) {
                     const empty = [];
                     localStorage.setItem("search", JSON.stringify(empty));
-                    this.props.history.push("/search");
+                    this.props.history.push("/aisle");
                 } else {
                     localStorage.setItem("search", JSON.stringify(json));
-                    this.props.history.push("/search");
+                    localStorage.setItem("category_type", JSON.stringify(type));
+                    this.props.history.push("/aisle");
                 }
             });
     };
@@ -190,7 +193,7 @@ class Stores extends Component {
                                 </div>
                                 <img
                                     className="stores_carousel_img"
-                                    src="https://images.unsplash.com/photo-1543168256-418811576931?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+                                    src="https://images.unsplash.com/photo-1534723452862-4c874018d66d?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
                                 />
                             </Button>
                         </Carousel>
@@ -200,8 +203,8 @@ class Stores extends Component {
                         <Carousel className="category_carousel" show={9}>
                             <Button
                                 className="carousel_item"
-                                value="meat"
-                                data-button-key="meat"
+                                value="Meat"
+                                data-button-key="Meat"
                                 onClick={this.categoryClick}
                             >
                                 <img
@@ -213,8 +216,8 @@ class Stores extends Component {
                             </Button>
                             <Button
                                 className="carousel_item"
-                                value="vegetable"
-                                data-button-key="vegetable"
+                                value="Vegetable"
+                                data-button-key="Vegetable"
                                 onClick={this.categoryClick}
                             >
                                 <img
@@ -228,8 +231,8 @@ class Stores extends Component {
                             </Button>
                             <Button
                                 className="carousel_item"
-                                value="bread"
-                                data-button-key="bread"
+                                value="Bread"
+                                data-button-key="Bread"
                                 onClick={this.categoryClick}
                             >
                                 <img
@@ -241,8 +244,8 @@ class Stores extends Component {
                             </Button>
                             <Button
                                 className="carousel_item"
-                                value="pasta"
-                                data-button-key="pasta"
+                                value="Pasta"
+                                data-button-key="Pasta"
                                 onClick={this.categoryClick}
                             >
                                 <img
@@ -254,8 +257,8 @@ class Stores extends Component {
                             </Button>
                             <Button
                                 className="carousel_item"
-                                value="canned good"
-                                data-button-key="canned good"
+                                value="Canned Good"
+                                data-button-key="Canned Good"
                                 onClick={this.categoryClick}
                             >
                                 <img
@@ -269,8 +272,8 @@ class Stores extends Component {
                             </Button>
                             <Button
                                 className="carousel_item"
-                                value="frozen food"
-                                data-button-key="frozen food"
+                                value="Frozen Food"
+                                data-button-key="Frozen Food"
                                 onClick={this.categoryClick}
                             >
                                 <img
@@ -284,8 +287,8 @@ class Stores extends Component {
                             </Button>
                             <Button
                                 className="carousel_item"
-                                value="fruit"
-                                data-button-key="fruit"
+                                value="Fruit"
+                                data-button-key="Fruit"
                                 onClick={this.categoryClick}
                             >
                                 <img
@@ -297,8 +300,8 @@ class Stores extends Component {
                             </Button>
                             <Button
                                 className="carousel_item"
-                                value="condiment"
-                                data-button-key="condiment"
+                                value="Condiment"
+                                data-button-key="Condiment"
                                 onClick={this.categoryClick}
                             >
                                 <img
@@ -312,8 +315,8 @@ class Stores extends Component {
                             </Button>
                             <Button
                                 className="carousel_item"
-                                value="sweets"
-                                data-button-key="sweets"
+                                value="Sweets"
+                                data-button-key="Sweets"
                                 onClick={this.categoryClick}
                             >
                                 <img
@@ -328,7 +331,7 @@ class Stores extends Component {
                         <ul>
                             <div className="stores_grid_wrapper">
                                 {stores.map((stores) => (
-                                    <li key={stores.id}>
+                                    <li className="grid_item" key={stores.id}>
                                         <Button
                                             className="store_button"
                                             style={store_button_style}
@@ -337,40 +340,38 @@ class Stores extends Component {
                                             /*href or onClick to redirect user*/
                                             value={stores.name}
                                             data-button-key={stores.name}
-                                            onClick={this.handleClick}
+                                            onClick={ () => this.handleClick(stores)}
                                         >
                                             <span className="MuiButton-label">
-                                                <div className="products_grid_wrapper">
-                                                    <ul>
-                                                        {products.map(
-                                                            (products) => (
-                                                                <li
-                                                                    key={
-                                                                        products.id
-                                                                    }
-                                                                >
-                                                                    <div className="product_button">
-                                                                        <Button
-                                                                            variant="contained"
-                                                                            value={
-                                                                                products.className
-                                                                            }
-                                                                            data-button-key={
+                                                <ul>
+                                                    {products.map(
+                                                        (products) => (
+                                                            <li
+                                                                key={
+                                                                    products.id
+                                                                }
+                                                            >
+                                                                <div className="product_button">
+                                                                    <Button
+                                                                        variant="contained"
+                                                                        value={
+                                                                            products.className
+                                                                        }
+                                                                        data-button-key={
+                                                                            products.name
+                                                                        }
+                                                                    >
+                                                                        <div>
+                                                                            {
                                                                                 products.name
                                                                             }
-                                                                        >
-                                                                            <div>
-                                                                                {
-                                                                                    products.name
-                                                                                }
-                                                                            </div>
-                                                                        </Button>
-                                                                    </div>
-                                                                </li>
-                                                            )
-                                                        )}
-                                                    </ul>
-                                                </div>
+                                                                        </div>
+                                                                    </Button>
+                                                                </div>
+                                                            </li>
+                                                        )
+                                                    )}
+                                                </ul>
                                                 <img
                                                     className="store_photo"
                                                     src={stores.photo}
@@ -395,22 +396,24 @@ class Stores extends Component {
                         </ul>
                         <DistanceMatrixService
                             options={{
-                                destinations:
-                                    [
-                                        '34.079962,-117.582877',
-                                        '34.136815,-117.442865',
-                                        '34.081100,-117.243605',
-                                        '34.023071,-117.408686',
-                                        '34.004858,-117.493887',
-                                        '33.922851,-117.367932',
-                                        '33.941081,-117.601548',
-                                        '34.114079,-117.359500',
-                                    ],
+                                destinations: [
+                                    "34.079962,-117.582877",
+                                    "34.136815,-117.442865",
+                                    "34.081100,-117.243605",
+                                    "34.023071,-117.408686",
+                                    "34.004858,-117.493887",
+                                    "33.922851,-117.367932",
+                                    "33.941081,-117.601548",
+                                    "34.114079,-117.359500",
+                                ],
                                 origins: coordinate,
                                 travelMode: "DRIVING",
                             }}
                             callback={(response) => {
-                                localStorage.setItem("distances", JSON.stringify(response));
+                                localStorage.setItem(
+                                    "distances",
+                                    JSON.stringify(response)
+                                );
                             }}
                         />
                     </ThemeProvider>

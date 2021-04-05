@@ -109,7 +109,7 @@ export default class Cart extends React.Component {
                     <ThemeProvider theme={theme}>
                         <Header />
                         <div className="cart_header">
-                            Shopping Cart
+                            {"Shopping Cart"} {"(" + Object.keys(cart).length + " Items)"}
                         </div>
                         <div className="product_body">
                             <ul>

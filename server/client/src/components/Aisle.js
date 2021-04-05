@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import "./css/Search.css";
+import "./css/Aisle.css";
 import AuthenticationService from "./Authentication";
 import Header from "./Header";
 import Footer from "./Footer";
-import SearchItem from "./SearchItem";
+import AisleItem from "./AisleItem";
 import { Button, createMuiTheme, ThemeProvider } from "@material-ui/core";
 
 const theme = createMuiTheme({
@@ -20,7 +20,7 @@ const theme = createMuiTheme({
     },
 });
 
-class Product extends Component {
+class Aisle extends Component {
     constructor() {
         super();
         this.state = {
@@ -64,7 +64,6 @@ class Product extends Component {
             storeDistances[names[i]] = element.distance.text;
         });
         localStorage.setItem("storeDistances", JSON.stringify(storeDistances));
-        const search_term = JSON.parse(localStorage.getItem("search_term"));
         const search = JSON.parse(localStorage.getItem("search"));
         const category_type = JSON.parse(localStorage.getItem("category_type"));
         this.setState({
@@ -120,22 +119,21 @@ class Product extends Component {
     render() {
         const { storeDistances } = this.state;
         const search = JSON.parse(localStorage.getItem("search"));
-        const search_term = JSON.parse(localStorage.getItem("search_term"));
         const category_type = JSON.parse(localStorage.getItem("category_type"));
 
         if (search) {
             return (
-                <div className="search">
+                <div className="aisle">
                     <ThemeProvider theme={theme}>
                         <Header />
-                        <div className="search_header">
-                            {"Results for: "}{search_term}
+                        <div className="aisle_header">
+                            {this.state.category_type} {" Aisle"}
                         </div>
                         <div className="product_body">
                             <ul>
                                 <div className="products_grid_wrapper">
                                     {search.map((product) => (
-                                        <SearchItem
+                                        <AisleItem
                                             product={product}
                                             storeDistances={storeDistances}
                                             addToCart={this.addToCart}
@@ -163,4 +161,4 @@ class Product extends Component {
     }
 }
 
-export default Product;
+export default Aisle;

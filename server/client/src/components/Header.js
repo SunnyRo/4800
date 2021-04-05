@@ -63,6 +63,7 @@ class Header extends Component {
         this.setState({
             [event.target.name]: event.target.value,
         });
+        localStorage.setItem("search_term", JSON.stringify(event.target.value));
     }
 
     handleSubmit(event) {
@@ -128,10 +129,12 @@ class Header extends Component {
     render() {
         const type = JSON.parse(localStorage.getItem("type"));
         const user = JSON.parse(localStorage.getItem("user"));
-        let cart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : {};
+        let cart = localStorage.getItem("cart")
+            ? JSON.parse(localStorage.getItem("cart"))
+            : {};
         // let cartInfo = localStorage.getItem('cartInfo') ? JSON.parse(localStorage.getItem('cartInfo')) : [];
         // const cart = this.state
-        const { itemsNum } = this.state
+        const { itemsNum } = this.state;
         if (user && type) {
             return (
                 <nav className="header">
@@ -176,10 +179,7 @@ class Header extends Component {
                     </form>
                     <div className="header_nav">
                         {/* 1st Link */}
-                        <Link
-                            onClick={this.getProfile}
-                            className="header_link"
-                        >
+                        <Link onClick={this.getProfile} className="header_link">
                             <div className="header_mainOption">
                                 <AccountBoxIcon className="header_accountIcon" />
                                 <div className="header_option">
@@ -193,10 +193,7 @@ class Header extends Component {
                             </div>
                         </Link>
                         {/* 3rd Link */}
-                        <Link
-                            to="/cart"
-                            className="header_link"
-                        >
+                        <Link to="/cart" className="header_link">
                             <div className="header_mainOption">
                                 <ShoppingCartIcon className="header_cartIcon" />
                                 <div className="header_cartCount">
@@ -230,9 +227,7 @@ class Header extends Component {
                             className="header_link"
                         >
                             <div className="header_option">
-                                <span className="header_optionLine1">
-                                    Done
-                                </span>
+                                <span className="header_optionLine1">Done</span>
                                 <span className="header_optionLine2">
                                     Logout
                                 </span>

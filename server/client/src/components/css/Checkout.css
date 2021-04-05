@@ -1,3 +1,11 @@
+.checkout_header {
+    font-size: 3rem;
+    font-weight: 600;
+    text-align: left;
+    margin-left: 10%;
+    margin-top: 1%;
+}
+
 .shipping_address_and_checkout_details_flex_container {
     display: flex;
 }

@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, createMuiTheme, ThemeProvider } from "@material-ui/core";
 
-export default class SearchItem extends React.Component {
+export default class StoreItem extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -17,7 +17,6 @@ export default class SearchItem extends React.Component {
 
         return (
             <div className="product_layout">
-                <div className="store_name">{product.storename}</div>
                 <div className="product_image_container">
                     <img
                         className="product_image"
@@ -32,14 +31,7 @@ export default class SearchItem extends React.Component {
                         Currently {product.quantity} in stock!
                     </div>
                 </div>
-                <div className="store_details">
-                    <div className="store_address">{product.address}</div>
-                    <div className="store_phone">{product.phone}</div>
-                    <div className="store_distance">
-                        {this.props.convert(storeDistances[product.storename])}{" "}
-                        miles away
-                    </div>
-                </div>
+                
                 {parseInt(product.quantity, 10) > 0 ? (
                     <div className="addtocart_div">
                         <Button

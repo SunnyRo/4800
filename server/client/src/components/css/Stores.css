@@ -1,5 +1,5 @@
 .stores_container {
-    margin-top: 100px;
+    margin-top: 6.25rem;
     position: relative;
     width: 50%;
     align-items: center;
@@ -9,7 +9,8 @@
     font-family: Merriweather-Bold;
     font-weight: 700;
     padding: 1rem;
-    font-size: 30;
+    font-size: 2rem;
+    margin-top: 0.5rem;
 }
 
 .stores_grid_wrapper {
@@ -21,46 +22,48 @@
     padding: 2rem;
 }
 
+.grid_item {
+    display: flex;
+    margin-left: 10%;
+}
+
 .stores .store_photo {
-    max-height: 65px;
-    min-height: 65px;
-    max-width: 200px;
-    min-width: 200px;
+    max-height: 4.0625rem;
+    min-height: 4.0625rem;
+    max-width: 12.5rem;
+    min-width: 12.5rem;
 }
 
 .stores .store_details {
     font-family: Arial;
-    padding: 5px;
-    margin: 5px;
 }
 
 .stores .store_name {
     position: relative;
-    font-size: 25px;
+    font-size: 1.8rem;
     font-weight: 700;
 }
 
 .stores .store_address {
     text-align: center;
-    font-size: 15px;
-    min-width: 200px;
+    font-size: 1rem;
+    min-width: 15rem;
 }
 
 .stores .store_phone {
-    font-size: 15px;
+    font-size: 1rem;
 }
 
 .stores.store_button {
-    display: flex;
     position: relative;
-    align-items: left;
+    width: 100%;
 }
 
 .grocery_sections_header {
     font-family: Merriweather-Bold;
     font-weight: 700;
-    font-size: 30px;
-    padding: 15px;
+    font-size: 2rem;
+    padding: 1rem;
 }
 
 /* Stores carousel */
@@ -93,7 +96,7 @@ Button.stores_carousel_button {
 .stores_carousel_heading_text {
     display: inline-block;
     font-family: LatoRegular;
-    font-size: 18px;
+    font-size: 2rem;
     font-weight: 700;
 }
 
@@ -105,10 +108,9 @@ Button.stores_carousel_button {
 }
 
 .stores_carousel_img {
-    display: inline;
     min-width: 80vw;
     max-width: 80vw;
-    min-height: 50vh;
+    min-height: 100vh;
     overflow: hidden;
 }
 
