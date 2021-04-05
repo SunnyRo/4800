@@ -1,17 +1,17 @@
-.search_header {
-    font-size: 2rem;
-    font-weight: 600;
+.aisle_header {
+    font-size: 3rem;
+    font-weight: 700;
     text-align: left;
-    margin-left: 7%;
     margin-top: 2%;
+    margin-left: 7%;
 }
 
-.search .product_body {
+.aisle .product_body {
     margin: 1rem 5rem;
     padding: 1rem;
 }
 
-.search .products_grid_wrapper {
+.aisle .products_grid_wrapper {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     row-gap: 2rem;
@@ -20,7 +20,7 @@
     margin: 2rem;
 }
 
-.search .product_layout {
+.aisle .product_layout {
     display: block;
     width: auto;
     height: auto;
@@ -32,75 +32,75 @@
     border-width: 0.1rem;
 }
 
-.search .store_details {
+.aisle .store_details {
     font-family: Arial;
     font-size: 1rem;
     height: 20%;
 }
 
-.search .store_name {
+.aisle .store_name {
     text-align: center;
     padding-bottom: 0.5rem;
     font-size: 2rem;
     font-weight: 700;
 }
 
-.search .store_phone {
+.aisle .store_phone {
     text-align: left;
     padding-bottom: 0.5rem;
 }
 
-.search .store_address {
+.aisle .store_address {
     text-align: left;
     padding-bottom: 0.5rem;
 }
 
-.search .store_distance {
+.aisle .store_distance {
     text-align: left;
     padding-bottom: 0.5rem;
 }
 
-.search .product_image_container {
+.aisle .product_image_container {
     align-items: center;
     justify-content: center;
 }
 
-.search .product_image {
+.aisle .product_image {
     min-height: 150px;
     max-height: 150px;
     min-width: 150px;
     max-width: 150px;
 }
 
-.search .product_name {
+.aisle .product_name {
     padding: 0.4rem;
     text-align: center;
     font-size: 1.3rem;
     font-weight: 600;
 }
 
-.search .product_details {
+.aisle .product_details {
     padding-bottom: 0.5rem;
 }
 
-.search .product_type {
+.aisle .product_type {
     padding-bottom: 0.5rem;
     text-align: left;
 }
 
-.search .product_price {
+.aisle .product_price {
     font-size: 1rem;
     font-weight: 700;
     padding-bottom: 0.5rem;
     text-align: left;
 }
 
-.search .product_quantity {
+.aisle .product_quantity {
     text-align: left;
     padding-bottom: 0.5rem;
 }
 
-.search Button.add_to_cart_button {
+.aisle Button.add_to_cart_button {
     /* display: flex; */
     margin-right: 0;
     text-align: center;
@@ -110,13 +110,13 @@
     width: 100%;
 }
 
-.search Button {
+.aisle Button {
     /* font-size: 10px; */
     font-size: 0.6rem;
     font-weight: bold;
 }
 
-.search Button.back_to_store {
+.aisle Button.back_to_store {
     font-family: Arial;
     font-weight: 600;
     font-size: 0.8rem;
@@ -132,7 +132,7 @@
     margin: 1rem 0.5rem;
 }
 
-.search .quantity_input {
+.store .quantity_input {
     font-family: "Arial";
     font-weight: 600;
     text-align: center;

@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, createMuiTheme, ThemeProvider } from "@material-ui/core";
 
-export default class SearchItem extends React.Component {
+export default class AisleItem extends React.Component {
     constructor(props) {
         super(props);
         this.state = {

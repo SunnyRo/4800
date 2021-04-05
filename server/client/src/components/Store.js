@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import "./css/Search.css";
+import "./css/Store.css";
 import AuthenticationService from "./Authentication";
 import Header from "./Header";
 import Footer from "./Footer";
-import SearchItem from "./SearchItem";
+import StoreItem from "./StoreItem";
 import { Button, createMuiTheme, ThemeProvider } from "@material-ui/core";
 
 const theme = createMuiTheme({
@@ -20,7 +20,7 @@ const theme = createMuiTheme({
     },
 });
 
-class Product extends Component {
+class Store extends Component {
     constructor() {
         super();
         this.state = {
@@ -30,9 +30,11 @@ class Product extends Component {
             quantity: 1,
             productID: "",
             category_type: "",
+            store_name: "",
         };
         this.logout = this.logout.bind(this);
         this.backtoStore = this.backtoStore.bind(this);
+        this.convertDistance = this.convertDistance.bind(this);
     }
 
     logout = () => {
@@ -64,13 +66,12 @@ class Product extends Component {
             storeDistances[names[i]] = element.distance.text;
         });
         localStorage.setItem("storeDistances", JSON.stringify(storeDistances));
-        const search_term = JSON.parse(localStorage.getItem("search_term"));
         const search = JSON.parse(localStorage.getItem("search"));
-        const category_type = JSON.parse(localStorage.getItem("category_type"));
+        const store_name = JSON.parse(localStorage.getItem("store_name"));
         this.setState({
             storeDistances: storeDistances,
             search: search,
-            category_type: category_type,
+            store_name: store_name,
         });
     }
 
@@ -120,22 +121,34 @@ class Product extends Component {
     render() {
         const { storeDistances } = this.state;
         const search = JSON.parse(localStorage.getItem("search"));
-        const search_term = JSON.parse(localStorage.getItem("search_term"));
-        const category_type = JSON.parse(localStorage.getItem("category_type"));
+        const store_name = JSON.parse(localStorage.getItem("store_name"));
+        const product = this.props;
 
         if (search) {
             return (
-                <div className="search">
+                <div className="store">
                     <ThemeProvider theme={theme}>
                         <Header />
                         <div className="search_header">
-                            {"Results for: "}{search_term}
+                            <div className="store_name">
+                                {store_name.name}
+                            </div>
+                            <div className="store_address">
+                                {store_name.address}
+                            </div>
+                            <div className="store_phone">
+                                {store_name.phone}
+                            </div>
+                            <div className="store_distance">
+                                {this.convertDistance(storeDistances[store_name.name])}{" "}miles away
+                            </div>
                         </div>
+
                         <div className="product_body">
                             <ul>
                                 <div className="products_grid_wrapper">
                                     {search.map((product) => (
-                                        <SearchItem
+                                        <StoreItem
                                             product={product}
                                             storeDistances={storeDistances}
                                             addToCart={this.addToCart}
@@ -163,4 +176,4 @@ class Product extends Component {
     }
 }
 
-export default Product;
+export default Store;

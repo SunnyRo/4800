@@ -11,7 +11,7 @@
 .column {
     padding-left: 8%;
     padding-right: 8%;
-    padding-bottom: 20px;
+    padding-bottom: 1rem;
 }
 
 .googlePlay {
@@ -19,7 +19,7 @@
     background-size: contain;
     background-repeat: no-repeat;
     width: 300%;
-    height: 150px;
+    height: 10em;
     margin-top: -50%;
 }
 
@@ -28,7 +28,7 @@
     background-size: contain;
     background-repeat: no-repeat;
     width: 300%;
-    height: 150px;
+    height: 10em;
     margin-top: -100%;
     margin-bottom: -50%;
 }
@@ -56,12 +56,12 @@ a:active {
 .column2 {
     padding-left: 8%;
     padding-right: 8%;
-    padding-bottom: 20px;
+    padding-bottom: 1.5rem;
 }
 
 .icons {
     position: relative;
-    bottom: 25px;
+    bottom: 1.5rem;
     right: 10%;
 }
 .instagram img {

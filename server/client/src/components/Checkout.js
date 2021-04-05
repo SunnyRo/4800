@@ -63,25 +63,25 @@ class Checkout extends Component {
     change_card_info = () => {
         if (this.state.cardNumber.charAt(0) === "3") {
             this.setState({
-                img_src: {AmEx},
+                img_src: { AmEx },
                 card_company: "American Express",
             });
         }
         if (this.state.cardNumber.charAt(0) === "4") {
             this.setState({
-                img_src: {Visa},
+                img_src: { Visa },
                 card_company: "Visa",
             });
         }
         if (this.state.cardNumber.charAt(0) === "5") {
             this.setState({
-                img_src: {Mastercard},
+                img_src: { Mastercard },
                 card_company: "Mastercard",
             });
         }
         if (this.state.cardNumber.charAt(0) === "6") {
             this.setState({
-                img_src: {Discover},
+                img_src: { Discover },
                 card_company: "Discover",
             });
         }
@@ -95,7 +95,12 @@ class Checkout extends Component {
                 card_company: "Visa",
             });
         }
-        console.log(this.state.img_src, this.state.card_company, this.state.first_number, this.state.cardNumber.charAt(0));
+        console.log(
+            this.state.img_src,
+            this.state.card_company,
+            this.state.first_number,
+            this.state.cardNumber.charAt(0)
+        );
     }
 
     componentWillMount() {
@@ -108,7 +113,7 @@ class Checkout extends Component {
     }
 
     render() {
-        const {img_src, card_company} = this.state;
+        const { img_src, card_company } = this.state;
         const storeDistances = JSON.parse(
             localStorage.getItem("storeDistances")
         );
@@ -119,6 +124,10 @@ class Checkout extends Component {
             <div className="checkout">
                 <ThemeProvider theme={theme}>
                     <Header />
+                    <div className="checkout_header">
+                        {"Checkout"}{" "}
+                        {"(" + Object.keys(cart).length + " Items)"}
+                    </div>
                     <div className="shipping_address_and_checkout_details_flex_container">
                         <div className="shipping_address_container">
                             <div className="shipping_address_flexbox_1">
@@ -182,10 +191,7 @@ class Checkout extends Component {
                                     Payment Method
                                 </div>
                                 {/* TODO */}
-                                <img
-                                    className="card_logo"
-                                    src={img_src}
-                                />
+                                <img className="card_logo" src={img_src} />
                                 <div className="card_company">
                                     {card_company}
                                 </div>

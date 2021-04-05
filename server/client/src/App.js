@@ -6,10 +6,11 @@ import Signup from "./components/Signup";
 import Stores from "./components/Stores"
 import Profile from "./components/Profile";
 import PrivateRoute from "./components/PrivateRoute";
-import Footer from "./components/Footer";
 import Search from "./components/Search";
 import Cart from "./components/Cart";
 import Checkout from "./components/Checkout";
+import Store from "./components/Store";
+import Aisle from "./components/Aisle";
 
 class App extends Component {
   constructor(props) {
@@ -37,6 +38,8 @@ class App extends Component {
           <PrivateRoute exact path="/search" component={Search} />
           <PrivateRoute exact path="/cart" component={Cart} />
           <PrivateRoute exact path="/checkout" component={Checkout} />
+          <PrivateRoute exact path="/store" component={Store} />
+          <PrivateRoute exact path="/aisle" component={Aisle} />
           <Route exact component={Error} />
         </Switch>
         {/* </div> */}
