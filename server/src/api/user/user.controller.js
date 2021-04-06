@@ -1,4 +1,4 @@
-const { createUser, updateToken, removeToken, getUserByUserEmail, getUserByUserProfile, updateUser } = require("./user.service");
+const { createUser, updateToken, removeToken, getUserByUserEmail, getUserInfo,getUserAddresses,getUserCards, updateUser,addAddress,addCard } = require("./user.service");
 const { createAccessToken, createRefreshToken, sendAcessToken, sendTokens } = require("../../auth/token");
 const { validationResult } = require("express-validator")
 const { verify } = require('jsonwebtoken');
@@ -93,12 +93,28 @@ module.exports = {
     },
     getProfile: (req, res) => {
         const userEmail = req.userEmail;
-        getUserByUserProfile(userEmail, async (err, results) => {
+        let info = {}
+        let addresses= {}
+        let cards= {}
+        getUserInfo(userEmail, async (err, info) => {
             if (err) {
-                console.log("profile not found");
                 res.send((err));
             }
-            return res.send(results);
+            getUserAddresses(userEmail, async (err, addresses) => {
+                if (err) {
+                    res.send((err));
+                }
+                getUserCards(userEmail, async (err, cards) => {
+                    if (err) {
+                        res.send((err));
+                    }
+                    return res.send({
+                        info:info,
+                        addresses:addresses,
+                        cards:cards,
+                    });
+                });
+            });
         });
     },
     updateProfile: (req, res) => {
@@ -110,6 +126,36 @@ module.exports = {
         const body = req.body;
         body.email = req.email;
         updateUser(body, async (err, results) => {
+            if (err) {
+                return res.send(err);
+            }
+            return res.send(results);
+        })
+
+    },
+    addUserAddress: (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            console.log("invalid input");
+            return res.send({ error: "invalid input" });
+        }
+        const body = req.body;
+        addAddress(body, async (err, results) => {
+            if (err) {
+                return res.send(err);
+            }
+            return res.send(results);
+        })
+
+    },
+    addUserCard: (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            console.log("invalid input");
+            return res.send({ error: "invalid input" });
+        }
+        const body = req.body;
+        addCard(body, async (err, results) => {
             if (err) {
                 return res.send(err);
             }
