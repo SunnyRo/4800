@@ -13,6 +13,7 @@ import Visa from "./images/Visa.png";
 import Mastercard from "./images/mastercard.png";
 import Discover from "./images/Discover.png";
 import CheckoutItem from "./CheckoutItem";
+import AuthenticationService from "./Authentication";
 
 const theme = createMuiTheme({
     palette: {
@@ -39,6 +40,7 @@ class Checkout extends Component {
         super(props);
         this.state = {
             products: [],
+            addressID: null,
             cart: {},
             total: 0,
             storeDistances: {},
@@ -51,6 +53,9 @@ class Checkout extends Component {
             num_of_items: 0,
             subtotal: 0.0,
             delivery_fees: 0.0,
+            cart: [],
+            cartInfo: {},
+            profile: {},
         };
         this.backtoCart = this.backtoCart.bind(this);
         this.change_card_info = this.change_card_info.bind(this);
@@ -61,6 +66,23 @@ class Checkout extends Component {
         this.calc_subtotal = this.calc_subtotal.bind(this);
         this.calc_delivery_fees = this.calc_delivery_fees.bind(this);
     }
+    removeFromCart = (product) => {
+        const productID = product.id;
+        console.log(productID);
+        let cart = JSON.parse(localStorage.getItem("cart"));
+        let cartInfo = JSON.parse(localStorage.getItem("cartInfo"));
+        const filteredItems = cartInfo.filter((item) => item.id !== productID);
+        delete cart[productID];
+        localStorage.setItem("cart", JSON.stringify(cart));
+        localStorage.setItem("cartInfo", JSON.stringify(filteredItems));
+        this.setState({
+            cart: cart,
+            cartInfo: filteredItems,
+        });
+        this.calc_num_of_items();
+        this.calc_subtotal();
+        this.calc_delivery_fees();
+    };
 
     backtoCart(event) {
         this.props.history.push("/cart");
@@ -171,6 +193,10 @@ class Checkout extends Component {
             cart: cart,
         });
     };
+    placeOrder = () => {
+        console.log("placeOrder button")
+        console.log(this.state.addressID)
+    }
 
     componentWillMount() {
         this.change_card_info();
@@ -232,9 +258,10 @@ class Checkout extends Component {
                                                 <input
                                                     className="shipping_address_input"
                                                     type="radio"
-                                                    value="shipping_address"
+                                                    value={address.addressID}
                                                     id="shipping_address"
-                                                    name="shipping_address"
+                                                    name="addressID"
+                                                    onChange={this.handleInputChange}
                                                 />
                                                 <label
                                                     className="shipping_address_label"
@@ -303,7 +330,8 @@ class Checkout extends Component {
                                 className="place_your_order"
                                 variant="contained"
                                 color="primary"
-                                // Event TODO onClick
+                                onClick={this.placeOrder}
+                            // Event TODO onClick
                             >
                                 Place your order
                             </Button>
@@ -318,43 +346,6 @@ class Checkout extends Component {
                                 {/* TODO */}
                                 <img className="card_logo" src={img_src} />
                                 <div className="cc_info_text">
-                                    <form className="payment_info_form">
-                                        {profile.cards.map((card) => (
-                                            <li
-                                                className="cc_info_list"
-                                                key={card.id}
-                                            >
-                                                <div className="card_company"></div>
-                                                <div className="cc_info_radio_button">
-                                                    <input
-                                                        classname="cc_info_input"
-                                                        type="radio"
-                                                        value="cc_info"
-                                                        id="cc_info"
-                                                        name="cc_info"
-                                                    />
-                                                    <label
-                                                        className="cc_info_label"
-                                                        for="cc_info"
-                                                    >
-                                                        {" ending in "}
-                                                        {card.CCnumber.toString().charAt(
-                                                            12
-                                                        )}
-                                                        {card.CCnumber.toString().charAt(
-                                                            13
-                                                        )}
-                                                        {card.CCnumber.toString().charAt(
-                                                            14
-                                                        )}
-                                                        {card.CCnumber.toString().charAt(
-                                                            15
-                                                        )}
-                                                    </label>
-                                                </div>
-                                            </li>
-                                        ))}
-                                    </form>
                                 </div>
                                 {/* <Button
                                     className="change_button"
@@ -377,6 +368,7 @@ class Checkout extends Component {
                                     storeDistances={storeDistances}
                                     update_num_of_items={this.calc_num_of_items}
                                     update_subtotal={this.calc_subtotal}
+                                    remove={this.removeFromCart}
                                 />
                             ))}
                         </div>

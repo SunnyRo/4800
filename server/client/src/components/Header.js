@@ -29,9 +29,9 @@ class Header extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
-
-    getProfile = () => {
+    toProfile = () => {
         const user = AuthenticationService.getCurrentUser();
+        const currentUser = JSON.parse(localStorage.getItem("user"));
         fetch("/profile", {
             method: "POST",
             headers: {
@@ -40,7 +40,7 @@ class Header extends Component {
                 authorization: "Bearer " + user.accesstoken,
             },
             body: JSON.stringify({
-                searchterm: this.state.searchterm,
+                userEmail: currentUser.email,
             }),
         })
             .then((Response) => Response.json())
@@ -55,12 +55,9 @@ class Header extends Component {
                 }
             });
     };
-
     logout = () => {
-        console.log("trying to log out");
         AuthenticationService.signOut();
     };
-
     handleChange(event) {
         this.setState({
             [event.target.name]: event.target.value,
@@ -181,7 +178,7 @@ class Header extends Component {
                     </form>
                     <div className="header_nav">
                         {/* 1st Link */}
-                        <Link onClick={this.getProfile} className="header_link">
+                        <Link onClick={this.toProfile} className="header_link">
                             <div className="header_mainOption">
                                 <AccountBoxIcon className="header_accountIcon" />
                                 <div className="header_option">

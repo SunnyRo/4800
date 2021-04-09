@@ -32,22 +32,41 @@ class Store extends Component {
             category_type: "",
             store_name: "",
         };
-        this.logout = this.logout.bind(this);
         this.backtoStore = this.backtoStore.bind(this);
         this.convertDistance = this.convertDistance.bind(this);
+        this.getProfile = this.getProfile.bind(this);
     }
 
-    logout = () => {
-        console.log("trying to log out");
-        AuthenticationService.signOut();
-        this.props.history.push("/");
-        window.location.reload();
-    };
 
     backtoStore() {
         this.props.history.push("/home/stores");
     }
-
+    getProfile = () => {
+        console.log("run get profile")
+        const user = AuthenticationService.getCurrentUser();
+        const currentUser = JSON.parse(localStorage.getItem("user"));
+        fetch("/profile", {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                authorization: "Bearer " + user.accesstoken,
+            },
+            body: JSON.stringify({
+                userEmail: currentUser.email,
+            }),
+        })
+            .then((Response) => Response.json())
+            .then((json) => {
+                if (json.error === "TokenExpiredError") {
+                    console.log(json.error);
+                    localStorage.clear();
+                    this.props.history.push("/");
+                } else {
+                    localStorage.setItem("profile", JSON.stringify(json));
+                }
+            });
+    };
     componentWillMount() {
         const distances = JSON.parse(localStorage.getItem("distances"));
         const names = [

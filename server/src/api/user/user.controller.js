@@ -1,4 +1,4 @@
-const { createUser, updateToken, removeToken, getUserByUserEmail, getUserInfo,getUserAddresses,getUserCards, updateUser,addAddress,addCard } = require("./user.service");
+const { removeAddress, updatePassword, updateEmail, updateName, updatePhone, createUser, updateToken, removeToken, getUserByUserEmail, getUserInfo, getUserAddresses, addAddress } = require("./user.service");
 const { createAccessToken, createRefreshToken, sendAcessToken, sendTokens } = require("../../auth/token");
 const { validationResult } = require("express-validator")
 const { verify } = require('jsonwebtoken');
@@ -28,7 +28,7 @@ module.exports = {
             }
             // Email is new then create hashpasss store all info into database
             const hashedPassword = await hash(body.password, 10);
-            console.log("hash passs");
+            console.log("hashed pass");
             console.log(hashedPassword);
             body.password = hashedPassword;
             console.log(body)
@@ -74,7 +74,7 @@ module.exports = {
                 console.log("Updated refreshtoken in the database");
             });
             // send accesstoken to the request and refreshtoken to cookie
-            sendTokens(res, req, user.firstName, user.city, user.zipcode, refreshtoken, accesstoken);
+            sendTokens(res, req, user.customerID, user.firstName, user.city, user.zipcode, refreshtoken, accesstoken);
         })
     },
     logout: (req, res) => {
@@ -92,10 +92,10 @@ module.exports = {
         return res.send({ message: 'Logged out' });
     },
     getProfile: (req, res) => {
+        console.log("get profile controller")
         const userEmail = req.userEmail;
         let info = {}
-        let addresses= {}
-        let cards= {}
+        let addresses = {}
         getUserInfo(userEmail, async (err, info) => {
             if (err) {
                 res.send((err));
@@ -104,28 +104,24 @@ module.exports = {
                 if (err) {
                     res.send((err));
                 }
-                getUserCards(userEmail, async (err, cards) => {
-                    if (err) {
-                        res.send((err));
-                    }
-                    return res.send({
-                        info:info,
-                        addresses:addresses,
-                        cards:cards,
-                    });
-                });
+                return res.send({
+                    info: info,
+                    addresses: addresses,
+                })
             });
         });
     },
-    updateProfile: (req, res) => {
+    updateUserPassword: async (req, res) => {
         const errors = validationResult(req);
+        console.log(errors)
         if (!errors.isEmpty()) {
             console.log("invalid input");
             return res.send({ error: "invalid input" });
         }
         const body = req.body;
-        body.email = req.email;
-        updateUser(body, async (err, results) => {
+        const hashedPassword = await hash(body.password, 10);
+        body.password = hashedPassword;
+        updatePassword(body, async (err, results) => {
             if (err) {
                 return res.send(err);
             }
@@ -133,8 +129,71 @@ module.exports = {
         })
 
     },
-    addUserAddress: (req, res) => {
+    updateUserPhone: (req, res) => {
         const errors = validationResult(req);
+        console.log(errors)
+        if (!errors.isEmpty()) {
+            console.log("invalid input");
+            return res.send({ error: "invalid input" });
+        }
+        const body = req.body;
+        updatePhone(body, async (err, results) => {
+            if (err) {
+                return res.send(err);
+            }
+            return res.send(results);
+        })
+
+    },
+    updateUserName: (req, res) => {
+        const errors = validationResult(req);
+        console.log(errors)
+        if (!errors.isEmpty()) {
+            console.log("invalid input");
+            return res.send({ error: "invalid input" });
+        }
+        const body = req.body;
+        updateName(body, async (err, results) => {
+            if (err) {
+                return res.send(err);
+            }
+            return res.send(results);
+        })
+
+    },
+    updateUserEmail: (req, res) => {
+        console.log("email controller")
+        const errors = validationResult(req);
+        console.log(errors)
+        // Email is new then create hashpasss store all info into database
+        if (!errors.isEmpty()) {
+            console.log("invalid input");
+            return res.send({ error: "invalid input" });
+        }
+        const body = req.body;
+        getUserByUserEmail(body.email, async (err, results) => {
+            if (err) {
+                console.log(err);
+                return res.send({ message: "error" })
+            }
+            const user = results;
+            if (user) {
+                console.log("Email already existed");
+                return res.send({ message: "Email already existed" })
+            }
+            updateEmail(body, async (err, results) => {
+                if (err) {
+                    return res.send(err);
+                }
+                return res.send(results);
+            })
+        })
+
+    },
+    addUserAddress: (req, res) => {
+        console.log("address controller")
+        const errors = validationResult(req);
+        console.log(errors)
         if (!errors.isEmpty()) {
             console.log("invalid input");
             return res.send({ error: "invalid input" });
@@ -148,14 +207,9 @@ module.exports = {
         })
 
     },
-    addUserCard: (req, res) => {
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            console.log("invalid input");
-            return res.send({ error: "invalid input" });
-        }
+    removeUserAddress: (req, res) => {
         const body = req.body;
-        addCard(body, async (err, results) => {
+        removeAddress(body, async (err, results) => {
             if (err) {
                 return res.send(err);
             }

@@ -43,8 +43,70 @@ module.exports = {
             }
         );
     },
+    updatePassword: (data, callBack) => {
+        pool.query(
+            `update Customer set password=? where email=?`,
+            [
+                data.password,
+                data.user,
+            ],
+            (error, results, fields) => {
+                if (error) {
+                    callBack(error);
+                }
+                return callBack(null, results);
+            }
+        );
+    },
+    updatePhone: (data, callBack) => {
+        pool.query(
+            `update Customer set phone=? where email=?`,
+            [
+                data.phone,
+                data.user,
+            ],
+            (error, results, fields) => {
+                if (error) {
+                    callBack(error);
+                }
+                return callBack(null, results);
+            }
+        );
+    },
+    updateName: (data, callBack) => {
+        console.log(data)
+        pool.query(
+            `update Customer set firstName=?, lastName=? where email=?`,
+            [
+                data.firstName,
+                data.lastName,
+                data.user,
+            ],
+            (error, results, fields) => {
+                if (error) {
+                    callBack(error);
+                }
+                return callBack(null, results);
+            }
+        );
+    },
+    updateEmail: (data, callBack) => {
+        pool.query(
+            `update Customer set email=? where email=?`,
+            [
+                data.email,
+                data.user,
+            ],
+            (error, results, fields) => {
+                if (error) {
+                    callBack(error);
+                }
+                return callBack(null, results);
+            }
+        );
+    },
     getUserInfo: (email, callBack) => {
-        console.log("getting info",email)
+        console.log("getting info", email)
         pool.query(
             `select customerID,firstName,lastName,phone,email from Customer
              where email=?`,
@@ -58,24 +120,10 @@ module.exports = {
         );
     },
     getUserAddresses: (email, callBack) => {
-        console.log("getting addresses",email)
+        console.log("getting addresses", email)
         pool.query(
             `select addressID,number,street,city,zipcode,Customer.customerID from Customer JOIN Address ON Customer.customerID=Address.customerID 
              where email=?`,
-            [email],
-            (error, results, fields) => {
-                if (error) {
-                    callBack(error);
-                }
-                return callBack(null, results);
-            }
-        );
-    },
-    getUserCards: (email, callBack) => {
-        console.log("getting cards",email)
-        pool.query(
-            `select CCnumber,fullName,expirationDate,validationCode from Customer JOIN CreditCard ON Customer.customerID=CreditCard.customerID 
-            where email=?`,
             [email],
             (error, results, fields) => {
                 if (error) {
@@ -133,7 +181,7 @@ module.exports = {
         console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
         console.log(data)
         pool.query(
-             `insert into Address(number,street,city,zipcode,customerID) VALUES(?,?,?,?,?);`,
+            `insert into Address(number,street,city,zipcode,customerID) VALUES(?,?,?,?,?);`,
             [
                 data.number,
                 data.street,
@@ -150,24 +198,19 @@ module.exports = {
             }
         );
     },
-    addCard: (data, callBack) => {
-        console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-        console.log(data)
+    removeAddress: (data, callBack) => {
+        console.log("remove card in service", data)
         pool.query(
-             `insert into CreditCard(CCnumber,customerID,fullName,expirationDate,validationCode) VALUES(?,?,?,?,?);`,
+            `delete from Address where addressID=? and customerID=?`,
             [
-                data.ccNumber,
+                data.addressID,
                 data.customerID,
-                data.fullName,
-                data.expirationDate,
-                data.validationCode,
             ],
             (error, results, fields) => {
                 if (error) {
-                    console.log("error in CreditCard table")
                     callBack(error);
                 }
-                return callBack(null, results)
+                return callBack(null, results);
             }
         );
     },
