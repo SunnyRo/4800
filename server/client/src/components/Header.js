@@ -55,10 +55,12 @@ class Header extends Component {
                 }
             });
     };
+
     logout = () => {
         console.log("trying to log out");
         AuthenticationService.signOut();
     };
+
     handleChange(event) {
         this.setState({
             [event.target.name]: event.target.value,

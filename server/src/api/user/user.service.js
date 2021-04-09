@@ -60,7 +60,7 @@ module.exports = {
     getUserAddresses: (email, callBack) => {
         console.log("getting addresses",email)
         pool.query(
-            `select addressID,number,street,city,zipcode,Customer.customerID,isUse from Customer JOIN Address ON Customer.customerID=Address.customerID 
+            `select addressID,number,street,city,zipcode,Customer.customerID from Customer JOIN Address ON Customer.customerID=Address.customerID 
              where email=?`,
             [email],
             (error, results, fields) => {
@@ -74,7 +74,7 @@ module.exports = {
     getUserCards: (email, callBack) => {
         console.log("getting cards",email)
         pool.query(
-            `select CCnumber,fullName,expirationDate,validationCode,isUse from Customer JOIN CreditCard ON Customer.customerID=CreditCard.customerID 
+            `select CCnumber,fullName,expirationDate,validationCode from Customer JOIN CreditCard ON Customer.customerID=CreditCard.customerID 
             where email=?`,
             [email],
             (error, results, fields) => {

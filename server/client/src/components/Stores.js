@@ -99,7 +99,10 @@ class Stores extends Component {
                         localStorage.clear();
                         this.props.history.push("/");
                     } else {
-                        localStorage.setItem("store_name", JSON.stringify(stores));
+                        localStorage.setItem(
+                            "store_name",
+                            JSON.stringify(stores)
+                        );
                         localStorage.setItem("search", JSON.stringify(json));
                         this.props.history.push("/store");
                     }
@@ -340,31 +343,23 @@ class Stores extends Component {
                                             /*href or onClick to redirect user*/
                                             value={stores.name}
                                             data-button-key={stores.name}
-                                            onClick={ () => this.handleClick(stores)}
+                                            onClick={() =>
+                                                this.handleClick(stores)
+                                            }
                                         >
                                             <span className="MuiButton-label">
                                                 <ul>
                                                     {products.map(
                                                         (products) => (
-                                                            <li
-                                                                key={
-                                                                    products.id
-                                                                }
-                                                            >
+                                                            <li key={products.id}>
                                                                 <div className="product_button">
                                                                     <Button
                                                                         variant="contained"
-                                                                        value={
-                                                                            products.className
-                                                                        }
-                                                                        data-button-key={
-                                                                            products.name
-                                                                        }
+                                                                        value={products.className}
+                                                                        data-button-key={products.name}
                                                                     >
                                                                         <div>
-                                                                            {
-                                                                                products.name
-                                                                            }
+                                                                            {products.name}
                                                                         </div>
                                                                     </Button>
                                                                 </div>

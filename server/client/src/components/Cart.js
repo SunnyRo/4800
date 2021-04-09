@@ -5,6 +5,7 @@ import "./css/Cart.css";
 import Footer from "./Footer";
 import Header from "./Header";
 import CartItem from "./CartItem";
+
 const theme = createMuiTheme({
     palette: {
         primary: {
@@ -33,6 +34,7 @@ export default class Cart extends React.Component {
         this.backtoStore = this.backtoStore.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
     }
+
     handleInputChange = (event) => {
         const productID = event.currentTarget.getAttribute("productID");
         let cart = JSON.parse(localStorage.getItem("cart"));
@@ -44,6 +46,7 @@ export default class Cart extends React.Component {
         const result = (floatDistance * 0.621371).toFixed(2);
         return result;
     };
+
     removeFromCart = (product) => {
         const productID = product.id;
         console.log(productID);
@@ -58,6 +61,7 @@ export default class Cart extends React.Component {
             cartInfo: filteredItems,
         });
     };
+
     updateCart = (product, quantity) => {
         let cart = JSON.parse(localStorage.getItem("cart"));
         const productID = product.id;
@@ -68,6 +72,7 @@ export default class Cart extends React.Component {
             cart: cart,
         });
     };
+    
     componentWillMount() {
         const cart = JSON.parse(localStorage.getItem("cart"));
         const cartInfo = JSON.parse(localStorage.getItem("cartInfo"));
@@ -80,12 +85,15 @@ export default class Cart extends React.Component {
             storeDistances: storeDistances,
         });
     }
+
     backtoStore() {
         this.props.history.push("/home/stores");
     }
+
     checkout = () => {
         this.props.history.push("/checkout");
     };
+    
     clearCart = () => {
         // localStorage.removeItem("cart");
         // localStorage.removeItem("cartInfo");
