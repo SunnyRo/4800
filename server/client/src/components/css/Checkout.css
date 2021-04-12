@@ -100,7 +100,7 @@
 }
 
 .payment_info_flex_container .payment_info_container {
-    width: 50%;
+    width: 55%;
     margin-top: 2%;
     border-style: solid;
     border-color: black;
@@ -118,41 +118,24 @@
     font-family: Arial;
     font-size: 1.8rem;
     font-weight: 600;
-    padding: 0.5rem;
+    padding-top: 0.5rem;
+    padding-left: 0.5rem;
     justify-content: left;
 }
 
-.payment_info_body_flexbox .card_logo {
-    width: 10%;
-    margin-left: 1%;
+.payment_info_body_flexbox .cc_number_textfield {
+    margin: 0.2rem;
+    width: 20%;
 }
 
-.payment_info_body_flexbox .card_company {
-    font-family: Arial;
-    margin-top: 1rem;
-    margin-left: 1%;
-    font-weight: 600;
+.payment_info_body_flexbox .cc_name_textfield {
+    margin: 0.2rem;
+    width: 15%;
 }
 
-.payment_info_body_flexbox .payment_info_form {
-
-}
-
-.payment_info_form .cc_info_list {
-    list-style: none;
-}
-
-.payment_info_form .cc_info_radio_button {
-    display: flex;
-}
-
-.cc_info_radio_button .cc_info_input {
-    width: 5em;
-}
-
-.payment_info_form .card_info_label {
-    text-align: left;
-    font-size: 1.5rem;
+.payment_info_body_flexbox .cc_cvv_number_textfield {
+    margin: 0.2rem;
+    width: 5%;
 }
 
 .payment_info_body_flexbox Button.change_button {
@@ -164,6 +147,24 @@
     display: flex;
     margin-left: 31%;
     margin-bottom: 1%;
+}
+
+.payment_info_container .expiration_date {
+    margin: 0.2rem;
+    font-size: 1.3rem;
+    align-self: center;
+}
+
+.payment_info_container .month_select {
+    margin: 0.4rem;
+    height: 2rem;
+    align-self: center;
+}
+
+.payment_info_container .year_select {
+    margin: 0.4rem;
+    height: 2rem;
+    align-self: center;
 }
 
 .billing_address_flexbox .billing_address_text {
@@ -189,7 +190,7 @@
 
 .checkout .products_container {
     height: auto;
-    width: 50%;
+    width: 40%;
     margin-left: 10%;
     margin-right: 10%;
 }

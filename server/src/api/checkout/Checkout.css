@@ -1,0 +1,144 @@
+.checkout .flex_container {
+  display: flex;
+}
+
+.checkout .products_container {
+  height: auto;
+  width: 60%;
+  margin: 3rem;
+}
+
+.checkout .product_layout {
+  display: block;
+  width: 60%;
+  font-family: Arial;
+  border-style: solid;
+  border-color: black;
+  border-width: thin;
+}
+
+.product_details_flexbox1 {
+  display: flex;
+}
+
+.product_details_price {
+  margin-left: 15rem;
+}
+
+.checkout .product_image {
+  min-height: 50%;
+  max-height: 50%;
+  min-width: 10%;
+  max-width: 10%;
+  margin: 0.5rem;
+}
+
+.checkout .product_details_name_type {
+  padding: 0.5rem;
+  width: 20%;
+}
+
+.checkout .product_name {
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-align: left;
+}
+
+.checkout .product_type {
+  font-size: 1rem;
+  text-align: left;
+}
+
+.checkout .product_price {
+  font-size: 1.5rem;
+  font-weight: 700;
+  padding: 0.5rem;
+  width: 100%;
+}
+
+.checkout .product_quantity {
+  width: 100%;
+  font-size: 1rem;
+  margin-left: 3rem;
+  padding: 0.5rem;
+}
+
+.checkout .store_and_delivery {
+  display: flex;
+}
+
+.checkout .store_details {
+  margin: 1rem;
+  font-family: Arial;
+  font-size: 1rem;
+}
+
+.checkout .store_name {
+  text-align: left;
+  padding-bottom: 0.5rem;
+  font-size: 1rem;
+}
+
+.checkout .store_phone {
+  text-align: left;
+  padding-bottom: 0.5rem;
+}
+
+.checkout .store_address {
+  text-align: left;
+  padding-bottom: 0.5rem;
+}
+
+.checkout .store_distance {
+  text-align: left;
+  padding-bottom: 0.5rem;
+}
+
+.checkout .remove_button {
+  display: flex;
+  margin-left: auto;
+  text-decoration: underline;
+}
+
+.checkout Button.return_to_cart {
+  display: flex;
+  font-size: 1.2rem;
+  margin: 0.5rem;
+}
+
+.checkout .checkout_details {
+  margin-left: auto;
+  align-items: right;
+  font-family: "Arial";
+  margin: 3rem;
+}
+
+.checkout .checkout_details .order_summary {
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+.address {
+  border: 2px solid black;
+  height: auto;
+  width: 36%;
+  margin: 3rem;
+  align-items: center;
+  display: block;
+}
+
+.street {
+  text-align: left;
+  padding-bottom: 0.5rem;
+  margin: 0.5em;
+}
+.city {
+  text-align: left;
+  padding-bottom: 0.5rem;
+  margin: 0.5em;
+}
+.zip {
+  text-align: left;
+  padding-bottom: 0.5rem;
+  margin: 0.5em;
+}

@@ -8,10 +8,6 @@ import {
     TextField,
 } from "@material-ui/core";
 import "./css/Checkout.css";
-import AmEx from "./images/AmEx.png";
-import Visa from "./images/Visa.png";
-import Mastercard from "./images/mastercard.png";
-import Discover from "./images/Discover.png";
 import CheckoutItem from "./CheckoutItem";
 import AuthenticationService from "./Authentication";
 
@@ -45,11 +41,11 @@ class Checkout extends Component {
             total: 0,
             storeDistances: {},
             quantity: "",
-            cardNumber: "",
-            first_number: "",
-            img_src: null,
-            card_company: "",
-            testNumber: "12",
+            cc_number: "",
+            cc_name: "",
+            cc_cvv_number: "",
+            cc_month: "",
+            cc_year: "",
             num_of_items: 0,
             subtotal: 0.0,
             delivery_fees: 0.0,
@@ -58,7 +54,6 @@ class Checkout extends Component {
             profile: {},
         };
         this.backtoCart = this.backtoCart.bind(this);
-        this.change_card_info = this.change_card_info.bind(this);
         this.updateCart = this.updateCart.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
         this.calc_num_of_items = this.calc_num_of_items.bind(this);
@@ -88,35 +83,9 @@ class Checkout extends Component {
         this.props.history.push("/cart");
     }
 
-    handleInputChange = (event) =>
+    handleInputChange(event) {
         this.setState({ [event.target.name]: event.target.value });
-
-    change_card_info = () => {
-        if (this.state.cardNumber.charAt(0) === "3") {
-            this.setState({
-                img_src: { AmEx },
-                card_company: "American Express",
-            });
-        }
-        if (this.state.cardNumber.charAt(0) === "4") {
-            this.setState({
-                img_src: { Visa },
-                card_company: "Visa",
-            });
-        }
-        if (this.state.cardNumber.charAt(0) === "5") {
-            this.setState({
-                img_src: { Mastercard },
-                card_company: "Mastercard",
-            });
-        }
-        if (this.state.cardNumber.charAt(0) === "6") {
-            this.setState({
-                img_src: { Discover },
-                card_company: "Discover",
-            });
-        }
-    };
+    }
 
     updateCart = (product, quantity) => {
         let cart = JSON.parse(localStorage.getItem("cart"));
@@ -154,7 +123,6 @@ class Checkout extends Component {
     };
 
     calc_delivery_fees = () => {
-        console.log("CALC_DELIVERY_FEES TEST");
         var num = 0.0;
         let store_names = [];
         const cart_info = JSON.parse(localStorage.getItem("cartInfo"));
@@ -193,21 +161,21 @@ class Checkout extends Component {
             cart: cart,
         });
     };
+
     placeOrder = () => {
-        console.log("placeOrder button")
-        console.log(this.state.addressID)
+        console.log("placeOrder button");
+        console.log(this.state.addressID);
+        console.log(this.state.cc_name);
+        console.log(this.state.cc_number);
+        console.log(this.state.cc_month);
+        console.log(this.state.cc_year);
+        console.log(this.state.cc_cvv_number);
     }
 
     componentWillMount() {
-        this.change_card_info();
         this.calc_num_of_items();
         this.calc_subtotal();
         this.calc_delivery_fees();
-        // console.log(this.state.cardNumber.charAt(0));
-        // this.change_card_info();
-        // console.log("componentWillMount");
-        // console.log(this.state.card_company);
-        // console.log(this.state.card_image);
     }
 
     // Place your order: print addressID, CC number, cart items from cart array, order total
@@ -344,9 +312,87 @@ class Checkout extends Component {
                                     Payment Method
                                 </div>
                                 {/* TODO */}
-                                <img className="card_logo" src={img_src} />
-                                <div className="cc_info_text">
-                                </div>
+                                    <TextField
+                                        className="cc_number_textfield"
+                                        variant="standard"
+                                        type="cc_number"
+                                        name="cc_number"
+                                        label="Card number"
+                                        value={this.state.cc_number}
+                                        onChange={this.handleInputChange}
+                                    ></TextField>
+                                    <TextField
+                                        className="cc_name_textfield"
+                                        variant="standard"
+                                        type="cc_name"
+                                        name="cc_name"
+                                        label="Name on card"
+                                        value={this.state.cc_name}
+                                        onChange={this.handleInputChange}
+                                    ></TextField>
+                                    <TextField
+                                        className="cc_cvv_number_textfield"
+                                        variant="standard"
+                                        type="cc_cvv_number"
+                                        name="cc_cvv_number"
+                                        label="CVV"
+                                        value={this.state.cc_cvv_number}
+                                        onChange={this.handleInputChange}
+                                    ></TextField>
+                                    <div className="expiration_date">
+                                        Expiration date:
+                                    </div>
+                                    <select 
+                                        className="month_select"
+                                        type="cc_month"
+                                        name="cc_month"
+                                        value={this.state.cc_month}
+                                        onChange={this.handleInputChange}
+                                    >
+                                        <option value="invalid">MM</option>
+                                        <option value="01">01</option>
+                                        <option value="02">02</option>
+                                        <option value="03">03</option>
+                                        <option value="02">04</option>
+                                        <option value="02">05</option>
+                                        <option value="02">06</option>
+                                        <option value="02">07</option>
+                                        <option value="02">08</option>
+                                        <option value="02">09</option>
+                                        <option value="02">10</option>
+                                        <option value="02">11</option>
+                                        <option value="02">12</option>
+                                    </select>
+                                    <select
+                                        className="year_select"
+                                        type="cc_year"
+                                        name="cc_year"
+                                        value={this.state.cc_year}
+                                        onChange={this.handleInputChange}
+                                    >
+                                        <option value="invalid">YYYY</option>
+                                        <option value="2021">2021</option>
+                                        <option value="2022">2022</option>
+                                        <option value="2023">2023</option>
+                                        <option value="2024">2024</option>
+                                        <option value="2025">2025</option>
+                                        <option value="2026">2026</option>
+                                        <option value="2027">2027</option>
+                                        <option value="2028">2028</option>
+                                        <option value="2029">2029</option>
+                                        <option value="2030">2030</option>
+                                        <option value="2030">2031</option>
+                                        <option value="2031">2032</option>
+                                        <option value="2032">2033</option>
+                                        <option value="2033">2034</option>
+                                        <option value="2034">2035</option>
+                                        <option value="2035">2036</option>
+                                        <option value="2036">2037</option>
+                                        <option value="2037">2038</option>
+                                        <option value="2038">2039</option>
+                                        <option value="2039">2040</option>
+                                        <option value="2041">2041</option>
+                                    </select>
                                 {/* <Button
                                     className="change_button"
                                     color="primary"
