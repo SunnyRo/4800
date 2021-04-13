@@ -134,8 +134,6 @@ class Checkout extends Component {
             if (!store_names.includes(product.store))
                 store_names.push(product.store);
         });
-        // storeDistances.forEach((store, i) => {
-        // })
         store_names.forEach((store, i) => {
             num = num + parseFloat(storeDistances[store]) * 0.621371;
         })
@@ -163,13 +161,71 @@ class Checkout extends Component {
     };
 
     placeOrder = () => {
-        console.log("placeOrder button");
-        console.log(this.state.addressID);
-        console.log(this.state.cc_name);
-        console.log(this.state.cc_number);
-        console.log(this.state.cc_month);
-        console.log(this.state.cc_year);
-        console.log(this.state.cc_cvv_number);
+        const total = (this.state.subtotal * 1.0725 + this.state.delivery_fees).toFixed(2);
+        const user = AuthenticationService.getCurrentUser();
+        const currentUser = JSON.parse(localStorage.getItem("user"));
+        const cartInfo = JSON.parse(localStorage.getItem("cartInfo"));
+        const cart = JSON.parse(localStorage.getItem("cart"));
+        let currentDate = new Date();
+        let datetime = currentDate.getFullYear() + '-' + (currentDate.getMonth() + 1) + '-' + currentDate.getDate()
+        let isCorrect = true;
+        // checking the inputs
+        if (!cartInfo.length) {
+            alert("There is no item in cart!!!")
+            isCorrect = false;
+        } else {
+            if (!this.state.addressID) {
+                alert("Please choose an address")
+                isCorrect = false;
+            }
+            if (this.state.cc_number.length != 16) {
+                alert("Card Number is invalid")
+                isCorrect = false;
+            }
+        }
+        if (isCorrect) {
+            let Order = {
+                customerID: currentUser.customerID,
+                paymentamount: total,
+                ccnumber: this.state.cc_number,
+                datetime: datetime,
+                addressID: this.state.addressID,
+            }
+            let orderItem = []
+            cartInfo.forEach((product) => {
+                let item = {};
+                item["productID"] = product.id;
+                item["quantity"] = cart[product.id];
+                orderItem.push(item);
+            })
+            console.log("placeOrder")
+            console.log(Order)
+            console.log(orderItem)
+            fetch("/order/checkout", {
+                method: "POST",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    authorization: "Bearer " + user.accesstoken,
+                },
+                body: JSON.stringify({
+                    Order: Order,
+                    orderItem: orderItem,
+                }),
+            })
+                .then((Response) => Response.json())
+                .then((json) => {
+                    if (json.error === "TokenExpiredError") {
+                        console.log(json.error);
+                        alert("Order failed")
+                    } else {
+                        this.props.history.push("/");
+                        localStorage.removeItem("cart");
+                        localStorage.removeItem("cartInfo");
+                        alert(json.message)
+                    }
+                });
+        }
     }
 
     componentWillMount() {
@@ -181,7 +237,6 @@ class Checkout extends Component {
     // Place your order: print addressID, CC number, cart items from cart array, order total
 
     render() {
-        const { img_src, card_company } = this.state;
         const storeDistances = JSON.parse(
             localStorage.getItem("storeDistances")
         );
