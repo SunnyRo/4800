@@ -64,6 +64,7 @@ class Store extends Component {
                     this.props.history.push("/");
                 } else {
                     localStorage.setItem("profile", JSON.stringify(json));
+
                 }
             });
     };

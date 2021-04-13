@@ -4,7 +4,7 @@ module.exports = {
         console.log(data);
         //data.addressID is not used at the moment
         pool.query(
-            `insert into \`Order\`(customerID,orderDateTime,orderStatus,addressID) VALUES(?,?,?,?);
+            `insert into \`Orders\`(customerID,orderDateTime,orderStatus,addressID) VALUES(?,?,?,?);
                 insert into Payment(orderID, amount, CCnumber) VALUES(LAST_INSERT_ID(),?,?);`,
             [
                 data.customerID,
@@ -25,7 +25,7 @@ module.exports = {
     createOrderItems: (data, callBack) => {
         console.log(data);
         pool.query(
-            `SET @ID = ((SELECT orderID FROM \`Order\` ORDER BY orderID DESC LIMIT 1));
+            `SET @ID = ((SELECT orderID FROM \`Orders\` ORDER BY orderID DESC LIMIT 1));
                 SET @Price = (SELECT unitPrice FROM Product WHERE productID=?);
                 INSERT into OrderItem(productID, quantity, unitPrice, orderID) VALUES(?,?,@Price,@ID);`,
             [
