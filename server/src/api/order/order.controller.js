@@ -26,10 +26,10 @@ module.exports = {
                         console.log(err);
                         res.send({ err });
                     }
-                    return res.send({ message: "Order Successfully Placed" })
                 });
             }
         }, 2000); //there is a delay in order to allow database to update prior to these calls
+        return res.send({ message: "Order Successfully Placed" })
     },
     getUserOrders: (req, res) => {
         const body = req.body;
