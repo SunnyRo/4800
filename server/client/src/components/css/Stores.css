@@ -22,9 +22,9 @@
     padding: 2rem;
 }
 
-.grid_item {
+/* .grid_item {
     display: flex;
-}
+} */
 
 .stores .store_photo {
     max-height: 4.0625rem;

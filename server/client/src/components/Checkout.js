@@ -312,87 +312,87 @@ class Checkout extends Component {
                                     Payment Method
                                 </div>
                                 {/* TODO */}
-                                    <TextField
-                                        className="cc_number_textfield"
-                                        variant="standard"
-                                        type="cc_number"
-                                        name="cc_number"
-                                        label="Card number"
-                                        value={this.state.cc_number}
-                                        onChange={this.handleInputChange}
-                                    ></TextField>
-                                    <TextField
-                                        className="cc_name_textfield"
-                                        variant="standard"
-                                        type="cc_name"
-                                        name="cc_name"
-                                        label="Name on card"
-                                        value={this.state.cc_name}
-                                        onChange={this.handleInputChange}
-                                    ></TextField>
-                                    <TextField
-                                        className="cc_cvv_number_textfield"
-                                        variant="standard"
-                                        type="cc_cvv_number"
-                                        name="cc_cvv_number"
-                                        label="CVV"
-                                        value={this.state.cc_cvv_number}
-                                        onChange={this.handleInputChange}
-                                    ></TextField>
-                                    <div className="expiration_date">
-                                        Expiration date:
+                                <TextField
+                                    className="cc_number_textfield"
+                                    variant="standard"
+                                    type="cc_number"
+                                    name="cc_number"
+                                    label="Card number"
+                                    value={this.state.cc_number}
+                                    onChange={this.handleInputChange}
+                                ></TextField>
+                                <TextField
+                                    className="cc_name_textfield"
+                                    variant="standard"
+                                    type="cc_name"
+                                    name="cc_name"
+                                    label="Name on card"
+                                    value={this.state.cc_name}
+                                    onChange={this.handleInputChange}
+                                ></TextField>
+                                <TextField
+                                    className="cc_cvv_number_textfield"
+                                    variant="standard"
+                                    type="cc_cvv_number"
+                                    name="cc_cvv_number"
+                                    label="CVV"
+                                    value={this.state.cc_cvv_number}
+                                    onChange={this.handleInputChange}
+                                ></TextField>
+                                <div className="expiration_date">
+                                    Expiration date:
                                     </div>
-                                    <select 
-                                        className="month_select"
-                                        type="cc_month"
-                                        name="cc_month"
-                                        value={this.state.cc_month}
-                                        onChange={this.handleInputChange}
-                                    >
-                                        <option value="invalid">MM</option>
-                                        <option value="01">01</option>
-                                        <option value="02">02</option>
-                                        <option value="03">03</option>
-                                        <option value="02">04</option>
-                                        <option value="02">05</option>
-                                        <option value="02">06</option>
-                                        <option value="02">07</option>
-                                        <option value="02">08</option>
-                                        <option value="02">09</option>
-                                        <option value="02">10</option>
-                                        <option value="02">11</option>
-                                        <option value="02">12</option>
-                                    </select>
-                                    <select
-                                        className="year_select"
-                                        type="cc_year"
-                                        name="cc_year"
-                                        value={this.state.cc_year}
-                                        onChange={this.handleInputChange}
-                                    >
-                                        <option value="invalid">YYYY</option>
-                                        <option value="2021">2021</option>
-                                        <option value="2022">2022</option>
-                                        <option value="2023">2023</option>
-                                        <option value="2024">2024</option>
-                                        <option value="2025">2025</option>
-                                        <option value="2026">2026</option>
-                                        <option value="2027">2027</option>
-                                        <option value="2028">2028</option>
-                                        <option value="2029">2029</option>
-                                        <option value="2030">2030</option>
-                                        <option value="2030">2031</option>
-                                        <option value="2031">2032</option>
-                                        <option value="2032">2033</option>
-                                        <option value="2033">2034</option>
-                                        <option value="2034">2035</option>
-                                        <option value="2035">2036</option>
-                                        <option value="2036">2037</option>
-                                        <option value="2037">2038</option>
-                                        <option value="2038">2039</option>
-                                        <option value="2039">2040</option>
-                                        <option value="2041">2041</option>
-                                    </select>
+                                <select
+                                    className="month_select"
+                                    type="cc_month"
+                                    name="cc_month"
+                                    value={this.state.cc_month}
+                                    onChange={this.handleInputChange}
+                                >
+                                    <option value="invalid">MM</option>
+                                    <option value="01">01</option>
+                                    <option value="02">02</option>
+                                    <option value="03">03</option>
+                                    <option value="02">04</option>
+                                    <option value="02">05</option>
+                                    <option value="02">06</option>
+                                    <option value="02">07</option>
+                                    <option value="02">08</option>
+                                    <option value="02">09</option>
+                                    <option value="02">10</option>
+                                    <option value="02">11</option>
+                                    <option value="02">12</option>
+                                </select>
+                                <select
+                                    className="year_select"
+                                    type="cc_year"
+                                    name="cc_year"
+                                    value={this.state.cc_year}
+                                    onChange={this.handleInputChange}
+                                >
+                                    <option value="invalid">YYYY</option>
+                                    <option value="2021">2021</option>
+                                    <option value="2022">2022</option>
+                                    <option value="2023">2023</option>
+                                    <option value="2024">2024</option>
+                                    <option value="2025">2025</option>
+                                    <option value="2026">2026</option>
+                                    <option value="2027">2027</option>
+                                    <option value="2028">2028</option>
+                                    <option value="2029">2029</option>
+                                    <option value="2030">2030</option>
+                                    <option value="2030">2031</option>
+                                    <option value="2031">2032</option>
+                                    <option value="2032">2033</option>
+                                    <option value="2033">2034</option>
+                                    <option value="2034">2035</option>
+                                    <option value="2035">2036</option>
+                                    <option value="2036">2037</option>
+                                    <option value="2037">2038</option>
+                                    <option value="2038">2039</option>
+                                    <option value="2039">2040</option>
+                                    <option value="2041">2041</option>
+                                </select>
                                 {/* <Button
                                     className="change_button"
                                     color="primary"

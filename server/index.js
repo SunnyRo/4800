@@ -16,7 +16,7 @@ server.use(express.urlencoded({ extended: true })); // to support URL-encoded bo
 server.use("/", cors(), userRouter);
 server.use("/home", cors(), storeRouter);
 server.use("/search", cors(), searchRouter);
-server.use("/order", corse(), checkoutRouter);
+server.use("/order", cors(), checkoutRouter);
 
 server.listen(process.env.PORT, () =>
     console.log(`Server listening on port ${process.env.PORT}!`),
