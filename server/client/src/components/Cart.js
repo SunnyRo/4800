@@ -6,6 +6,7 @@ import "./css/Cart.css";
 import Footer from "./Footer";
 import Header from "./Header";
 import CartItem from "./CartItem";
+
 const theme = createMuiTheme({
     palette: {
         primary: {

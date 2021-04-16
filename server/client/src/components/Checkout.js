@@ -52,6 +52,7 @@ class Checkout extends Component {
             cart: [],
             cartInfo: {},
             profile: {},
+            delivery_rate: 0.0,
         };
         this.backtoCart = this.backtoCart.bind(this);
         this.updateCart = this.updateCart.bind(this);
@@ -60,8 +61,10 @@ class Checkout extends Component {
         this.updateCart = this.updateCart.bind(this);
         this.calc_subtotal = this.calc_subtotal.bind(this);
         this.calc_delivery_fees = this.calc_delivery_fees.bind(this);
+        this.onClickTest = this.onClickTest.bind(this)
+        this.handleDeliveryRateChange = this.handleDeliveryRateChange.bind(this);
     }
-    
+
     removeFromCart = (product) => {
         const productID = product.id;
         console.log(productID);
@@ -82,11 +85,18 @@ class Checkout extends Component {
 
     backtoCart(event) {
         this.props.history.push("/cart");
-    };
+    }
 
     handleInputChange(event) {
         this.setState({ [event.target.name]: event.target.value });
-    };
+    }
+
+    handleDeliveryRateChange(event) {
+        this.setState({ [event.target.name]: event.target.value });
+        this.calc_delivery_fees();
+        console.log("TEST");
+        console.log(this.state.delivery_fees);
+    }
 
     updateCart = (product, quantity) => {
         let cart = JSON.parse(localStorage.getItem("cart"));
@@ -137,11 +147,11 @@ class Checkout extends Component {
         });
         store_names.forEach((store, i) => {
             num = num + parseFloat(storeDistances[store]) * 0.621371;
-        })
-        num = num * 0.10;
+        });
+        num = num * this.state.delivery_rate;
         this.setState({
             delivery_fees: num,
-        })
+        });
     };
 
     convertDistance = (distance) => {
@@ -162,25 +172,33 @@ class Checkout extends Component {
     };
 
     placeOrder = () => {
-        const total = (this.state.subtotal * 1.0725 + this.state.delivery_fees).toFixed(2);
+        const total = (
+            this.state.subtotal * 1.0725 +
+            this.state.delivery_fees
+        ).toFixed(2);
         const user = AuthenticationService.getCurrentUser();
         const currentUser = JSON.parse(localStorage.getItem("user"));
         const cartInfo = JSON.parse(localStorage.getItem("cartInfo"));
         const cart = JSON.parse(localStorage.getItem("cart"));
         let currentDate = new Date();
-        let datetime = currentDate.getFullYear() + '-' + (currentDate.getMonth() + 1) + '-' + currentDate.getDate()
+        let datetime =
+            currentDate.getFullYear() +
+            "-" +
+            (currentDate.getMonth() + 1) +
+            "-" +
+            currentDate.getDate();
         let isCorrect = true;
         // checking the inputs
         if (!cartInfo.length) {
-            alert("There is no item in cart!!!")
+            alert("There is no item in cart!!!");
             isCorrect = false;
         } else {
             if (!this.state.addressID) {
-                alert("Please choose an address")
+                alert("Please choose an address");
                 isCorrect = false;
             }
             if (this.state.cc_number.length != 16) {
-                alert("Card Number is invalid")
+                alert("Card Number is invalid");
                 isCorrect = false;
             }
         }
@@ -191,17 +209,17 @@ class Checkout extends Component {
                 ccnumber: this.state.cc_number,
                 datetime: datetime,
                 addressID: this.state.addressID,
-            }
-            let orderItem = []
+            };
+            let orderItem = [];
             cartInfo.forEach((product) => {
                 let item = {};
                 item["productID"] = product.id;
                 item["quantity"] = cart[product.id];
                 orderItem.push(item);
-            })
-            console.log("placeOrder")
-            console.log(Order)
-            console.log(orderItem)
+            });
+            console.log("placeOrder");
+            console.log(Order);
+            console.log(orderItem);
             fetch("/order/checkout", {
                 method: "POST",
                 headers: {
@@ -218,12 +236,12 @@ class Checkout extends Component {
                 .then((json) => {
                     if (json.error === "TokenExpiredError") {
                         console.log(json.error);
-                        alert("Order failed")
+                        alert("Order failed");
                     } else {
                         this.props.history.push("/");
                         localStorage.removeItem("cart");
                         localStorage.removeItem("cartInfo");
-                        alert(json.message)
+                        alert(json.message);
                     }
                 });
         }
@@ -233,7 +251,11 @@ class Checkout extends Component {
         this.calc_num_of_items();
         this.calc_subtotal();
         this.calc_delivery_fees();
-    };
+    }
+
+    onClickTest() {
+        console.log(this.state.delivery_rate);
+    }
 
     // Place your order: print addressID, CC number, cart items from cart array, order total
 
@@ -285,7 +307,9 @@ class Checkout extends Component {
                                                     value={address.addressID}
                                                     id="shipping_address"
                                                     name="addressID"
-                                                    onChange={this.handleInputChange}
+                                                    onChange={
+                                                        this.handleInputChange
+                                                    }
                                                 />
                                                 <label
                                                     className="shipping_address_label"
@@ -302,6 +326,45 @@ class Checkout extends Component {
                                         </li>
                                     ))}
                                 </form>
+                            </div>
+                            <div className="delivery_option">
+                                <div className="delivery_option_header">
+                                    Delivery Options
+                                </div>
+                                <div className="delivery_option_radio_buttons_container">
+                                    <div className="delivery_option_radio_button">
+                                        <input
+                                            className="delivery_option_input"
+                                            type="radio"
+                                            value={0.1}
+                                            id="delivery_rate"
+                                            name="delivery_rate"
+                                            onChange={this.handleDeliveryRateChange}
+                                        />
+                                        <label
+                                            className="delivery_option_label"
+                                            for="delivery_rate"
+                                        >
+                                            Standard delivery: $0.10 per mile
+                                        </label>
+                                    </div>
+                                    <div className="delivery_option_radio_button">
+                                        <input
+                                            className="delivery_option_input"
+                                            type="radio"
+                                            value={0.2}
+                                            id="delivery_rate"
+                                            name="delivery_rate"
+                                            onChange={this.handleDeliveryRateChange}
+                                        />
+                                        <label
+                                            className="delivery_option_label"
+                                            for="delivery_rate"
+                                        >
+                                            Express delivery: $0.20 per mile
+                                        </label>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div className="checkout_details_container">
@@ -326,7 +389,8 @@ class Checkout extends Component {
                                     {"Delivery fees: "}
                                 </div>
                                 <div className="delivery_fees_num">
-                                    {"$"}{this.state.delivery_fees.toFixed(2)}
+                                    {"$"}
+                                    {this.state.delivery_fees.toFixed(2)}
                                 </div>
                             </div>
                             <div className="tax_fees_box">
@@ -355,7 +419,7 @@ class Checkout extends Component {
                                 variant="contained"
                                 color="primary"
                                 onClick={this.placeOrder}
-                            // Event TODO onClick
+                                // Event TODO onClick
                             >
                                 Place your order
                             </Button>
@@ -397,7 +461,7 @@ class Checkout extends Component {
                                 ></TextField>
                                 <div className="expiration_date">
                                     Expiration date:
-                                    </div>
+                                </div>
                                 <select
                                     className="month_select"
                                     type="cc_month"
@@ -482,6 +546,11 @@ class Checkout extends Component {
                         onClick={this.backtoCart}
                     >
                         Return to cart
+                    </Button>
+                    <Button
+                        onClick={this.onClickTest}
+                    >
+                        TEST
                     </Button>
                     <Footer />
                 </ThemeProvider>

@@ -1,4 +1,5 @@
 import React from "react";
+import "./css/Cart.css"
 import { Button, createMuiTheme, ThemeProvider } from "@material-ui/core";
 
 export default class CartItem extends React.Component {

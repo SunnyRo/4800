@@ -42,7 +42,7 @@ class OrderDetails extends Component {
         if (cart[id]) {
             cart[id] = cart[id];
         } else {
-            cart[id] = 0;
+            cart[id] = 1;
 
             let cartInfo = localStorage.getItem("cartInfo")
                 ? JSON.parse(localStorage.getItem("cartInfo"))
@@ -52,12 +52,32 @@ class OrderDetails extends Component {
                 name: product.productname,
                 price: product.unitPrice,
                 type: product.type,
-                photo: product.productphoto,
+                photo: product.photo,
                 address: product.address,
                 phone: product.phone,
                 store: product.storename,
             };
             cartInfo.push(item);
+            const distances = JSON.parse(localStorage.getItem("distances"));
+            const names = [
+                "Walmart",
+                "Whole Foods",
+                "Trader Joe's",
+                "Ralphs",
+                "Vons",
+                "Costco",
+                "Safeway",
+                "Albertsons",
+            ];
+            const storeDistances = {};
+            console.log(distances.rows[0].elements[0].distance.text);
+            distances.rows[0].elements.forEach((element, i) => {
+                storeDistances[names[i]] = element.distance.text;
+            });
+            localStorage.setItem(
+                "storeDistances",
+                JSON.stringify(storeDistances)
+            );
             localStorage.setItem("cartInfo", JSON.stringify(cartInfo));
         }
         localStorage.setItem("cart", JSON.stringify(cart));

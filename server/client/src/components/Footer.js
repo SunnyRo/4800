@@ -80,7 +80,7 @@ const Footer = () => {
             <hr />
             <div className="row">
                 <p className="column2">
-                    &copy;{new Date().getFullYear()} Wiggly Worms LLC | All
+                    &copy;{new Date().getFullYear()} Tangled Mice Inc. | All
                     rights reserved | Terms Of Service | Privacy
                 </p>
                 <div className="icons">

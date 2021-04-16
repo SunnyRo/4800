@@ -132,10 +132,11 @@
     margin: 1rem 0.5rem;
 }
 
-.store .quantity_input {
+.addtocart_div .quantity_input {
     font-family: "Arial";
     font-weight: 600;
     text-align: center;
-    width: 50%;
-    height: 2.5rem;
+    width: 20%;
+    height: 2rem;
+    margin-left: 5%;
 }

@@ -11,7 +11,7 @@
 }
 
 .shipping_address_container {
-    width: 50%;
+    width: 55%;
     margin-top: 2%;
     border-style: solid;
     border-color: black;
@@ -88,6 +88,26 @@
     font-weight: 600;
     padding: 1%;
     justify-content: left;
+}
+
+.shipping_address_container .delivery_option {
+    display: flex;
+    margin-top: 2%;
+}
+
+.delivery_option .delivery_option_header {
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-left: 3%;
+}
+
+.delivery_option .delivery_option_radio_buttons_container {
+    margin-left: 10.5%;
+}
+
+.delivery_option_radio_buttons_container .delivery_option_radio_button {
+    text-align: left;
+    font-size: 1.5rem;
 }
 
 .checkout_details_flex_container {
@@ -190,7 +210,7 @@
 
 .checkout .products_container {
     height: auto;
-    width: 40%;
+    width: 55%;
     margin-left: 10%;
     margin-right: 10%;
 }
@@ -260,6 +280,8 @@
 .checkout .quantity_input {
     height: 2rem;
     width: 2.5rem;
+    margin-left: 0.5rem;
+    font-weight: 600;
 }
 
 .checkout .quantity_save_button {
