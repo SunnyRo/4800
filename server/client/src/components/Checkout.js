@@ -304,7 +304,7 @@ class Checkout extends Component {
                                                 <input
                                                     className="shipping_address_input"
                                                     type="radio"
-                                                    value={address.addressID}
+                                                    value={address.number + ' ' + address.street + ' ' + address.city + ' ' + address.zipcode}
                                                     id="shipping_address"
                                                     name="addressID"
                                                     onChange={
@@ -419,7 +419,7 @@ class Checkout extends Component {
                                 variant="contained"
                                 color="primary"
                                 onClick={this.placeOrder}
-                                // Event TODO onClick
+                            // Event TODO onClick
                             >
                                 Place your order
                             </Button>

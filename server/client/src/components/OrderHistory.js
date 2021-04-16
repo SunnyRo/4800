@@ -134,15 +134,14 @@ class PreviousOrders extends Component {
                                                 ${order.amount}
                                             </div>
                                         </div>
-                                        {/* <div className="order_delivery_container">
+                                        <div className="order_delivery_container">
                                             <div className="order_delivery_heading">
                                                 Delivered To
                                             </div>
                                             <div className="order_delivery_text">
-                                                 {profile.addresses.city}
-                                                 TODO 
+                                                {order.addressID}
                                             </div>
-                                        </div> */}
+                                        </div>
                                         <div className="payment_method_container">
                                             <div className="payment_method_heading">
                                                 Payment Method:
