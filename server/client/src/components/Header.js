@@ -28,7 +28,9 @@ class Header extends Component {
         this.logout = this.logout.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.getOrderHistory = this.getOrderHistory.bind(this);
     }
+
     toProfile = () => {
         const user = AuthenticationService.getCurrentUser();
         const currentUser = JSON.parse(localStorage.getItem("user"));
@@ -55,9 +57,11 @@ class Header extends Component {
                 }
             });
     };
+
     logout = () => {
         AuthenticationService.signOut();
     };
+
     handleChange(event) {
         this.setState({
             [event.target.name]: event.target.value,
@@ -124,6 +128,36 @@ class Header extends Component {
                 });
         }
     }
+
+    getOrderHistory = async () => {
+        console.log("Run getOrderHistory");
+        const user = AuthenticationService.getCurrentUser();
+        const currentUser = JSON.parse(localStorage.getItem("user"));
+        const customerID = user.customerID;
+        fetch("/order/user", {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                authorization: "Bearer " + user.accesstoken,
+            },
+            body: JSON.stringify({
+                customerID,
+                customerID,
+            }),
+        })
+            .then((Response) => Response.json())
+            .then((json) => {
+                if (json.error === "TokenExpiredError") {
+                    console.log(json.error);
+                    localStorage.clear();
+                    this.props.history.push("/");
+                }
+                localStorage.setItem("order_history", JSON.stringify(json));
+                // this.props.history.push("/order-history");
+                this.props.history.push("/orderhistory");
+            });
+    };
 
     render() {
         const type = JSON.parse(localStorage.getItem("type"));
@@ -206,7 +240,10 @@ class Header extends Component {
                             </div>
                         </Link>
                         {/* 2nd Link */}
-                        <Link to="/home/stores" className="header_link">
+                        <Link
+                            className="header_link"
+                            onClick={this.getOrderHistory}
+                        >
                             <div className="header_mainOption">
                                 <ReceiptIcon className="header_orderIcon" />
                                 <div className="header_option">

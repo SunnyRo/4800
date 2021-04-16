@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import AuthenticationService from "./Authentication";
 import "./css/PopUp.css";
+
 export default class PopUpEmail extends Component {
     constructor(props) {
         super(props);
@@ -11,9 +12,10 @@ export default class PopUpEmail extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.update = this.update.bind(this);
     }
+
     update = () => {
         const user = AuthenticationService.getCurrentUser();
-        const { email } = this.state
+        const { email } = this.state;
         fetch("/profile/updateemail", {
             method: "POST",
             headers: {
@@ -34,16 +36,19 @@ export default class PopUpEmail extends Component {
                     this.props.history.push("/");
                 }
             });
-        this.props.updateStorage(email)
+        this.props.updateStorage(email);
     };
+
     handleClick = () => {
         this.props.toggle();
     };
+
     handleChange(event) {
         this.setState({
             [event.target.name]: event.target.value,
         });
     }
+
     render() {
         return (
             <div className="modal">
@@ -52,13 +57,23 @@ export default class PopUpEmail extends Component {
                         &times;
                     </span>
                     <form>
-                        <h3>Edit Email</h3>
-                        <label>
-                            Email:
-                            <input type="text" name="email" value={this.state.email} onChange={this.handleChange} />
+                        <div className="heading">Edit Email</div>
+                        <label className="label_container">
+                            <div className="email">Email:</div>
+                            <input
+                                className="email_input"
+                                type="text"
+                                name="email"
+                                value={this.state.email}
+                                onChange={this.handleChange}
+                            />
                         </label>
                         <br />
-                        <input type="submit" onClick={this.update} />
+                        <input
+                            className="submit_input"
+                            type="submit"
+                            onClick={this.update}
+                        />
                     </form>
                 </div>
             </div>

@@ -1,12 +1,14 @@
 import React, { Component } from "react";
 import AuthenticationService from "./Authentication";
 import "./css/PopUp.css";
+
 export default class PopUpRemoveAddress extends Component {
     constructor(props) {
         super(props);
 
         this.remove = this.remove.bind(this);
     }
+
     remove = () => {
         const user = AuthenticationService.getCurrentUser();
         let currentUser = JSON.parse(localStorage.getItem("user"));
@@ -30,13 +32,22 @@ export default class PopUpRemoveAddress extends Component {
                     this.props.history.push("/");
                 }
             });
+        this.props.updateStorage("address");
+        const profile = JSON.parse(localStorage.getItem("profile")).info[0];
+        this.setState({
+            profile: profile,
+        })
+        // this.props.history.push("/profile");
     };
+
     handleClick = () => {
         this.props.toggle();
     };
+
     backToProfile = () => {
-        this.props.history.push("/profile")
-    }
+        this.props.history.push("/profile");
+    };
+
     render() {
         return (
             <div className="modal">
@@ -45,9 +56,19 @@ export default class PopUpRemoveAddress extends Component {
                         &times;
                     </span>
                     <form>
-                        <h3>Are you sure?</h3>
-                        <button onClick={this.remove}>Yes</button>
-                        <button onClick={this.backToProfile}>No</button>
+                        <h3 className="remove_heading">Are you sure?</h3>
+                        <button 
+                            className="yes_button"
+                            onClick={this.remove}
+                        >
+                            Yes
+                        </button>
+                        <button 
+                            className="no_button"
+                            onClick={this.backToProfile}
+                        >
+                            No
+                        </button>
                     </form>
                 </div>
             </div>

@@ -1,0 +1,99 @@
+.previous_orders {
+    position: relative;
+    min-height: 100vh;
+}
+
+.previous_orders .main_heading {
+    text-align: center;
+    font-size: 3rem;
+    font-weight: 600;
+    margin-top: 1%;
+}
+
+.previous_orders .order_card {
+    margin-top: 2%;
+}
+
+.order_card .order_info_box {
+    align-items: center;
+    margin-left: 25%;
+    margin-right: 25%;
+}
+
+.order_info_box .order_info_container {
+    display: flex;
+    padding: 1rem;
+}
+
+.order_info_box .order_history_list {
+    list-style: none;
+    border: black;
+    border-style: solid;
+    margin: 1rem;
+    border-width: 0.1rem;
+}
+
+.order_history_list .order_date_container {
+    margin: 2rem;
+}
+
+.order_date_container .order_date_heading {
+    font-size: 1.5rem;
+    font-weight: 500;
+    text-align: left;
+}
+
+.order_date_container .order_date_text {
+    text-align: left;
+}   
+
+.order_history_list .order_amount_container {
+    margin: 2rem;
+}
+
+.order_amount_container .order_amount_heading {
+    font-size: 1.5rem;
+    font-weight: 500;
+    text-align: left;
+}
+
+.order_amount_container .order_amount_text {
+    text-align: left;
+}
+
+.order_history_list .order_delivery_container {
+    margin: 2rem;
+}
+
+.order_delivery_container .order_delivery_heading {
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+
+.order_history_list .payment_method_container {
+    margin: 2rem;
+}
+
+.payment_method_container .payment_method_heading {
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+
+.payment_method_container .payment_method_text {
+    text-align: left;
+}
+
+.order_history_list .order_id_container {
+    margin: 2rem;
+    margin-left: auto;
+}
+
+.order_history_list .order_id_heading {
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+
+.order_history_list .view_more_button {
+    height: 3rem;
+    margin: 2rem;
+}

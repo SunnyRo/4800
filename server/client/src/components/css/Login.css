@@ -149,7 +149,7 @@
     margin-top: 10px;
 }
 
-.driver_img img {
+.driver_img {
     padding-top: 20px;
     height: 300px;
     max-height: 200%;
@@ -157,7 +157,7 @@
     max-width: 200%;
 }
 
-.store_img img {
+.store_img {
     padding-top: 20px;
     height: 300px;
     max-height: 200%;

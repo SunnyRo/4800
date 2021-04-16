@@ -65,10 +65,10 @@
 }
 
 .cart .product_image {
-    min-height: 150px;
-    max-height: 150px;
-    min-width: 150px;
-    max-width: 150px;
+    min-height: 10rem;
+    max-height: 10rem;
+    min-width: 10rem;
+    max-width: 10rem;
 }
 
 .cart .product_name {

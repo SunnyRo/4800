@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import AuthenticationService from "./Authentication";
 import "./css/PopUp.css";
+
 export default class PopUpAddAddress extends Component {
     constructor(props) {
         super(props);
@@ -13,10 +14,11 @@ export default class PopUpAddAddress extends Component {
 
         this.handleChange = this.handleChange.bind(this);
         this.update = this.update.bind(this);
-    }
+    };
+
     update = () => {
         const user = AuthenticationService.getCurrentUser();
-        const { number, street, city, zipcode } = this.state
+        const { number, street, city, zipcode } = this.state;
         let currentUser = JSON.parse(localStorage.getItem("user"));
         fetch("/profile/addaddress", {
             method: "POST",
@@ -47,18 +49,26 @@ export default class PopUpAddAddress extends Component {
                     zipcode: zipcode,
                     customerID: currentUser.customerID,
                     addressID: "",
-                }
-                this.props.updateStorage(address)
+                };
+                this.props.updateStorage(address);
             });
+        const profile = JSON.parse(localStorage.getItem("profile")).info[0];
+        this.setState({
+            profile: profile,
+        })
+        // this.props.history.push("/profile");
     };
+
     handleClick = () => {
         this.props.toggle();
     };
+
     handleChange(event) {
         this.setState({
             [event.target.name]: event.target.value,
         });
-    }
+    };
+
     render() {
         return (
             <div className="modal">
@@ -67,28 +77,56 @@ export default class PopUpAddAddress extends Component {
                         &times;
                     </span>
                     <form>
-                        <h3>Add Email</h3>
-                        <label>
-                            number:
-                            <input type="text" name="number" value={this.state.number} onChange={this.handleChange} />
+                        <div className="heading">Add Address</div>
+                        <label className="label_container">
+                            <div className="street_number">Number:</div>
+                            <input
+                                className="street_number_input"
+                                type="text"
+                                name="number"
+                                value={this.state.number}
+                                onChange={this.handleChange}
+                            />
                         </label>
                         <br />
-                        <label>
-                            street:
-                            <input type="text" name="street" value={this.state.street} onChange={this.handleChange} />
+                        <label className="label_container">
+                            <div className="street">Street:</div>
+                            <input
+                                className="street_input"
+                                type="text"
+                                name="street"
+                                value={this.state.street}
+                                onChange={this.handleChange}
+                            />
                         </label>
                         <br />
-                        <label>
-                            city:
-                            <input type="text" name="city" value={this.state.city} onChange={this.handleChange} />
+                        <label className="label_container">
+                            <div className="city">City:</div>
+                            <input
+                                className="city_input"
+                                type="text"
+                                name="city"
+                                value={this.state.city}
+                                onChange={this.handleChange}
+                            />
                         </label>
                         <br />
-                        <label>
-                            zipcode:
-                            <input type="text" name="zipcode" value={this.state.zipcode} onChange={this.handleChange} />
+                        <label className="label_container">
+                            <div className="zipcode">Zipcode:</div>
+                            <input
+                                className="zip_input"
+                                type="text"
+                                name="zipcode"
+                                value={this.state.zipcode}
+                                onChange={this.handleChange}
+                            />
                         </label>
                         <br />
-                        <input type="submit" onClick={this.update} />
+                        <input
+                            className="submit_input"
+                            type="submit"
+                            onClick={this.update}
+                        />
                     </form>
                 </div>
             </div>

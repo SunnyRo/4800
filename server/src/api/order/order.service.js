@@ -74,7 +74,7 @@ module.exports = {
     getOrderDetail: (data, callBack) => {
         console.log("getting orders", data.customerID)
         pool.query(
-            `SELECT OrderItem.quantity,OrderItem.unitPrice,customerID,Orders.orderID,orderDateTime,OrderStatus.status,addressID,amount,CCnumber,Product.name AS productname,type, Store.name AS storename, address,phone FROM Orders JOIN OrderStatus ON Orders.orderStatus=OrderStatus.orderstatusID JOIN Payment ON Payment.orderID=Orders.orderID JOIN OrderItem ON Orders.orderID=OrderItem.orderID JOIN Product ON Product.productID=OrderItem.productID JOIN Store ON Product.storeID=Store.storeID where Orders.orderID=?`,
+            `SELECT Product.productID, Product.photo,OrderItem.quantity,OrderItem.unitPrice,customerID,Orders.orderID,orderDateTime,OrderStatus.status,addressID,amount,CCnumber,Product.name AS productname,type, Store.name AS storename, address,phone FROM Orders JOIN OrderStatus ON Orders.orderStatus=OrderStatus.orderstatusID JOIN Payment ON Payment.orderID=Orders.orderID JOIN OrderItem ON Orders.orderID=OrderItem.orderID JOIN Product ON Product.productID=OrderItem.productID JOIN Store ON Product.storeID=Store.storeID where Orders.orderID=?`,
             // `SELECT * FROM Orders where Orders.CustomerID=?`,
             [data.orderID],
             (error, results, fields) => {

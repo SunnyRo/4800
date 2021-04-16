@@ -1,0 +1,99 @@
+.order_details .order_details_main_heading {
+    text-align: center;
+    font-size: 3rem;
+    font-weight: 600;
+    margin-top: 1%;
+}
+
+.order_details .order_details_box {
+    margin-left: 10%;
+    font-size: 1.5rem;
+}
+
+.order_details_box .order_details_heading {
+    font-size: 3rem;
+    font-weight: 500;
+    text-align: left;
+    margin: 0.5rem;
+}
+
+.order_details_box .order_date {
+    text-align: left;
+    margin: 0.5rem;
+}
+
+.order_details_box .order_amount {
+    text-align: left;
+    margin: 0.5rem;
+}
+
+.order_details_box .payment_method {
+    text-align: left;
+    margin: 0.5rem;
+}
+
+.order_details .order_product_list {
+
+}
+
+.order_product_list .product_list {
+    list-style: none;
+    margin-top: 2rem;
+}
+
+.product_list .product_container {
+    font-size: 1.5rem;
+    border: black;
+    border-style: solid;
+    border-width: 0.1rem;
+    width: 40%;
+    margin-left: 30%;
+    margin-right: 30%;
+    padding: 1rem;
+}
+
+.product_container .product_photo {
+    min-height: 10rem;
+    max-height: 10rem;
+    min-width: 10rem;
+    max-width: 10rem;
+}
+
+.product_container .product_name {
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.product_container .product_price {
+    font-size: 1.5rem;
+    font-weight: 600;
+    text-align: left;
+}
+
+.product_container .product_quantity {
+    text-align: left;
+}
+
+.product_container .product_type {
+    text-align: left;
+}
+
+.product_container .product_store {
+    text-align: left;
+}
+
+.product_container .store_address {
+    text-align: left;
+}
+
+.product_container .store_phone {
+    text-align: left;
+}
+
+.order_details .buy_again {
+    margin: 0.5rem;
+}
+
+.order_details .back_to_order_history_button {
+    margin: 1rem;
+}

@@ -61,6 +61,7 @@ class Checkout extends Component {
         this.calc_subtotal = this.calc_subtotal.bind(this);
         this.calc_delivery_fees = this.calc_delivery_fees.bind(this);
     }
+    
     removeFromCart = (product) => {
         const productID = product.id;
         console.log(productID);
@@ -81,11 +82,11 @@ class Checkout extends Component {
 
     backtoCart(event) {
         this.props.history.push("/cart");
-    }
+    };
 
     handleInputChange(event) {
         this.setState({ [event.target.name]: event.target.value });
-    }
+    };
 
     updateCart = (product, quantity) => {
         let cart = JSON.parse(localStorage.getItem("cart"));
@@ -226,13 +227,13 @@ class Checkout extends Component {
                     }
                 });
         }
-    }
+    };
 
     componentWillMount() {
         this.calc_num_of_items();
         this.calc_subtotal();
         this.calc_delivery_fees();
-    }
+    };
 
     // Place your order: print addressID, CC number, cart items from cart array, order total
 

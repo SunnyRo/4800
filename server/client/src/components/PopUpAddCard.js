@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import AuthenticationService from "./Authentication";
 import "./css/PopUp.css";
+
 export default class PopUpAddCard extends Component {
     constructor(props) {
         super(props);
@@ -14,12 +15,18 @@ export default class PopUpAddCard extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.update = this.update.bind(this);
     }
+
     update = () => {
-        console.log("pop add card update function")
+        console.log("pop add card update function");
         const user = AuthenticationService.getCurrentUser();
-        const { fullName, expirationDate, validationCode, CCnumber } = this.state
+        const {
+            fullName,
+            expirationDate,
+            validationCode,
+            CCnumber,
+        } = this.state;
         let currentUser = JSON.parse(localStorage.getItem("user"));
-        console.log(currentUser.customerID)
+        console.log(currentUser.customerID);
         fetch("/profile/addcard", {
             method: "POST",
             headers: {
@@ -46,18 +53,21 @@ export default class PopUpAddCard extends Component {
                     fullName: fullName,
                     expirationDate: expirationDate,
                     CCnumber: CCnumber,
-                }
-                this.props.updateStorage(card)
+                };
+                this.props.updateStorage(card);
             });
     };
+
     handleClick = () => {
         this.props.toggle();
     };
+
     handleChange(event) {
         this.setState({
             [event.target.name]: event.target.value,
         });
     }
+
     render() {
         return (
             <div className="modal">
@@ -69,25 +79,49 @@ export default class PopUpAddCard extends Component {
                         <h3>Add a Card</h3>
                         <label>
                             CCnumber:
-                            <input type="text" name="CCnumber" value={this.state.CCnumber} onChange={this.handleChange} />
+                            <input
+                                type="text"
+                                name="CCnumber"
+                                value={this.state.CCnumber}
+                                onChange={this.handleChange}
+                            />
                         </label>
                         <br />
                         <label>
                             expirationDate:
-                            <input type="text" name="expirationDate" value={this.state.expirationDate} onChange={this.handleChange} />
+                            <input
+                                type="text"
+                                name="expirationDate"
+                                value={this.state.expirationDate}
+                                onChange={this.handleChange}
+                            />
                         </label>
                         <br />
                         <label>
                             fullName:
-                            <input type="text" name="fullName" value={this.state.fullName} onChange={this.handleChange} />
+                            <input
+                                type="text"
+                                name="fullName"
+                                value={this.state.fullName}
+                                onChange={this.handleChange}
+                            />
                         </label>
                         <br />
                         <label>
                             validationCode:
-                            <input type="text" name="validationCode" value={this.state.validationCode} onChange={this.handleChange} />
+                            <input
+                                type="text"
+                                name="validationCode"
+                                value={this.state.validationCode}
+                                onChange={this.handleChange}
+                            />
                         </label>
                         <br />
-                        <input type="submit" onClick={this.update} />
+                        <input
+                            className="submit_input"
+                            type="submit"
+                            onClick={this.update}
+                        />
                     </form>
                 </div>
             </div>

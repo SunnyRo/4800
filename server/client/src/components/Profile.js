@@ -14,8 +14,9 @@ import EmailIcon from "@material-ui/icons/Email";
 import HomeOutlinedIcon from "@material-ui/icons/HomeOutlined";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import EditIcon from "@material-ui/icons/Edit";
-import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import AuthenticationService from "./Authentication";
+
 export class Profile extends Component {
     constructor(props) {
         super(props);
@@ -31,13 +32,14 @@ export class Profile extends Component {
             seenRemoveAddress: false,
         };
     }
+
     componentWillMount() {
         const profile = JSON.parse(localStorage.getItem("profile")).info[0];
         const addresses = JSON.parse(localStorage.getItem("profile")).addresses;
         this.setState({
             profile: profile,
             addresses: addresses,
-        })
+        });
     }
 
     handleChange(event) {
@@ -45,6 +47,7 @@ export class Profile extends Component {
             [event.target.name]: event.target.value,
         });
     }
+
     refresh = () => {
         const user = AuthenticationService.getCurrentUser();
         const currentUser = JSON.parse(localStorage.getItem("user"));
@@ -74,74 +77,84 @@ export class Profile extends Component {
 
     togglePopName = () => {
         this.setState({
-            seenName: !this.state.seenName
+            seenName: !this.state.seenName,
         });
     };
+
     togglePopPhone = () => {
         this.setState({
-            seenPhone: !this.state.seenPhone
+            seenPhone: !this.state.seenPhone,
         });
     };
+
     togglePopEmail = () => {
         this.setState({
-            seenEmail: !this.state.seenEmail
+            seenEmail: !this.state.seenEmail,
         });
     };
+
     togglePopAddCard = () => {
         this.setState({
-            seenAddCard: !this.state.seenAddCard
+            seenAddCard: !this.state.seenAddCard,
         });
     };
+
     togglePopAddAddress = () => {
         this.setState({
-            seenAddAddress: !this.state.seenAddAddress
+            seenAddAddress: !this.state.seenAddAddress,
         });
     };
+
     togglePopRemoveAddress = () => {
         this.setState({
-            seenRemoveAddress: !this.state.seenRemoveAddress
+            seenRemoveAddress: !this.state.seenRemoveAddress,
         });
     };
+
     updateName = (firstName, lastName) => {
         let profile = JSON.parse(localStorage.getItem("profile"));
         let user = JSON.parse(localStorage.getItem("user"));
-        profile.info[0].firstName = firstName
-        profile.info[0].lastName = lastName
-        user.name = firstName
+        profile.info[0].firstName = firstName;
+        profile.info[0].lastName = lastName;
+        user.name = firstName;
         localStorage.setItem("profile", JSON.stringify(profile));
         localStorage.setItem("user", JSON.stringify(user));
     };
+
     updatePhone = (phone) => {
         let profile = JSON.parse(localStorage.getItem("profile"));
-        profile.info[0].phone = phone
+        profile.info[0].phone = phone;
         localStorage.setItem("profile", JSON.stringify(profile));
     };
+
     updateEmail = (email) => {
         let profile = JSON.parse(localStorage.getItem("profile"));
         let user = JSON.parse(localStorage.getItem("user"));
-        profile.info[0].email = email
-        user.email = email
+        profile.info[0].email = email;
+        user.email = email;
         localStorage.setItem("profile", JSON.stringify(profile));
         localStorage.setItem("user", JSON.stringify(user));
     };
+
     updateAddress = (address) => {
-        console.log("addAddress")
+        console.log("addAddress");
         let profile = JSON.parse(localStorage.getItem("profile"));
-        profile.addresses.push(address)
+        profile.addresses.push(address);
         localStorage.setItem("profile", JSON.stringify(profile));
-        this.props.history.push("/profile")
+        this.props.history.push("/profile");
     };
+
     componentDidMount() {
         const profile = JSON.parse(localStorage.getItem("profile")).info[0];
         const addresses = JSON.parse(localStorage.getItem("profile")).addresses;
         this.setState({
             profile: profile,
             addresses: addresses,
-        })
+        });
     }
 
     render() {
-        const { addresses, profile } = this.state
+        const { addresses, profile } = this.state;
         return (
             <div>
                 <Header />
@@ -153,22 +166,32 @@ export class Profile extends Component {
                     <div className="profile__body">
                         <div className="profile__columnLeft">
                             <div>
-                                <h3> My Account</h3>
+                                <h3 className="my_account_heading">
+                                    {" "}
+                                    My Account
+                                </h3>
                             </div>
-
                             <div className="profile__image"></div>
                             <div className="line">
                                 <div className="profile__icon">
                                     <EmojiEmotionsIcon />
                                 </div>
                                 <div className="profile__block">
-                                    Full Name: {profile.firstName}{" "}
-                                    {profile.lastName}
+                                    <div className="full_name">
+                                        {"Full Name:"}
+                                    </div>
+                                    <div className="profile_name">
+                                        {profile.firstName} {profile.lastName}
+                                    </div>
                                 </div>
                                 <div className="profile__editIcon">
                                     <EditIcon onClick={this.togglePopName} />
-                                    {this.state.seenName ? <PopUpName toggle={this.togglePopName} updateStorage={this.updateName} /> : null}
-
+                                    {this.state.seenName ? (
+                                        <PopUpName
+                                            toggle={this.togglePopName}
+                                            updateStorage={this.updateName}
+                                        />
+                                    ) : null}
                                 </div>
                             </div>
                             <div className="line">
@@ -176,11 +199,19 @@ export class Profile extends Component {
                                     <PhoneIphoneIcon />
                                 </div>
                                 <div className="profile__block">
-                                    Phone: {profile.phone}
+                                    <div className="phone">{"Phone: "}</div>
+                                    <div className="profile_phone">
+                                        {profile.phone}
+                                    </div>
                                 </div>
                                 <div className="profile__editIcon">
                                     <EditIcon onClick={this.togglePopPhone} />
-                                    {this.state.seenPhone ? <PopUpPhone toggle={this.togglePopPhone} updateStorage={this.updatePhone} /> : null}
+                                    {this.state.seenPhone ? (
+                                        <PopUpPhone
+                                            toggle={this.togglePopPhone}
+                                            updateStorage={this.updatePhone}
+                                        />
+                                    ) : null}
                                 </div>
                             </div>
                             <div className="line">
@@ -188,17 +219,27 @@ export class Profile extends Component {
                                     <EmailIcon />
                                 </div>
                                 <div className="profile__block">
-                                    Email: {profile.email}
+                                    <div className="email">{"Email: "}</div>
+                                    <div className="profile_email">
+                                        {profile.email}
+                                    </div>
                                 </div>
                                 <div className="profile__editIcon">
                                     <EditIcon onClick={this.togglePopEmail} />
-                                    {this.state.seenEmail ? <PopUpEmail toggle={this.togglePopEmail} updateStorage={this.updateEmail} /> : null}
+                                    {this.state.seenEmail ? (
+                                        <PopUpEmail
+                                            toggle={this.togglePopEmail}
+                                            updateStorage={this.updateEmail}
+                                        />
+                                    ) : null}
                                 </div>
                             </div>
                         </div>
                         <div className="profile__columnRight">
                             <div>
-                                <h3>Delivery Addresses</h3>
+                                <h3 className="delivery_addresses_heading">
+                                    Delivery Addresses
+                                </h3>
                             </div>
                             {addresses.map((address) => (
                                 <div className="line">
@@ -206,18 +247,44 @@ export class Profile extends Component {
                                         <HomeOutlinedIcon />
                                     </div>
                                     <div className="profile__block">
-                                        {address.number} {address.street} {address.city} {address.zipcode}
+                                        <div className="profile_address">
+                                            {address.number} {address.street}
+                                            {", "}
+                                            {address.city}
+                                            {", "} {address.zipcode}
+                                        </div>
                                     </div>
                                     <div className="profile__icon">
-                                        <DeleteForeverIcon onClick={this.togglePopRemoveAddress} />
-                                        {this.state.seenRemoveAddress ? <PopUpRemoveAddress toggle={this.togglePopRemoveAddress} updateStorage={this.removeAddress} addressID={address.addressID} /> : null}
+                                        <DeleteForeverIcon
+                                            onClick={
+                                                this.togglePopRemoveAddress
+                                            }
+                                        />
+                                        {this.state.seenRemoveAddress ? (
+                                            <PopUpRemoveAddress
+                                                toggle={
+                                                    this.togglePopRemoveAddress
+                                                }
+                                                updateStorage={
+                                                    this.removeAddress
+                                                }
+                                                addressID={address.addressID}
+                                            />
+                                        ) : null}
                                     </div>
                                 </div>
                             ))}
                             <div className="line">
                                 <button className="add">
-                                    <AddCircleIcon onClick={this.togglePopAddAddress} />
-                                    {this.state.seenAddAddress ? <PopUpAddAddress toggle={this.togglePopAddAddress} updateStorage={this.updateAddress} /> : null}
+                                    <AddCircleIcon
+                                        onClick={this.togglePopAddAddress}
+                                    />
+                                    {this.state.seenAddAddress ? (
+                                        <PopUpAddAddress
+                                            toggle={this.togglePopAddAddress}
+                                            updateStorage={this.updateAddress}
+                                        />
+                                    ) : null}
                                 </button>
                             </div>
                         </div>

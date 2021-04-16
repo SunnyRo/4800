@@ -11,6 +11,8 @@ import Cart from "./components/Cart";
 import Checkout from "./components/Checkout";
 import Store from "./components/Store";
 import Aisle from "./components/Aisle";
+import OrderHistory from "./components/OrderHistory";
+import OrderDetails from "./components/OrderDetails";
 
 class App extends Component {
   constructor(props) {
@@ -40,6 +42,8 @@ class App extends Component {
           <PrivateRoute exact path="/checkout" component={Checkout} />
           <PrivateRoute exact path="/store" component={Store} />
           <PrivateRoute exact path="/aisle" component={Aisle} />
+          <PrivateRoute exact path="/orderhistory" component={OrderHistory} />
+          <PrivateRoute exact path="/orderdetails" component={OrderDetails} />
           <Route exact component={Error} />
         </Switch>
         {/* </div> */}

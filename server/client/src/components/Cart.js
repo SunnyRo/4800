@@ -34,6 +34,7 @@ export default class Cart extends React.Component {
         this.backtoStore = this.backtoStore.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
     }
+    
     handleInputChange = (event) => {
         const productID = event.currentTarget.getAttribute("productID");
         let cart = JSON.parse(localStorage.getItem("cart"));

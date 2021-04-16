@@ -14,6 +14,7 @@ import Login from "./Login";
 import AuthenticationService from "./Authentication";
 import Header from "./Header";
 import { red } from "@material-ui/core/colors";
+
 const theme = createMuiTheme({
     palette: {
         primary: {
@@ -24,6 +25,7 @@ const theme = createMuiTheme({
         },
     },
 });
+
 class Signup extends Component {
     constructor(props) {
         super(props);
@@ -44,17 +46,20 @@ class Signup extends Component {
         this.register = this.register.bind(this);
         this.handleChange = this.handleChange.bind(this);
     }
+
     componentDidMount() {
         const user = AuthenticationService.getCurrentUser();
         if (user) {
             return this.props.history.push("/home/stores");
         }
     }
+
     handleChange(event) {
         this.setState({
             [event.target.name]: event.target.value,
         });
     }
+
     register(event) {
         const {
             firstname,
@@ -62,6 +67,7 @@ class Signup extends Component {
             email,
             phone,
             password,
+            confirm_password,
             number,
             street,
             city,
@@ -95,6 +101,7 @@ class Signup extends Component {
                 }
             });
     }
+
     render() {
         return (
             <div className="signup_container">
@@ -107,8 +114,12 @@ class Signup extends Component {
                             <h1>Create your Growceries account here!</h1>
                         </div>
                         <div className="signup_row">
+                            <div className="user_text">User Info</div>
+                        </div>
+                        <div className="signup_row">
                             <TextField
                                 required
+                                min="2"
                                 variant="standard"
                                 type="firstname"
                                 name="firstname"
@@ -132,6 +143,7 @@ class Signup extends Component {
                         </div>
                         <div className="signup_row">
                             <TextField
+                                required
                                 variant="standard"
                                 type="password"
                                 name="password"
@@ -139,6 +151,19 @@ class Signup extends Component {
                                 color="primary"
                                 style={style}
                                 value={this.state.password}
+                                onChange={this.handleChange}
+                            ></TextField>
+                        </div>
+                        <div className="signup_row">
+                            <TextField
+                                required
+                                variant="standard"
+                                type="confirm_password"
+                                name="confirm_password"
+                                label="Confirm Password"
+                                color="primary"
+                                style={style}
+                                value={this.state.confirm_password}
                                 onChange={this.handleChange}
                             ></TextField>
                         </div>
@@ -168,12 +193,14 @@ class Signup extends Component {
                                 onChange={this.handleChange}
                             ></TextField>
                         </div>
-                        <div className="signup_row">Address</div>
+                        <div className="signup_row">
+                            <div className="address_text">Address</div>
+                        </div>
                         <div className="signup_row">
                             <TextField
                                 required
                                 variant="standard"
-                                // type="number"
+                                type="street_number"
                                 name="number"
                                 color="primary"
                                 style={style}
@@ -223,6 +250,7 @@ class Signup extends Component {
                         </div>
                         <div className="signup_row">
                             <Button
+                                className="signup_button"
                                 type="submit"
                                 variant="contained"
                                 color="primary"
@@ -232,7 +260,9 @@ class Signup extends Component {
                             </Button>
                         </div>
                         <div className="signup_row">
-                            <h3>Already have an account?</h3>
+                            <h3 className="already_have_an_account">
+                                Already have an account?
+                            </h3>
                         </div>
                         <div className="signup_row">
                             <Button

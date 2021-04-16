@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import AuthenticationService from "./Authentication";
 import "./css/PopUp.css";
+
 export default class PopUpPhone extends Component {
     constructor(props) {
         super(props);
@@ -11,9 +12,10 @@ export default class PopUpPhone extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.update = this.update.bind(this);
     }
+
     update = () => {
         const user = AuthenticationService.getCurrentUser();
-        const { phone } = this.state
+        const { phone } = this.state;
         fetch("/profile/updatephone", {
             method: "POST",
             headers: {
@@ -34,16 +36,19 @@ export default class PopUpPhone extends Component {
                     this.props.history.push("/");
                 }
             });
-        this.props.updateStorage(phone)
+        this.props.updateStorage(phone);
     };
+
     handleClick = () => {
         this.props.toggle();
     };
+
     handleChange(event) {
         this.setState({
             [event.target.name]: event.target.value,
         });
     }
+
     render() {
         return (
             <div className="modal">
@@ -52,13 +57,23 @@ export default class PopUpPhone extends Component {
                         &times;
                     </span>
                     <form>
-                        <h3>Edit Phone</h3>
-                        <label>
-                            Phone:
-                            <input type="text" name="phone" value={this.state.phone} onChange={this.handleChange} />
+                        <div className="heading">Edit Phone</div>
+                        <label className="label_container">
+                            <div className="phone">Phone:</div>
+                            <input
+                                className="phone_input"
+                                type="text"
+                                name="phone"
+                                value={this.state.phone}
+                                onChange={this.handleChange}
+                            />
                         </label>
                         <br />
-                        <input type="submit" onClick={this.update} />
+                        <input
+                            className="submit_input"
+                            type="submit"
+                            onClick={this.update}
+                        />
                     </form>
                 </div>
             </div>

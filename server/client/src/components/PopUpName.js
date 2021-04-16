@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import AuthenticationService from "./Authentication";
 import "./css/PopUp.css";
+
 export default class PopUpName extends Component {
     constructor(props) {
         super(props);
@@ -12,9 +13,10 @@ export default class PopUpName extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.update = this.update.bind(this);
     }
+
     update = () => {
         const user = AuthenticationService.getCurrentUser();
-        const { firstName, lastName } = this.state
+        const { firstName, lastName } = this.state;
         fetch("/profile/updatename", {
             method: "POST",
             headers: {
@@ -36,16 +38,19 @@ export default class PopUpName extends Component {
                     this.props.history.push("/");
                 }
             });
-        this.props.updateStorage(firstName, lastName)
+        this.props.updateStorage(firstName, lastName);
     };
+
     handleClick = () => {
         this.props.toggle();
     };
+
     handleChange(event) {
         this.setState({
             [event.target.name]: event.target.value,
         });
     }
+
     render() {
         return (
             <div className="modal">
@@ -54,18 +59,34 @@ export default class PopUpName extends Component {
                         &times;
                     </span>
                     <form>
-                        <h3>Edit</h3>
-                        <label>
-                            First Name:
-                            <input type="text" name="firstName" value={this.state.firstName} onChange={this.handleChange} />
+                        <div className="heading">Edit Name</div>
+                        <label className="label_container">
+                            <div className="first_name">First Name:</div>
+                            <input
+                                className="first_name_input"
+                                type="text"
+                                name="firstName"
+                                value={this.state.firstName}
+                                onChange={this.handleChange}
+                            />
                         </label>
                         <br></br>
-                        <label>
-                            Last Name:
-                            <input type="text" name="lastName" value={this.state.lastName} onChange={this.handleChange} />
+                        <label className="label_container">
+                            <div className="last_name">Last Name:</div>
+                            <input
+                                className="last_name_input"
+                                type="text"
+                                name="lastName"
+                                value={this.state.lastName}
+                                onChange={this.handleChange}
+                            />
                         </label>
                         <br />
-                        <input type="submit" onClick={this.update} />
+                        <input
+                            className="submit_input"
+                            type="submit"
+                            onClick={this.update}
+                        />
                     </form>
                 </div>
             </div>

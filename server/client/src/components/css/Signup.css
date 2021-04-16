@@ -27,13 +27,33 @@
 .heading {
     font-family: Merriweather-Regular;
     font-weight: 700;
-    margin-top: 35px;
+    margin-top: 2.5rem;
 }
 
 .body {
-    margin: 10;
+    margin: 1rem;
 }
 
 .signup_row {
-    margin: 0 200px;
+    margin: 0.5rem;
+}
+
+.signup_row .user_text {
+    margin-top: 1rem;
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+.signup_row .address_text {
+    margin-top: 1rem;
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+.signup_row .signup_button {
+    margin-top: 0.5rem;
+}
+
+.signup_row .already_have_an_account {
+    margin: 1rem;
 }
