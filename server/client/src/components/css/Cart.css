@@ -185,3 +185,6 @@
     margin-left: auto;
     text-decoration: underline;
 }
+.fixHeader{
+    height: 17rem;
+}

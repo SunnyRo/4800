@@ -1,7 +1,8 @@
 import React from "react";
 import "./css/Cart.css"
 import { Button, createMuiTheme, ThemeProvider } from "@material-ui/core";
-
+import Rating from "@material-ui/lab/Rating";
+import Box from "@material-ui/core/Box";
 export default class CartItem extends React.Component {
     constructor(props) {
         super(props);
@@ -31,6 +32,16 @@ export default class CartItem extends React.Component {
                 </div>
                 <div className="product_details">
                     <div className="product_name">{product.name}</div>
+                    <div>
+                        <Box align="left" component="fieldset" mb={3} borderColor="transparent">
+                            <Rating
+                                // value={5}
+                                value={product.rating}
+                                readOnly={true}
+                            />
+                            <div className="totalReview">{product.numberofreviews}</div>
+                        </Box>
+                    </div>
                     <div className="product_price">${product.price}</div>
                     <div className="product_type">Type: {product.type}</div>
                 </div>

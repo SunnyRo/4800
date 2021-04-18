@@ -118,6 +118,8 @@ class Store extends Component {
                 address: product.address,
                 phone: product.phone,
                 store: product.storename,
+                rating: product.rating,
+                numberofreviews: product.numberofreviews,
             };
             cartInfo.push(item);
             localStorage.setItem("cartInfo", JSON.stringify(cartInfo));

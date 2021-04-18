@@ -10,6 +10,11 @@ import {
 import "./css/Checkout.css";
 import CheckoutItem from "./CheckoutItem";
 import AuthenticationService from "./Authentication";
+// google API 
+import { DistanceMatrixService } from "@react-google-maps/api";
+import Geocode from "react-geocode";
+Geocode.enableDebug();
+Geocode.setApiKey("AIzaSyDUENlRwq9j2Zgz9NUIxHHFN9cnUa7SuBk");
 
 const theme = createMuiTheme({
     palette: {
@@ -53,6 +58,7 @@ class Checkout extends Component {
             cartInfo: {},
             profile: {},
             delivery_rate: 0.0,
+            coordinate: [],
         };
         this.backtoCart = this.backtoCart.bind(this);
         this.updateCart = this.updateCart.bind(this);
@@ -63,8 +69,68 @@ class Checkout extends Component {
         this.calc_delivery_fees = this.calc_delivery_fees.bind(this);
         this.onClickTest = this.onClickTest.bind(this)
         this.handleDeliveryRateChange = this.handleDeliveryRateChange.bind(this);
+        this.getCoordinate = this.getCoordinate.bind(this);
     }
+    getCoordinate = () => {
+        const userAddress = this.state.addressID;
+        console.log(userAddress)
+        Geocode.fromAddress(userAddress).then(
+            (response) => {
+                const { lat, lng } = response.results[0].geometry.location;
+                const coordinate = [`${lat},${lng}`];
+                this.setState({
+                    coordinate: coordinate,
+                });
+                console.log("willmount in store.js", coordinate);
+            },
+            (error) => {
+                console.error(error);
+            }
+        );
+        <DistanceMatrixService
+            options={{
+                destinations: [
+                    "34.079962,-117.582877",
+                    "34.136815,-117.442865",
+                    "34.081100,-117.243605",
+                    "34.023071,-117.408686",
+                    "34.004858,-117.493887",
+                    "33.922851,-117.367932",
+                    "33.941081,-117.601548",
+                    "34.114079,-117.359500",
+                ],
+                origins: this.state.coordinate,
+                travelMode: "DRIVING",
+            }}
+            callback={(response) => {
+                localStorage.setItem(
+                    "distances",
+                    JSON.stringify(response)
+                );
+            }}
+        />
+        // const distances = JSON.parse(localStorage.getItem("distances"));
+        // const names = [
+        //     "Walmart",
+        //     "Whole Foods",
+        //     "Trader Joe's",
+        //     "Ralphs",
+        //     "Vons",
+        //     "Costco",
+        //     "Safeway",
+        //     "Albertsons",
+        // ];
+        // const storeDistances = {};
+        // console.log(distances.rows[0].elements[0].distance.text);
+        // distances.rows[0].elements.forEach((element, i) => {
+        //     storeDistances[names[i]] = element.distance.text;
+        // });
+        // localStorage.setItem(
+        //     "storeDistances",
+        //     JSON.stringify(storeDistances)
+        // );
 
+    }
     removeFromCart = (product) => {
         const productID = product.id;
         console.log(productID);
@@ -266,7 +332,7 @@ class Checkout extends Component {
         const cartInfo = JSON.parse(localStorage.getItem("cartInfo"));
         const cart = JSON.parse(localStorage.getItem("cart"));
         const profile = JSON.parse(localStorage.getItem("profile"));
-
+        const { coordinate } = this.state;
         return (
             <div className="checkout">
                 <ThemeProvider theme={theme}>
@@ -310,7 +376,30 @@ class Checkout extends Component {
                                                     onChange={
                                                         this.handleInputChange
                                                     }
+                                                    onClick={this.getCoordinate}
                                                 />
+                                                {/* <DistanceMatrixService
+                                                    options={{
+                                                        destinations: [
+                                                            "34.079962,-117.582877",
+                                                            "34.136815,-117.442865",
+                                                            "34.081100,-117.243605",
+                                                            "34.023071,-117.408686",
+                                                            "34.004858,-117.493887",
+                                                            "33.922851,-117.367932",
+                                                            "33.941081,-117.601548",
+                                                            "34.114079,-117.359500",
+                                                        ],
+                                                        origins: coordinate,
+                                                        travelMode: "DRIVING",
+                                                    }}
+                                                    callback={(response) => {
+                                                        localStorage.setItem(
+                                                            "distances",
+                                                            JSON.stringify(response)
+                                                        );
+                                                    }}
+                                                /> */}
                                                 <label
                                                     className="shipping_address_label"
                                                     for="shipping_address"

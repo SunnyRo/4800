@@ -158,7 +158,7 @@ class Signup extends Component {
                             <TextField
                                 required
                                 variant="standard"
-                                type="confirm_password"
+                                type="password"
                                 name="confirm_password"
                                 label="Confirm Password"
                                 color="primary"

@@ -1,5 +1,6 @@
 const pool = require("../../config/database");
 const { getProductByType, getProductsFromStore, getStores } = require("./store.service");
+const { getRatings, getReviews, addReview } = require("../review/review.service");
 module.exports = {
     allStore: (req, res) => {
         const key = req.body;
