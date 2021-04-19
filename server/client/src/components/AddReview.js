@@ -39,10 +39,6 @@ class AddReview extends Component {
     }
 
     onClickTest() {
-        // this.setState({
-        //     date: Date().toString(),
-        //     productID: this.props.productID,
-        // })
         let currentDate = new Date();
         let datetime =
             currentDate.getFullYear() +
@@ -79,7 +75,7 @@ class AddReview extends Component {
                 if (json.error === "TokenExpiredError") {
                     console.log(json.error);
                 } else {
-                    alert("Review success!");
+                    alert(json.message);
                 }
             });
     }

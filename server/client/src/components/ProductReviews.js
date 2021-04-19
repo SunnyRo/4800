@@ -78,7 +78,7 @@ class ProductReviews extends Component {
                                 </div>
                             </div>
                             <div className="review_date">
-                                {"Reviewed on "}{review.datetime.slice(0,10)}
+                                {"Reviewed on "}{review.datetime.slice(0, 10)}
                             </div>
                             <div className="review_body">{review.body}</div>
                         </li>

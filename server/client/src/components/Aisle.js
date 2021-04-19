@@ -70,7 +70,11 @@ class Aisle extends Component {
                     this.props.history.push("/");
                 } else {
                     localStorage.setItem("productReviews", JSON.stringify(json));
-                    this.props.history.push("/productreviews");
+                    if (json.length != 0) {
+                        this.props.history.push("/productreviews");
+                    } else {
+                        alert("there is no review for this product")
+                    }
                 }
             });
     };
