@@ -81,6 +81,22 @@
     max-width: 150px;
 }
 
+.store .rating_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.rating_container .rating_box {
+    border-color: transparent;
+    height: 2rem;
+}
+
+.rating_container .total_review{
+    margin-left: 1rem;
+    margin-bottom: 1.5rem;
+}
+
 .store .product_name {
     padding: 0.4rem;
     text-align: center;

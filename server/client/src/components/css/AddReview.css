@@ -1,0 +1,112 @@
+.modal {
+    position: fixed;
+    /*position: absolute;*/
+    left: 0;
+    top: 0;
+    z-index: 1;
+    width: 100%;
+    height: 115%;
+    background-color: rgba(0, 0, 0, 0.25);
+}
+
+.modal_content {
+    background-color: rgb(238, 238, 238);
+    position: absolute;
+    top: 20%;
+    left: 30%;
+    width: 40%;
+    padding: 20px;
+    border-radius: 15px;
+    /*border: 3px solid black;*/
+    box-shadow: 5px 5px 10px black;
+    box-sizing: border-box;
+    font-weight: bold;
+}
+
+.btn {
+    text-align: center;
+    position: absolute;
+    top: 30%;
+    left: 42%;
+    zoom: 1.5;
+}
+
+input[type="submit"] {
+    border-radius: 5px;
+    background-color: lightgray;
+    outline: none;
+    font-size: 16px;
+    font-weight: bold;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+input[type="submit"]:hover {
+    background-color: whitesmoke;
+}
+
+input[type="text"] {
+    background-color: white;
+    margin: 3px;
+}
+
+input[type="text"]:focus {
+    background-color: lightgray;
+    border: 3px solid black;
+}
+
+.close {
+    color: black;
+    background-color: lightgray;
+    border: 4px solid gray;
+    border-radius: 50px;
+    box-shadow: 5px 5px 10px black;
+    box-sizing: border-box;
+    cursor: pointer;
+    display: inline-block;
+    font-family: arial;
+    position: absolute;
+    top: -20px;
+    right: -20px;
+    font-size: 25px;
+    line-height: 30px;
+    width: 35px;
+    height: 35px;
+    text-align: center;
+}
+
+.close:hover {
+    color: whitesmoke;
+    cursor: pointer;
+}
+
+.label_container {
+    display: flex;
+    justify-content: left;
+}
+
+.label_container .title_text {
+    width: 15%;
+    font-size: 1.5rem;
+}
+
+.label_container .title_input {
+    height: 2rem;
+    font-size: 1.5rem;
+    width: 80%;
+    text-align: left;
+    padding: 0.5rem;
+}
+
+.label_container .body_text {
+    width: 15%;
+    font-size: 1.5rem;
+}
+
+.label_container .body_input {
+    height: 10rem;
+    font-size: 1.5rem;
+    width: 80%;
+    text-align: start;
+    padding: 0.5rem;
+}

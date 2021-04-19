@@ -140,3 +140,19 @@
     height: 2rem;
     margin-left: 5%;
 }
+
+.aisle .rating_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.rating_container .rating_box {
+    border-color: transparent;
+    height: 2rem;
+}
+
+.rating_container .total_review{
+    margin-left: 1rem;
+    margin-bottom: 1.5rem;
+}

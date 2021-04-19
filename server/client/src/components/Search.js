@@ -33,6 +33,7 @@ class Product extends Component {
         };
         this.logout = this.logout.bind(this);
         this.backtoStore = this.backtoStore.bind(this);
+        this.getReviews = this.getReviews.bind(this);
     }
 
     logout = () => {
@@ -45,6 +46,34 @@ class Product extends Component {
     backtoStore() {
         this.props.history.push("/home/stores");
     }
+
+    getReviews = (product) => {
+        console.log("Run getReviews");
+        const user = AuthenticationService.getCurrentUser();
+        let productID = product.productID.toString();
+        fetch("/review", {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                authorization: "Bearer " + user.accesstoken,
+            },
+            body: JSON.stringify({
+                productID: productID,
+            }),
+        })
+            .then((Response) => Response.json())
+            .then((json) => {
+                if (json.error === "TokenExpiredError") {
+                    console.log(json.error);
+                    localStorage.clear();
+                    this.props.history.push("/");
+                } else {
+                    localStorage.setItem("productReviews", JSON.stringify(json));
+                    this.props.history.push("/productreviews");
+                }
+            });
+    };
 
     componentWillMount() {
         const distances = JSON.parse(localStorage.getItem("distances"));
@@ -140,6 +169,7 @@ class Product extends Component {
                                             storeDistances={storeDistances}
                                             addToCart={this.addToCart}
                                             convert={this.convertDistance}
+                                            getReviews={this.getReviews}
                                         />
                                     ))}
                                 </div>

@@ -1,0 +1,103 @@
+.product_reviews .heading_container {
+    border-style: solid;
+    border-color: black;
+    border-width: 0.1rem;
+    width: 50%;
+    margin-left: 25%;
+    margin-top: 1%;
+}
+
+.product_reviews .main_heading {
+    font-size: 2.5rem;
+    font-weight: 600;
+    text-align: left;
+    margin-top: 2%;
+    margin-left: 3%;
+}
+
+.product_reviews .store {
+    font-size: 1.5rem;
+    text-align: left;
+    margin-left: 3%;
+    margin-bottom: 1rem;
+}
+
+.product_reviews .product_image {
+    min-height: 10rem;
+    max-height: 10rem;
+    min-width: 10rem;
+    max-width: 10rem;
+    margin-right: 85%;
+}
+
+.product_reviews .rating_container {
+    display: flex;
+    justify-content: left;
+    align-items: left;
+    margin-left: 2.7%;
+}
+
+.rating_container .rating_box {
+    margin-top: 0.25rem;
+}
+
+.rating_container .average_rating {
+    font-size: 1.5rem;
+    margin-left: 1rem;
+}
+
+.product_reviews .number_of_reviews {
+    text-align: left;
+    margin-left: 3%;
+}
+
+.product_reviews .ratings_list_container {
+    
+}
+
+.ratings_list_container .ratings_list {
+    list-style: none;
+    border-style: solid;
+    border-color: black;
+    border-width: 0.1rem;
+    width: 50%;
+    margin-left: 25%;
+    margin-bottom: 1rem;
+}
+
+.ratings_list .review_container {
+    display: flex;
+    height: 2rem;
+    justify-content: left;
+    margin-left: 2rem;
+    margin-top: 1rem;
+}
+
+.product_reviews .read_reviews {
+    text-align: center;
+    margin-top: 1rem;
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.review_container .rating_box {
+    
+}
+
+.review_container .review_title {
+    font-weight: 600;
+    margin-left: 1rem;
+}
+
+.product_reviews .review_date {
+    text-align: left;
+    margin-left: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.product_reviews .review_body {
+    text-align: left;
+    margin-left: 2rem;
+    margin-bottom: 1rem;
+}

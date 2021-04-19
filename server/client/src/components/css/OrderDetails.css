@@ -97,3 +97,7 @@
 .order_details .back_to_order_history_button {
     margin: 1rem;
 }
+
+.product_container .buy_again_button {
+    margin-top: 1rem;
+}

@@ -35,7 +35,7 @@ export default class Cart extends React.Component {
         this.backtoStore = this.backtoStore.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
     }
-    
+
     handleInputChange = (event) => {
         const productID = event.currentTarget.getAttribute("productID");
         let cart = JSON.parse(localStorage.getItem("cart"));
@@ -47,6 +47,7 @@ export default class Cart extends React.Component {
         const result = (floatDistance * 0.621371).toFixed(2);
         return result;
     };
+
     removeFromCart = (product) => {
         const productID = product.id;
         console.log(productID);
@@ -61,6 +62,7 @@ export default class Cart extends React.Component {
             cartInfo: filteredItems,
         });
     };
+
     updateCart = (product, quantity) => {
         let cart = JSON.parse(localStorage.getItem("cart"));
         const productID = product.id;
@@ -71,6 +73,7 @@ export default class Cart extends React.Component {
             cart: cart,
         });
     };
+
     componentWillMount() {
         const cart = JSON.parse(localStorage.getItem("cart"));
         const cartInfo = JSON.parse(localStorage.getItem("cartInfo"));
@@ -83,9 +86,11 @@ export default class Cart extends React.Component {
             storeDistances: storeDistances,
         });
     }
+
     backtoStore() {
         this.props.history.push("/home/stores");
     }
+
     checkout = () => {
         const user = AuthenticationService.getCurrentUser();
         const currentUser = JSON.parse(localStorage.getItem("user"));
@@ -112,6 +117,7 @@ export default class Cart extends React.Component {
                 }
             });
     };
+
     clearCart = () => {
         // localStorage.removeItem("cart");
         // localStorage.removeItem("cartInfo");
@@ -126,6 +132,7 @@ export default class Cart extends React.Component {
         this.props.history.push("/home/stores");
         console.log(document.documentElement.offsetHeight);
     };
+
     render() {
         const { cartInfo, cart, storeDistances } = this.state;
         if (cartInfo && cartInfo.length != 0) {
@@ -134,7 +141,8 @@ export default class Cart extends React.Component {
                     <ThemeProvider theme={theme}>
                         <Header />
                         <div className="cart_header">
-                            {"Shopping Cart"} {"(" + Object.keys(cart).length + " Items)"}
+                            {"Shopping Cart"}{" "}
+                            {"(" + Object.keys(cart).length + " Items)"}
                         </div>
                         <div className="product_body">
                             <ul>

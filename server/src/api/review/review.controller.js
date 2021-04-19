@@ -2,6 +2,7 @@ const { updateRating, getRatings, getReviews, addReview } = require("./review.se
 module.exports = {
     addProductReview: (req, res) => {
         const body = req.body;
+        console.log("Add review", body);
         addReview(body, async (err, results) => {
             if (err) {
                 return res.send(err);

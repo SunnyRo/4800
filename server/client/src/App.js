@@ -13,6 +13,8 @@ import Store from "./components/Store";
 import Aisle from "./components/Aisle";
 import OrderHistory from "./components/OrderHistory";
 import OrderDetails from "./components/OrderDetails";
+import AddReview from "./components/AddReview";
+import ProductReviews from "./components/ProductReviews";
 
 class App extends Component {
   constructor(props) {
@@ -44,6 +46,9 @@ class App extends Component {
           <PrivateRoute exact path="/aisle" component={Aisle} />
           <PrivateRoute exact path="/orderhistory" component={OrderHistory} />
           <PrivateRoute exact path="/orderdetails" component={OrderDetails} />
+          <PrivateRoute exact path="/addreview" component={AddReview} />
+          <PrivateRoute exact path="/productreviews" component={ProductReviews} />
+          <PrivateRoute exact path="/addreview" component={AddReview} />
           <Route exact component={Error} />
         </Switch>
         {/* </div> */}

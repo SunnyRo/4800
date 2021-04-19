@@ -16,8 +16,8 @@
 
 .order_card .order_info_box {
     align-items: center;
-    margin-left: 25%;
-    margin-right: 25%;
+    margin-left: 10%;
+    margin-right: 10%;
 }
 
 .order_info_box .order_info_container {
@@ -68,6 +68,20 @@
 .order_delivery_container .order_delivery_heading {
     font-size: 1.5rem;
     font-weight: 500;
+    text-align: left;
+}
+
+.order_history_list .order_status_container {
+    margin: 2rem;
+}
+
+.order_status_container .order_status_heading {
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+
+.order_status_container .order_status {
+    text-align: left;
 }
 
 .order_history_list .payment_method_container {

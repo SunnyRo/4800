@@ -115,6 +115,19 @@ class PreviousOrders extends Component {
                                     key={order.orderID}
                                 >
                                     <div className="order_info_container">
+                                        <div className="order_id_container">
+                                            <div className="order_id_heading">
+                                                Order ID: {order.orderID}
+                                            </div>
+                                        </div>
+                                        <div className="order_status_container">
+                                            <div className="order_status_heading">
+                                                Order Status
+                                            </div>
+                                            <div className="order_status">
+                                                {order.status}
+                                            </div>
+                                        </div>
                                         <div className="order_date_container">
                                             <div className="order_date_heading">
                                                 Order Placed
@@ -151,11 +164,6 @@ class PreviousOrders extends Component {
                                                 {order.CCnumber.toString().slice(
                                                     11 - 15
                                                 )}
-                                            </div>
-                                        </div>
-                                        <div className="order_id_container">
-                                            <div className="order_id_heading">
-                                                Order ID: {order.orderID}
                                             </div>
                                         </div>
                                     </div>

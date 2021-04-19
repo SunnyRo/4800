@@ -37,12 +37,12 @@ class Store extends Component {
         this.getProfile = this.getProfile.bind(this);
     }
 
-
     backtoStore() {
         this.props.history.push("/home/stores");
     }
+
     getProfile = () => {
-        console.log("run get profile")
+        console.log("run get profile");
         const user = AuthenticationService.getCurrentUser();
         const currentUser = JSON.parse(localStorage.getItem("user"));
         fetch("/profile", {
@@ -64,10 +64,10 @@ class Store extends Component {
                     this.props.history.push("/");
                 } else {
                     localStorage.setItem("profile", JSON.stringify(json));
-
                 }
             });
     };
+
     componentWillMount() {
         const distances = JSON.parse(localStorage.getItem("distances"));
         const names = [
@@ -134,6 +134,34 @@ class Store extends Component {
         this.forceUpdate();
     };
 
+    getReviews = (product) => {
+        console.log("Run getReviews");
+        const user = AuthenticationService.getCurrentUser();
+        let productID = product.productID.toString();
+        fetch("/review", {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                authorization: "Bearer " + user.accesstoken,
+            },
+            body: JSON.stringify({
+                productID: productID,
+            }),
+        })
+            .then((Response) => Response.json())
+            .then((json) => {
+                if (json.error === "TokenExpiredError") {
+                    console.log(json.error);
+                    localStorage.clear();
+                    this.props.history.push("/");
+                } else {
+                    localStorage.setItem("productReviews", JSON.stringify(json));
+                    this.props.history.push("/productreviews");
+                }
+            });
+    };
+
     convertDistance = (distance) => {
         const floatDistance = parseFloat(distance);
         const result = (floatDistance * 0.621371).toFixed(2);
@@ -152,9 +180,7 @@ class Store extends Component {
                     <ThemeProvider theme={theme}>
                         <Header />
                         <div className="search_header">
-                            <div className="store_name">
-                                {store_name.name}
-                            </div>
+                            <div className="store_name">{store_name.name}</div>
                             <div className="store_address">
                                 {store_name.address}
                             </div>
@@ -162,7 +188,10 @@ class Store extends Component {
                                 {store_name.phone}
                             </div>
                             <div className="store_distance">
-                                {this.convertDistance(storeDistances[store_name.name])}{" "}miles away
+                                {this.convertDistance(
+                                    storeDistances[store_name.name]
+                                )}{" "}
+                                miles away
                             </div>
                         </div>
 
@@ -175,6 +204,7 @@ class Store extends Component {
                                             storeDistances={storeDistances}
                                             addToCart={this.addToCart}
                                             convert={this.convertDistance}
+                                            getReviews={this.getReviews}
                                         />
                                     ))}
                                 </div>

@@ -8,6 +8,9 @@ import {
     Button,
     TextField,
 } from "@material-ui/core";
+import { Link } from "react-router-dom";
+import AddReview from "./AddReview";
+import EditIcon from "@material-ui/icons/Edit";
 
 const theme = createMuiTheme({
     palette: {
@@ -23,11 +26,19 @@ const theme = createMuiTheme({
 class OrderDetails extends Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            seePopup: false,
+        };
 
         this.backToOrderHistory = this.backToOrderHistory.bind(this);
         this.buyAgain = this.buyAgain.bind(this);
     }
+
+    togglePopup = () => {
+        this.setState({
+            seePopup: !this.state.seePopup,
+        });
+    };
 
     backToOrderHistory(event) {
         this.props.history.push("/orderhistory");
@@ -148,7 +159,23 @@ class OrderDetails extends Component {
                                     <div className="buy_again">
                                         Enjoyed this product?
                                     </div>
+                                    <div>
+                                        <Link
+                                            className="review_link"
+                                            onClick={this.togglePopup}
+                                        >
+                                            Leave a review here
+                                        </Link>
+                                        {this.state.seePopup ? (
+                                            <AddReview
+                                                toggle={this.togglePopup}
+                                                productID={product.productID}
+                                                customerID={product.customerID}
+                                            />
+                                        ) : null}
+                                    </div>
                                     <Button
+                                        className="buy_again_button"
                                         variant="contained"
                                         color="primary"
                                         // TODO ONCLICK

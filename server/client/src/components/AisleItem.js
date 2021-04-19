@@ -3,6 +3,8 @@ import "./css/Aisle.css";
 import { Button, createMuiTheme, ThemeProvider } from "@material-ui/core";
 import Rating from "@material-ui/lab/Rating";
 import Box from "@material-ui/core/Box";
+import { Link } from "react-router-dom";
+
 export default class AisleItem extends React.Component {
     constructor(props) {
         super(props);
@@ -28,15 +30,25 @@ export default class AisleItem extends React.Component {
                 </div>
                 <div className="product_details">
                     <div className="product_name">{product.productname}</div>
-                    <div>
-                        <Box align="left" component="fieldset" mb={3} borderColor="transparent">
+                    <div className="rating_container">
+                        <Box
+                            className="rating_box"
+                            component="fieldset"
+                            mb={3}
+                            borderColor="transparent"
+                        >
                             <Rating
                                 // value={5}
                                 value={product.rating}
                                 readOnly={true}
                             />
-                            <div className="totalReview">{product.numberofreviews}</div>
                         </Box>
+                        <Link onClick={() => this.props.getReviews(product)}>
+                            <div className="total_review">
+                                {product.numberofreviews}
+                                {" ratings"}
+                            </div>
+                        </Link>
                     </div>
                     <div className="product_price">${product.unitPrice}</div>
                     <div className="product_type">Type: {product.type}</div>

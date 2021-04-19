@@ -39,6 +39,8 @@ class Signup extends Component {
             street: "",
             city: "",
             zipcode: "",
+            field: {},
+            errors: {},
             // item: [],
             // isLoaded: false,
         };
@@ -60,7 +62,61 @@ class Signup extends Component {
         });
     }
 
+    handleValidation() {
+        let fields = this.state.fields;
+        let errors = {};
+        let formIsValid = true;
+
+        //Name
+        if (!fields["name"]) {
+            formIsValid = false;
+            errors["name"] = "Cannot be empty";
+        }
+
+        if (typeof fields["name"] !== "undefined") {
+            if (!fields["name"].match(/^[a-zA-Z]+$/)) {
+                formIsValid = false;
+                errors["name"] = "Only letters";
+            }
+        }
+
+        //Email
+        if (!fields["email"]) {
+            formIsValid = false;
+            errors["email"] = "Cannot be empty";
+        }
+
+        if (typeof fields["email"] !== "undefined") {
+            let lastAtPos = fields["email"].lastIndexOf("@");
+            let lastDotPos = fields["email"].lastIndexOf(".");
+
+            if (
+                !(
+                    lastAtPos < lastDotPos &&
+                    lastAtPos > 0 &&
+                    fields["email"].indexOf("@@") == -1 &&
+                    lastDotPos > 2 &&
+                    fields["email"].length - lastDotPos > 2
+                )
+            ) {
+                formIsValid = false;
+                errors["email"] = "Email is not valid";
+            }
+        }
+
+        this.setState({ errors: errors });
+        return formIsValid;
+    }
+
     register(event) {
+        event.preventDefault();
+
+        if (this.handleValidation()) {
+            alert("Form submitted");
+        } else {
+            alert("Form has errors.");
+        }
+
         const {
             firstname,
             lastname,
@@ -73,33 +129,37 @@ class Signup extends Component {
             city,
             zipcode,
         } = this.state;
-        fetch("/signup", {
-            method: "POST",
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                firstname: firstname,
-                lastname: lastname,
-                email: email,
-                phone: phone,
-                password: password,
-                number: number,
-                street: street,
-                city: city,
-                zipcode: zipcode,
-            }),
-        })
-            .then((Response) => Response.json())
-            .then((json) => {
-                if (json.message === "invalid input") {
-                    alert(json.message);
-                } else {
-                    alert("account created");
-                    this.props.history.push("/");
-                }
-            });
+        if (confirm_password !== password) {
+            alert("Passwords do not match");
+        } else {
+            fetch("/signup", {
+                method: "POST",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    firstname: firstname,
+                    lastname: lastname,
+                    email: email,
+                    phone: phone,
+                    password: password,
+                    number: number,
+                    street: street,
+                    city: city,
+                    zipcode: zipcode,
+                }),
+            })
+                .then((Response) => Response.json())
+                .then((json) => {
+                    if (json.message === "invalid input") {
+                        alert(json.message);
+                    } else {
+                        alert("account created");
+                        this.props.history.push("/");
+                    }
+                });
+        }
     }
 
     render() {
