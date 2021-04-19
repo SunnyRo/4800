@@ -2,10 +2,10 @@ const { updateRating, getRatings, getReviews, addReview } = require("./review.se
 module.exports = {
     addProductReview: (req, res) => {
         const body = req.body;
-        console.log("Add review", body);
         addReview(body, async (err, results) => {
             if (err) {
-                return res.send(err);
+                console.log(err)
+                return res.send({ message: "You already wrote a review for this product" });
             }
             if (results) {
                 getRatings(body, async (err, results) => {
@@ -33,7 +33,7 @@ module.exports = {
                         if (err) {
                             return res.send(err);
                         }
-                        return res.send({ message: 'done' })
+                        return res.send({ message: 'review successful' })
                     })
                 })
             }
