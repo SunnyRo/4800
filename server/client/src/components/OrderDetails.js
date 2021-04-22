@@ -34,7 +34,10 @@ class OrderDetails extends Component {
         this.buyAgain = this.buyAgain.bind(this);
     }
 
-    togglePopup = () => {
+    togglePopup = (product) => {
+        if(!this.state.seePopup) {
+            localStorage.setItem("product", JSON.stringify(product));
+        }
         this.setState({
             seePopup: !this.state.seePopup,
         });
@@ -42,7 +45,7 @@ class OrderDetails extends Component {
 
     backToOrderHistory(event) {
         this.props.history.push("/orderhistory");
-    }
+    };
 
     buyAgain = (product) => {
         console.log("Buy again");
@@ -160,17 +163,17 @@ class OrderDetails extends Component {
                                         Enjoyed this product?
                                     </div>
                                     <div>
-                                        <Link
+                                        <Button
+                                            color="primary"
+                                            variant="contained"
                                             className="review_link"
-                                            onClick={this.togglePopup}
+                                            onClick={() => this.togglePopup(product)}
                                         >
                                             Leave a review here
-                                        </Link>
+                                        </Button>
                                         {this.state.seePopup ? (
                                             <AddReview
                                                 toggle={this.togglePopup}
-                                                productID={product.productID}
-                                                customerID={product.customerID}
                                             />
                                         ) : null}
                                     </div>

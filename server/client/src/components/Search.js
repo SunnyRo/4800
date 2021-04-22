@@ -51,6 +51,7 @@ class Product extends Component {
         console.log("Run getReviews");
         const user = AuthenticationService.getCurrentUser();
         let productID = product.productID.toString();
+        
         fetch("/review", {
             method: "POST",
             headers: {
@@ -73,7 +74,7 @@ class Product extends Component {
                     if (json.length != 0) {
                         this.props.history.push("/productreviews");
                     } else {
-                        alert("there is no review for this product")
+                        alert("There are no reviews for this product!")
                     }
                 }
             });

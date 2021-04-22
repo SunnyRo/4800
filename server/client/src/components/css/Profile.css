@@ -166,3 +166,16 @@
 .profile__columnRight .profile_address {
     font-size: 1.5rem;
 }
+
+.line .profile__block__password {
+    padding: 10px 10px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.line .profile__block__password .edit_password {
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 500;
+}

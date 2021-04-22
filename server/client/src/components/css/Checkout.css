@@ -60,6 +60,7 @@
 .shipping_address_label {
     text-align: left;
     font-size: 1.5rem;
+    margin-left: 0.5rem;
 }
 
 .shipping_address_container .street {
@@ -108,6 +109,10 @@
 .delivery_option_radio_buttons_container .delivery_option_radio_button {
     text-align: left;
     font-size: 1.5rem;
+}
+
+.delivery_option_radio_button .delivery_option_label {
+    margin-left: 0.5rem;
 }
 
 .checkout_details_flex_container {
@@ -445,4 +450,20 @@
 Button.place_your_order {
     margin: 0.5rem;
     font-size: 1.2rem;
+}
+
+.checkout .rating_container {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+}
+
+.rating_container .rating_box {
+    border-color: transparent;
+    height: 2rem;
+}
+
+.rating_container .total_review{
+    margin-left: 1rem;
+    margin-bottom: 1.5rem;
 }

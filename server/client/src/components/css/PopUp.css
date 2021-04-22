@@ -98,6 +98,7 @@ input[type="text"]:focus {
 .label_container .first_name_input {
     height: 2rem;
     font-size: 1.5rem;
+    width: 60%;
 }
 
 .label_container .last_name {
@@ -108,6 +109,7 @@ input[type="text"]:focus {
 .label_container .last_name_input {
     height: 2rem;
     font-size: 1.5rem;
+    width: 60%;
 }
 
 .modal_content .heading {
@@ -123,6 +125,7 @@ input[type="text"]:focus {
 .label_container .phone_input {
     height: 2rem;
     font-size: 1.5rem;
+    width: 60%;
 }
 
 .label_container .email {
@@ -133,6 +136,7 @@ input[type="text"]:focus {
 .label_container .email_input {
     height: 2rem;
     font-size: 1.5rem;
+    width: 60%;
 }
 
 .label_container .street_number {
@@ -143,6 +147,7 @@ input[type="text"]:focus {
 .label_container .street_number_input {
     height: 2rem;
     font-size: 1.5rem;
+    width: 60%;
 }
 
 .label_container .street {
@@ -153,6 +158,7 @@ input[type="text"]:focus {
 .label_container .street_input {
     height: 2rem;
     font-size: 1.5rem;
+    width: 60%;
 }
 
 .label_container .city {
@@ -163,6 +169,7 @@ input[type="text"]:focus {
 .label_container .city_input {
     height: 2rem;
     font-size: 1.5rem;
+    width: 60%;
 }
 
 .label_container .zipcode {
@@ -173,6 +180,7 @@ input[type="text"]:focus {
 .label_container .zip_input {
     height: 2rem;
     font-size: 1.5rem;
+    width: 60%;
 }
 
 .modal_content .remove_heading {
@@ -192,4 +200,27 @@ input[type="text"]:focus {
     width: 5rem;
     font-size: 1.5rem;
     margin: 0.5rem;
+}
+
+.label_container .password {
+    width: 30%;
+    font-size: 1.5rem;
+    text-align: left;
+}
+
+.label_container .password_input {
+    height: 2rem;
+    margin-bottom: 1rem;
+    width: 65%;
+}
+
+.label_container .confirm_password {
+    width: 30%;
+    font-size: 1.5rem;
+}
+
+.label_container .confirm_password_input {
+    height: 2rem;
+    margin-bottom: 1rem;
+    width: 65%;
 }

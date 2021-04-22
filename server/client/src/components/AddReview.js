@@ -12,13 +12,12 @@ class AddReview extends Component {
             rating: 0,
             title: "",
             body: "",
-            productID: "",
             customerID: "",
         };
 
         this.handleChange = this.handleChange.bind(this);
         this.handleRatingChange = this.handleRatingChange.bind(this);
-        this.onClickTest = this.onClickTest.bind(this);
+        this.onClickSubmit = this.onClickSubmit.bind(this);
     }
 
     handleClick = () => {
@@ -38,7 +37,9 @@ class AddReview extends Component {
         });
     }
 
-    onClickTest() {
+    onClickSubmit() {
+        let customerID = JSON.parse(localStorage.getItem("user")).customerID;
+        let product = JSON.parse(localStorage.getItem("product"));
         let currentDate = new Date();
         let datetime =
             currentDate.getFullYear() +
@@ -51,8 +52,8 @@ class AddReview extends Component {
         console.log(this.state.title);
         console.log(this.state.body);
         console.log(datetime);
-        console.log(this.state.productID);
-        console.log(this.state.customerID);
+        console.log(JSON.parse(localStorage.getItem("productID")));
+        console.log(customerID);
 
         fetch("/review/add", {
             method: "POST",
@@ -62,8 +63,8 @@ class AddReview extends Component {
                 authorization: "Bearer " + user.accesstoken,
             },
             body: JSON.stringify({
-                customerID: this.state.customerID,
-                productID: this.state.productID,
+                customerID: customerID,
+                productID: product.productID,
                 title: this.state.title,
                 body: this.state.body,
                 datetime: datetime,
@@ -78,25 +79,11 @@ class AddReview extends Component {
                     alert(json.message);
                 }
             });
-    }
-
-    componentWillMount() {
-        // let currentDate = new Date();
-        // let currentDate =
-        //     currentDate.getFullYear() +
-        //     "-" +
-        //     (currentDate.getMonth() + 1) +
-        //     "-" +
-        //     currentDate.getDate();
-        this.setState({
-            productID: this.props.productID,
-            customerID: this.props.customerID,
-        });
+            this.props.toggle();
     }
 
     render() {
-        const productID = this.props;
-
+        const product = JSON.parse(localStorage.getItem("product"));
         return (
             <div className="modal">
                 <div className="modal_content">
@@ -104,7 +91,7 @@ class AddReview extends Component {
                         &times;
                     </span>
                     <form>
-                        <div className="heading">Add review</div>
+                        <div className="heading">{"Add review for "}{product.productname}</div>
                         <div className="rating_container">
                             <Box
                                 className="rating_box"
@@ -141,7 +128,7 @@ class AddReview extends Component {
                             />
                         </label>
                         <br />
-                        <Button onClick={this.onClickTest}>Submit</Button>
+                        <Button onClick={this.onClickSubmit}>Submit</Button>
                     </form>
                 </div>
             </div>

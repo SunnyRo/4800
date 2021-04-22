@@ -2,6 +2,8 @@ import React from "react";
 import { Button, createMuiTheme, ThemeProvider } from "@material-ui/core";
 import Rating from "@material-ui/lab/Rating";
 import Box from "@material-ui/core/Box";
+import { Link } from "react-router-dom";
+
 export default class CheckoutItem extends React.Component {
     constructor(props) {
         super(props);
@@ -31,18 +33,27 @@ export default class CheckoutItem extends React.Component {
                     <div className="product_details_name_type">
                         <div className="product_name">{product.name}</div>
                         <div className="product_type">Type: {product.type}</div>
-                        <div>
-                            <Box align="left" component="fieldset" mb={3} borderColor="transparent">
-                                <Rating
-                                    // value={5}
-                                    value={product.rating}
-                                    readOnly={true}
-                                />
-                                <div className="totalReview">{product.numberofreviews}</div>
-                            </Box>
-                        </div>
+                        <div className="rating_container">
+                        <Box
+                            className="rating_box"
+                            component="fieldset"
+                            mb={3}
+                            borderColor="transparent"
+                        >
+                            <Rating
+                                // value={5}
+                                value={product.rating}
+                                readOnly={true}
+                            />
+                        </Box>
+                        <Link onClick={() => this.props.getReviews(product)}>
+                            <div className="total_review">
+                                {product.numberofreviews}
+                                {" ratings"}
+                            </div>
+                        </Link>
                     </div>
-
+                    </div>
                     <div className="product_details_quantity">
                         <div className="product_quantity">
                             {"Quantity: "}

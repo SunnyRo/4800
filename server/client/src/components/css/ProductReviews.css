@@ -90,6 +90,15 @@
     margin-left: 1rem;
 }
 
+.review_container .by_text {
+    margin-left: 0.4rem;
+}
+
+.review_container .review_name {
+    margin-left: 0.4rem;
+    font-weight: 600;
+}
+
 .product_reviews .review_date {
     text-align: left;
     margin-left: 2rem;

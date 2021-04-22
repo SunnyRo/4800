@@ -11,6 +11,10 @@ class ProductReviews extends Component {
         this.state = {};
     }
 
+    componentWillMount() {
+        console.log("Load ProductReviews page");
+    }
+
     render() {
         const product_review = JSON.parse(
             localStorage.getItem("productReviews")
@@ -75,6 +79,10 @@ class ProductReviews extends Component {
                                 </Box>
                                 <div className="review_title">
                                     {review.title}
+                                </div>
+                                <div className="by_text">{" by"}</div>
+                                <div className="review_name">
+                                    {review.firstName}{" "}{review.lastName}
                                 </div>
                             </div>
                             <div className="review_date">
