@@ -84,8 +84,8 @@ Button.stores_carousel_button {
 
 .stores_carousel_text {
     display: flex;
-    min-width: 10vw;
-    max-width: 10vw;
+    min-width: 15vw;
+    max-width: 15vw;
     margin-left: 0;
     background-color: rgb(6, 193, 103);
     min-height: 50vh;

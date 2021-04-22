@@ -5,6 +5,7 @@ import Footer from "./Footer";
 import PopUpName from "./PopUpName";
 import PopUpPhone from "./PopUpPhone";
 import PopUpEmail from "./PopUpEmail";
+import PopUpPassword from "./PopUpPassword";
 import PopUpAddCard from "./PopUpAddCard";
 import PopUpAddAddress from "./PopUpAddAddress";
 import PopUpRemoveAddress from "./PopUpRemoveAddress";
@@ -16,6 +17,7 @@ import AddCircleIcon from "@material-ui/icons/AddCircle";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import AuthenticationService from "./Authentication";
+import { Link } from "react-router-dom";
 
 export class Profile extends Component {
     constructor(props) {
@@ -30,6 +32,7 @@ export class Profile extends Component {
             seenAddCard: false,
             seenAddAddress: false,
             seenRemoveAddress: false,
+            seenPassword: false,
         };
     }
 
@@ -111,6 +114,12 @@ export class Profile extends Component {
         });
         localStorage.setItem("clickedAddress", JSON.stringify(addressID));
     };
+
+    togglePopPassword = () => {
+        this.setState({
+            seenPassword: !this.state.seenPassword,
+        })
+    }
 
     updateName = (firstName, lastName) => {
         let profile = JSON.parse(localStorage.getItem("profile"));
@@ -256,6 +265,24 @@ export class Profile extends Component {
                                             updateStorage={this.updateEmail}
                                         />
                                     ) : null}
+                                </div>
+                            </div>
+                            <div className="line">
+                                <div className="profile__block__password">
+                                    <div className="profile__editIcon">
+                                        <Link
+                                            className="edit_password"
+                                            onClick={this.togglePopPassword}
+                                        >
+                                            Edit your password
+                                        </Link>
+                                        {this.state.seenPassword ? (
+                                            <PopUpPassword
+                                                toggle={this.togglePopPassword}
+                                                updateStorage={this.updatePassword}
+                                            />
+                                        ) : null}
+                                    </div>
                                 </div>
                             </div>
                         </div>

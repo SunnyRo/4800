@@ -142,6 +142,7 @@
 .button_div {
     width: 100%;
 }
+
 .buttons {
     display: flex;
     align-items: center;
@@ -153,6 +154,7 @@
 .button_item {
     padding: 1rem;
 }
+
 .menu_buttons {
     display: flex;
     align-items: center;
@@ -160,6 +162,7 @@
     margin: 0 20%;
     /* padding: 0 10%; */
 }
+
 .cart .quantity_input {
     width: 15%;
     height: 2rem;
@@ -185,6 +188,23 @@
     margin-left: auto;
     text-decoration: underline;
 }
+
 .fixHeader{
     height: 17rem;
+}
+
+.cart .rating_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.rating_container .rating_box {
+    border-color: transparent;
+    height: 2rem;
+}
+
+.rating_container .total_review{
+    margin-left: 1rem;
+    margin-bottom: 1.5rem;
 }

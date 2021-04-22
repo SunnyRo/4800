@@ -34,7 +34,41 @@ export default class Cart extends React.Component {
         };
         this.backtoStore = this.backtoStore.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
+        this.getReviews = this.getReviews.bind(this);
     }
+
+    getReviews = (product) => {
+        console.log("Run getReviews");
+        const user = AuthenticationService.getCurrentUser();
+        let productID = product.id.toString();
+
+        fetch("/review", {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                authorization: "Bearer " + user.accesstoken,
+            },
+            body: JSON.stringify({
+                productID: productID,
+            }),
+        })
+            .then((Response) => Response.json())
+            .then((json) => {
+                if (json.error === "TokenExpiredError") {
+                    console.log(json.error);
+                    localStorage.clear();
+                    this.props.history.push("/");
+                } else {
+                    localStorage.setItem("productReviews", JSON.stringify(json));
+                    if (json.length != 0) {
+                        this.props.history.push("/productreviews");
+                    } else {
+                        alert("There are no reviews for this product!")
+                    }
+                }
+            });
+    };
 
     handleInputChange = (event) => {
         const productID = event.currentTarget.getAttribute("productID");
@@ -156,6 +190,7 @@ export default class Cart extends React.Component {
                                             update={this.updateCart}
                                             convert={this.convertDistance}
                                             key={index}
+                                            getReviews={this.getReviews}
                                         />
                                     ))}
                                 </div>

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import "./css/Signup.css";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import render from "@testing-library/react";
@@ -14,6 +14,7 @@ import Login from "./Login";
 import AuthenticationService from "./Authentication";
 import Header from "./Header";
 import { red } from "@material-ui/core/colors";
+import validator from "validator";
 
 const theme = createMuiTheme({
     palette: {
@@ -41,12 +42,17 @@ class Signup extends Component {
             zipcode: "",
             field: {},
             errors: {},
+            password_strength: false,
             // item: [],
             // isLoaded: false,
         };
 
         this.register = this.register.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.validatePassword = this.validatePassword.bind(this);
+        this.handlePasswordChange = this.handlePasswordChange.bind(this);
+        this.handleChangeNumber = this.handleChangeNumber.bind(this);
+        this.handleChangeText = this.handleChangeText.bind(this);
     }
 
     componentDidMount() {
@@ -62,60 +68,73 @@ class Signup extends Component {
         });
     }
 
-    handleValidation() {
-        let fields = this.state.fields;
-        let errors = {};
-        let formIsValid = true;
-
-        //Name
-        if (!fields["name"]) {
-            formIsValid = false;
-            errors["name"] = "Cannot be empty";
-        }
-
-        if (typeof fields["name"] !== "undefined") {
-            if (!fields["name"].match(/^[a-zA-Z]+$/)) {
-                formIsValid = false;
-                errors["name"] = "Only letters";
-            }
-        }
-
-        //Email
-        if (!fields["email"]) {
-            formIsValid = false;
-            errors["email"] = "Cannot be empty";
-        }
-
-        if (typeof fields["email"] !== "undefined") {
-            let lastAtPos = fields["email"].lastIndexOf("@");
-            let lastDotPos = fields["email"].lastIndexOf(".");
-
-            if (
-                !(
-                    lastAtPos < lastDotPos &&
-                    lastAtPos > 0 &&
-                    fields["email"].indexOf("@@") == -1 &&
-                    lastDotPos > 2 &&
-                    fields["email"].length - lastDotPos > 2
-                )
-            ) {
-                formIsValid = false;
-                errors["email"] = "Email is not valid";
-            }
-        }
-
-        this.setState({ errors: errors });
-        return formIsValid;
+    handlePasswordChange(event) {
+        this.setState({
+            [event.target.name]: event.target.value,
+        });
+        this.validatePassword(event.target.value);
     }
+
+    validatePassword = (password) => {
+        if (
+            validator.isStrongPassword(password, {
+                minLength: 7,
+                minLowercase: 1,
+                minUppercase: 1,
+                minNumbers: 1,
+                minSymbols: 1,
+            })
+        ) {
+            this.setState({
+                password_strength: true,
+            });
+        } else {
+            this.setState({
+                password_strength: false,
+            });
+        }
+    };
+
+    handleChangeText = (event) => {
+        const re = /^[A-Za-z\s]*$/;
+
+        if (event.target.value === "" || re.test(event.target.value)) {
+            this.setState({ [event.target.name]: event.target.value });
+        } else {
+            if (event.target.name === "firstname") {
+                alert("Please enter a valid first name!");
+            } else if (event.target.name === "lastname") {
+                alert("Please enter a valid last name!");
+            } else if (event.target.name === "street") {
+                alert("Please enter a valid street!");
+            } else if (event.target.name === "city") {
+                alert("Please enter a valid city!");
+            } else {
+                alert("Please enter a valid input!");
+            }
+        }
+    };
+
+    handleChangeNumber = (event) => {
+        const re = /^[0-9\b]+$/;
+
+        if (event.target.value === "" || re.test(event.target.value)) {
+            this.setState({ [event.target.name]: event.target.value });
+        } else {
+            if (event.target.name === "phone") {
+                alert("Please enter a valid 10-digit phone number!");
+            } else if (event.target.name === "number") {
+                alert("Please enter a valid street number!");
+            } else if (event.target.name === "zipcode") {
+                alert("Please enter a valid zipcode!");
+            } else {
+                alert("Please enter a valid input!");
+            }
+        }
+    };
 
     register(event) {
         event.preventDefault();
-
-        if (this.handleValidation()) {
-            alert("Form submitted");
-        } else {
-            alert("Form has errors.");
-        }
 
         const {
             firstname,
@@ -129,36 +148,45 @@ class Signup extends Component {
             city,
             zipcode,
         } = this.state;
+        this.validatePassword(password);
         if (confirm_password !== password) {
-            alert("Passwords do not match");
+            alert("Passwords do not match! Please try again.");
         } else {
-            fetch("/signup", {
-                method: "POST",
-                headers: {
-                    Accept: "application/json",
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    firstname: firstname,
-                    lastname: lastname,
-                    email: email,
-                    phone: phone,
-                    password: password,
-                    number: number,
-                    street: street,
-                    city: city,
-                    zipcode: zipcode,
-                }),
-            })
-                .then((Response) => Response.json())
-                .then((json) => {
-                    if (json.message === "invalid input") {
-                        alert(json.message);
-                    } else {
-                        alert("account created");
-                        this.props.history.push("/");
-                    }
-                });
+            if (this.state.password_strength === true) {
+                fetch("/signup", {
+                    method: "POST",
+                    headers: {
+                        Accept: "application/json",
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        firstname: firstname,
+                        lastname: lastname,
+                        email: email,
+                        phone: phone,
+                        password: password,
+                        number: number,
+                        street: street,
+                        city: city,
+                        zipcode: zipcode,
+                    }),
+                })
+                    .then((Response) => Response.json())
+                    .then((json) => {
+                        if (json.message === "invalid input") {
+                            alert(json.message);
+                        } else {
+                            alert(
+                                "Account successfully created! You can now log in at the sign in page."
+                            );
+                            this.props.history.push("/");
+                        }
+                    });
+            } else {
+                alert(
+                    "Password is not strong enough! Please try again with at least 7 characters, one uppercase letter, one lowercase letter, one number, and one symbol."
+                );
+            }
         }
     }
 
@@ -179,7 +207,6 @@ class Signup extends Component {
                         <div className="signup_row">
                             <TextField
                                 required
-                                min="2"
                                 variant="standard"
                                 type="firstname"
                                 name="firstname"
@@ -187,7 +214,7 @@ class Signup extends Component {
                                 style={style}
                                 label="First Name"
                                 value={this.state.firstname}
-                                onChange={this.handleChange}
+                                onChange={this.handleChangeText}
                             ></TextField>
                             <TextField
                                 required
@@ -198,7 +225,7 @@ class Signup extends Component {
                                 style={style}
                                 label="Last Name"
                                 value={this.state.lastname}
-                                onChange={this.handleChange}
+                                onChange={this.handleChangeText}
                             ></TextField>
                         </div>
                         <div className="signup_row">
@@ -211,7 +238,7 @@ class Signup extends Component {
                                 color="primary"
                                 style={style}
                                 value={this.state.password}
-                                onChange={this.handleChange}
+                                onChange={this.handlePasswordChange}
                             ></TextField>
                         </div>
                         <div className="signup_row">
@@ -250,7 +277,7 @@ class Signup extends Component {
                                 style={style}
                                 label="Phone Number"
                                 value={this.state.phone}
-                                onChange={this.handleChange}
+                                onChange={this.handleChangeNumber}
                             ></TextField>
                         </div>
                         <div className="signup_row">
@@ -266,7 +293,7 @@ class Signup extends Component {
                                 style={style}
                                 label="Number"
                                 value={this.state.number}
-                                onChange={this.handleChange}
+                                onChange={this.handleChangeNumber}
                             ></TextField>
                         </div>
                         <div className="signupRow">
@@ -279,7 +306,7 @@ class Signup extends Component {
                                 style={style}
                                 label="Street"
                                 value={this.state.street}
-                                onChange={this.handleChange}
+                                onChange={this.handleChangeText}
                             ></TextField>
                         </div>
                         <div className="signupRow">
@@ -292,7 +319,7 @@ class Signup extends Component {
                                 style={style}
                                 label="City"
                                 value={this.state.city}
-                                onChange={this.handleChange}
+                                onChange={this.handleChangeText}
                             ></TextField>
                         </div>
                         <div className="signupRow">
@@ -305,7 +332,7 @@ class Signup extends Component {
                                 style={style}
                                 label="Zipcode"
                                 value={this.state.zipcode}
-                                onChange={this.handleChange}
+                                onChange={this.handleChangeNumber}
                             ></TextField>
                         </div>
                         <div className="signup_row">

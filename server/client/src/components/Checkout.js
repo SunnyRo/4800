@@ -10,7 +10,7 @@ import {
 import "./css/Checkout.css";
 import CheckoutItem from "./CheckoutItem";
 import AuthenticationService from "./Authentication";
-// google API 
+// google API
 import { DistanceMatrixService } from "@react-google-maps/api";
 import Geocode from "react-geocode";
 Geocode.enableDebug();
@@ -29,12 +29,6 @@ const theme = createMuiTheme({
         },
     },
 });
-
-const convertDistance = (distance) => {
-    const floatDistance = parseFloat(distance);
-    const result = (floatDistance * 0.621371).toFixed(2);
-    return result;
-};
 
 class Checkout extends Component {
     constructor(props) {
@@ -67,9 +61,11 @@ class Checkout extends Component {
         this.updateCart = this.updateCart.bind(this);
         this.calc_subtotal = this.calc_subtotal.bind(this);
         this.calc_delivery_fees = this.calc_delivery_fees.bind(this);
-        this.onClickTest = this.onClickTest.bind(this)
-        this.handleDeliveryRateChange = this.handleDeliveryRateChange.bind(this);
+        this.handleDeliveryRateChange = this.handleDeliveryRateChange.bind(
+            this
+        );
         this.getCoordinate = this.getCoordinate.bind(this);
+        this.getReviews = this.getReviews.bind(this);
     }
     getCoordinate = (address) => {
         Geocode.fromAddress(address).then(
@@ -108,8 +104,8 @@ class Checkout extends Component {
             },
 
         );
-
     }
+
     removeFromCart = (product) => {
         const productID = product.id;
         console.log(productID);
@@ -140,7 +136,7 @@ class Checkout extends Component {
         this.setState({ [event.target.name]: event.target.value });
         this.calc_delivery_fees();
         console.log("TEST");
-        console.log(this.state.delivery_fees);
+        console.log(this.state.delivery_rate);
     }
 
     updateCart = (product, quantity) => {
@@ -293,6 +289,42 @@ class Checkout extends Component {
                     }
                 });
         }
+    };
+
+    getReviews = (product) => {
+        console.log("Run getReviews");
+        const user = AuthenticationService.getCurrentUser();
+        let productID = product.id.toString();
+
+        fetch("/review", {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                authorization: "Bearer " + user.accesstoken,
+            },
+            body: JSON.stringify({
+                productID: productID,
+            }),
+        })
+            .then((Response) => Response.json())
+            .then((json) => {
+                if (json.error === "TokenExpiredError") {
+                    console.log(json.error);
+                    localStorage.clear();
+                    this.props.history.push("/");
+                } else {
+                    localStorage.setItem(
+                        "productReviews",
+                        JSON.stringify(json)
+                    );
+                    if (json.length != 0) {
+                        this.props.history.push("/productreviews");
+                    } else {
+                        alert("There are no reviews for this product!");
+                    }
+                }
+            });
     };
 
     componentWillMount() {
@@ -463,9 +495,12 @@ class Checkout extends Component {
                                             className="delivery_option_input"
                                             type="radio"
                                             value={0.1}
+                                            checked={this.state.delivery_rate === 0.1}
                                             id="delivery_rate"
                                             name="delivery_rate"
-                                            onChange={this.handleDeliveryRateChange}
+                                            onChange={
+                                                this.handleDeliveryRateChange
+                                            }
                                         />
                                         <label
                                             className="delivery_option_label"
@@ -479,9 +514,12 @@ class Checkout extends Component {
                                             className="delivery_option_input"
                                             type="radio"
                                             value={0.2}
+                                            checked={this.state.delivery_rate === 0.2}
                                             id="delivery_rate"
                                             name="delivery_rate"
-                                            onChange={this.handleDeliveryRateChange}
+                                            onChange={
+                                                this.handleDeliveryRateChange
+                                            }
                                         />
                                         <label
                                             className="delivery_option_label"
@@ -661,6 +699,7 @@ class Checkout extends Component {
                                     update_num_of_items={this.calc_num_of_items}
                                     update_subtotal={this.calc_subtotal}
                                     remove={this.removeFromCart}
+                                    getReviews={this.getReviews}
                                 />
                             ))}
                         </div>
@@ -672,11 +711,6 @@ class Checkout extends Component {
                         onClick={this.backtoCart}
                     >
                         Return to cart
-                    </Button>
-                    <Button
-                        onClick={this.onClickTest}
-                    >
-                        TEST
                     </Button>
                     <Footer />
                 </ThemeProvider>

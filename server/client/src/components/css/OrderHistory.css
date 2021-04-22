@@ -62,7 +62,7 @@
 }
 
 .order_history_list .order_delivery_container {
-    margin: 2rem;
+    margin-top: 2rem;
 }
 
 .order_delivery_container .order_delivery_heading {
@@ -86,6 +86,7 @@
 
 .order_history_list .payment_method_container {
     margin: 2rem;
+    margin-left: auto;
 }
 
 .payment_method_container .payment_method_heading {
@@ -99,7 +100,6 @@
 
 .order_history_list .order_id_container {
     margin: 2rem;
-    margin-left: auto;
 }
 
 .order_history_list .order_id_heading {
