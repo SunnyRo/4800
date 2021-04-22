@@ -54,30 +54,30 @@ class AddReview extends Component {
         console.log(this.state.productID);
         console.log(this.state.customerID);
 
-        fetch("/review/add", {
-            method: "POST",
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-                authorization: "Bearer " + user.accesstoken,
-            },
-            body: JSON.stringify({
-                customerID: this.state.customerID,
-                productID: this.state.productID,
-                title: this.state.title,
-                body: this.state.body,
-                datetime: datetime,
-                rating: this.state.rating,
-            }),
-        })
-            .then((Response) => Response.json())
-            .then((json) => {
-                if (json.error === "TokenExpiredError") {
-                    console.log(json.error);
-                } else {
-                    alert(json.message);
-                }
-            });
+        // fetch("/review/add", {
+        //     method: "POST",
+        //     headers: {
+        //         Accept: "application/json",
+        //         "Content-Type": "application/json",
+        //         authorization: "Bearer " + user.accesstoken,
+        //     },
+        //     body: JSON.stringify({
+        //         customerID: this.state.customerID,
+        //         productID: this.state.productID,
+        //         title: this.state.title,
+        //         body: this.state.body,
+        //         datetime: datetime,
+        //         rating: this.state.rating,
+        //     }),
+        // })
+        //     .then((Response) => Response.json())
+        //     .then((json) => {
+        //         if (json.error === "TokenExpiredError") {
+        //             console.log(json.error);
+        //         } else {
+        //             alert(json.message);
+        //         }
+        //     });
     }
 
     componentWillMount() {

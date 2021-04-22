@@ -12,6 +12,8 @@ export default class PopUpRemoveAddress extends Component {
     remove = () => {
         const user = AuthenticationService.getCurrentUser();
         let currentUser = JSON.parse(localStorage.getItem("user"));
+        const addressID = JSON.parse(localStorage.getItem("clickedAddress"));
+        console.log(addressID)
         fetch("/profile/removeaddress", {
             method: "POST",
             headers: {
@@ -20,7 +22,7 @@ export default class PopUpRemoveAddress extends Component {
                 authorization: "Bearer " + user.accesstoken,
             },
             body: JSON.stringify({
-                addressID: this.props.addressID,
+                addressID: addressID,
                 customerID: currentUser.customerID,
             }),
         })
@@ -32,12 +34,8 @@ export default class PopUpRemoveAddress extends Component {
                     this.props.history.push("/");
                 }
             });
-        this.props.updateStorage("address");
-        const profile = JSON.parse(localStorage.getItem("profile")).info[0];
-        this.setState({
-            profile: profile,
-        })
-        // this.props.history.push("/profile");
+        this.props.updateStorage(addressID, false);
+        this.props.toggle();
     };
 
     handleClick = () => {
@@ -55,21 +53,22 @@ export default class PopUpRemoveAddress extends Component {
                     <span className="close" onClick={this.handleClick}>
                         &times;
                     </span>
-                    <form>
-                        <h3 className="remove_heading">Are you sure?</h3>
-                        <button 
-                            className="yes_button"
-                            onClick={this.remove}
-                        >
-                            Yes
+                    {/* <form> */}
+                    <h3 className="remove_heading">Are you sure?</h3>
+                    <button
+                        className="yes_button"
+                        onClick={this.remove}
+                        pointerEvents="none"
+                    >
+                        Yes
                         </button>
-                        <button 
-                            className="no_button"
-                            onClick={this.backToProfile}
-                        >
-                            No
+                    <button
+                        className="no_button"
+                        onClick={this.backToProfile}
+                    >
+                        No
                         </button>
-                    </form>
+                    {/* </form> */}
                 </div>
             </div>
         );

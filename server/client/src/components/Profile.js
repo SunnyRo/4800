@@ -105,10 +105,11 @@ export class Profile extends Component {
         });
     };
 
-    togglePopRemoveAddress = () => {
+    togglePopRemoveAddress = (addressID) => {
         this.setState({
             seenRemoveAddress: !this.state.seenRemoveAddress,
         });
+        localStorage.setItem("clickedAddress", JSON.stringify(addressID));
     };
 
     updateName = (firstName, lastName) => {
@@ -136,21 +137,44 @@ export class Profile extends Component {
         localStorage.setItem("user", JSON.stringify(user));
     };
 
-    updateAddress = (address) => {
+    updateAddress = (address, logic) => {
         console.log("addAddress");
-        let profile = JSON.parse(localStorage.getItem("profile"));
-        profile.addresses.push(address);
-        localStorage.setItem("profile", JSON.stringify(profile));
-        this.props.history.push("/profile");
-    };
+        console.log(address)
+        if (logic) {
+            let profile = JSON.parse(localStorage.getItem("profile")).info[0];
+            let addresses = JSON.parse(localStorage.getItem("profile")).addresses;
+            let newProfile = {}
+            let newInfo = []
+            addresses.push(address);
+            newInfo.push(profile)
+            newProfile['info'] = newInfo;
+            newProfile['addresses'] = addresses;
+            console.log("newprofile : " + newProfile.info[0])
+            localStorage.setItem("profile", JSON.stringify(newProfile));
+            this.setState({
+                profile: profile,
+                addresses: addresses,
+            })
+        } else {
+            let array = JSON.parse(localStorage.getItem("profile")).addresses;
+            let profile = JSON.parse(localStorage.getItem("profile")).info[0];
+            const addresses = array.filter((item) => item.addressID !== address)
 
-    componentDidMount() {
-        const profile = JSON.parse(localStorage.getItem("profile")).info[0];
-        const addresses = JSON.parse(localStorage.getItem("profile")).addresses;
-        this.setState({
-            profile: profile,
-            addresses: addresses,
-        });
+            let newProfile = {}
+            let newInfo = []
+            newInfo.push(profile)
+            newProfile['info'] = newInfo;
+            newProfile['addresses'] = addresses;
+            localStorage.setItem("profile", JSON.stringify(newProfile));
+            this.setState({
+                profile: profile,
+                addresses: addresses,
+            })
+        }
+        this.forceUpdate();
+    };
+    clickedAdress = (addressID) => {
+        localStorage.setItem("clickedAdress", JSON.stringify(addressID));
     }
 
     render() {
@@ -241,7 +265,7 @@ export class Profile extends Component {
                                     Delivery Addresses
                                 </h3>
                             </div>
-                            {addresses.map((address) => (
+                            {addresses.map((address, i) => (
                                 <div className="line">
                                     <div className="profile__icon">
                                         <HomeOutlinedIcon />
@@ -257,7 +281,7 @@ export class Profile extends Component {
                                     <div className="profile__icon">
                                         <DeleteForeverIcon
                                             onClick={
-                                                this.togglePopRemoveAddress
+                                                () => this.togglePopRemoveAddress(address.addressID)
                                             }
                                         />
                                         {this.state.seenRemoveAddress ? (
@@ -265,10 +289,8 @@ export class Profile extends Component {
                                                 toggle={
                                                     this.togglePopRemoveAddress
                                                 }
-                                                updateStorage={
-                                                    this.removeAddress
-                                                }
-                                                addressID={address.addressID}
+                                                updateStorage={this.updateAddress}
+                                            // addressID={addresses[i]}
                                             />
                                         ) : null}
                                     </div>

@@ -71,64 +71,43 @@ class Checkout extends Component {
         this.handleDeliveryRateChange = this.handleDeliveryRateChange.bind(this);
         this.getCoordinate = this.getCoordinate.bind(this);
     }
-    getCoordinate = () => {
-        const userAddress = this.state.addressID;
-        console.log(userAddress)
-        Geocode.fromAddress(userAddress).then(
+    getCoordinate = (address) => {
+        Geocode.fromAddress(address).then(
             (response) => {
                 const { lat, lng } = response.results[0].geometry.location;
                 const coordinate = [`${lat},${lng}`];
                 this.setState({
                     coordinate: coordinate,
                 });
-                console.log("willmount in store.js", coordinate);
+                setTimeout(() => {
+                    const distances = JSON.parse(localStorage.getItem("distances"));
+                    const names = [
+                        "Walmart",
+                        "Whole Foods",
+                        "Trader Joe's",
+                        "Ralphs",
+                        "Vons",
+                        "Costco",
+                        "Safeway",
+                        "Albertsons",
+                    ];
+                    const storeDistances = {};
+                    console.log(distances.rows[0].elements[0].distance.text);
+                    distances.rows[0].elements.forEach((element, i) => {
+                        storeDistances[names[i]] = element.distance.text;
+                    });
+                    localStorage.setItem(
+                        "storeDistances",
+                        JSON.stringify(storeDistances)
+                    );
+                    this.setState({
+                        storeDistances: storeDistances,
+                    })
+                    this.calc_delivery_fees();
+                }, 2000);
             },
-            (error) => {
-                console.error(error);
-            }
+
         );
-        <DistanceMatrixService
-            options={{
-                destinations: [
-                    "34.079962,-117.582877",
-                    "34.136815,-117.442865",
-                    "34.081100,-117.243605",
-                    "34.023071,-117.408686",
-                    "34.004858,-117.493887",
-                    "33.922851,-117.367932",
-                    "33.941081,-117.601548",
-                    "34.114079,-117.359500",
-                ],
-                origins: this.state.coordinate,
-                travelMode: "DRIVING",
-            }}
-            callback={(response) => {
-                localStorage.setItem(
-                    "distances",
-                    JSON.stringify(response)
-                );
-            }}
-        />
-        // const distances = JSON.parse(localStorage.getItem("distances"));
-        // const names = [
-        //     "Walmart",
-        //     "Whole Foods",
-        //     "Trader Joe's",
-        //     "Ralphs",
-        //     "Vons",
-        //     "Costco",
-        //     "Safeway",
-        //     "Albertsons",
-        // ];
-        // const storeDistances = {};
-        // console.log(distances.rows[0].elements[0].distance.text);
-        // distances.rows[0].elements.forEach((element, i) => {
-        //     storeDistances[names[i]] = element.distance.text;
-        // });
-        // localStorage.setItem(
-        //     "storeDistances",
-        //     JSON.stringify(storeDistances)
-        // );
 
     }
     removeFromCart = (product) => {
@@ -198,7 +177,6 @@ class Checkout extends Component {
             subtotal: num,
         });
     };
-
     calc_delivery_fees = () => {
         var num = 0.0;
         let store_names = [];
@@ -214,10 +192,14 @@ class Checkout extends Component {
         store_names.forEach((store, i) => {
             num = num + parseFloat(storeDistances[store]) * 0.621371;
         });
+        console.log("delivery fees before", num)
         num = num * this.state.delivery_rate;
         this.setState({
             delivery_fees: num,
         });
+        console.log("calc delivery fees", storeDistances)
+        console.log('delivery fees', num)
+        this.forceUpdate();
     };
 
     convertDistance = (distance) => {
@@ -317,22 +299,42 @@ class Checkout extends Component {
         this.calc_num_of_items();
         this.calc_subtotal();
         this.calc_delivery_fees();
+        const storeDistances = JSON.parse(
+            localStorage.getItem("storeDistances")
+        );
+        this.setState({
+            storeDistances: storeDistances,
+        })
+        const userAddress = JSON.parse(localStorage.getItem("user")).fulladdress;
+        console.log(userAddress);
+        Geocode.fromAddress(userAddress).then(
+            (response) => {
+                const { lat, lng } = response.results[0].geometry.location;
+                const coordinate = [`${lat},${lng}`];
+                this.setState({
+                    coordinate: coordinate,
+                });
+                console.log("willmount in store.js", coordinate);
+            },
+            (error) => {
+                console.error(error);
+            }
+        );
     }
 
     onClickTest() {
         console.log(this.state.delivery_rate);
     }
 
-    // Place your order: print addressID, CC number, cart items from cart array, order total
 
     render() {
-        const storeDistances = JSON.parse(
-            localStorage.getItem("storeDistances")
-        );
+        // const storeDistances = JSON.parse(
+        //     localStorage.getItem("storeDistances")
+        // );
         const cartInfo = JSON.parse(localStorage.getItem("cartInfo"));
         const cart = JSON.parse(localStorage.getItem("cart"));
         const profile = JSON.parse(localStorage.getItem("profile"));
-        const { coordinate } = this.state;
+        const { coordinate, storeDistances } = this.state;
         return (
             <div className="checkout">
                 <ThemeProvider theme={theme}>
@@ -340,6 +342,7 @@ class Checkout extends Component {
                     <div className="checkout_header">
                         {"Checkout"}{" "}
                         {"(" + Object.keys(cart).length + " Items)"}
+                        {coordinate}
                     </div>
                     <div className="shipping_address_and_checkout_details_flex_container">
                         <div className="shipping_address_container">
@@ -370,15 +373,15 @@ class Checkout extends Component {
                                                 <input
                                                     className="shipping_address_input"
                                                     type="radio"
-                                                    value={address.number + ' ' + address.street + ' ' + address.city + ' ' + address.zipcode}
+                                                    // value={address.number + ' ' + address.street + ' ' + address.city + ' ' + address.zipcode}
                                                     id="shipping_address"
                                                     name="addressID"
                                                     onChange={
                                                         this.handleInputChange
                                                     }
-                                                    onClick={this.getCoordinate}
+                                                    onClick={() => this.getCoordinate(address.number + ' ' + address.street + ' ' + address.city + ' ' + address.zipcode)}
                                                 />
-                                                {/* <DistanceMatrixService
+                                                <DistanceMatrixService
                                                     options={{
                                                         destinations: [
                                                             "34.079962,-117.582877",
@@ -393,13 +396,47 @@ class Checkout extends Component {
                                                         origins: coordinate,
                                                         travelMode: "DRIVING",
                                                     }}
+                                                    // callback={(response) => {
+                                                    //     localStorage.setItem(
+                                                    //         "distances",
+                                                    //         JSON.stringify(response)
+                                                    //     );
+                                                    // }}
                                                     callback={(response) => {
+                                                        console.log("coordinate", coordinate)
                                                         localStorage.setItem(
                                                             "distances",
                                                             JSON.stringify(response)
                                                         );
+                                                        const distances = response;
+                                                        if (distances && distances.length > 0) {
+                                                            console.log(distances)
+                                                            const names = [
+                                                                "Walmart",
+                                                                "Whole Foods",
+                                                                "Trader Joe's",
+                                                                "Ralphs",
+                                                                "Vons",
+                                                                "Costco",
+                                                                "Safeway",
+                                                                "Albertsons",
+                                                            ];
+                                                            const storeDistances = {};
+                                                            console.log(distances.rows[0].elements[0].distance.text);
+                                                            distances.rows[0].elements.forEach((element, i) => {
+                                                                storeDistances[names[i]] = element.distance.text;
+                                                            });
+                                                            localStorage.setItem(
+                                                                "storeDistances",
+                                                                JSON.stringify(storeDistances)
+                                                            );
+                                                            this.setState({
+                                                                storeDistances: storeDistances,
+                                                            })
+                                                            this.calc_delivery_fees();
+                                                        }
                                                     }}
-                                                /> */}
+                                                />
                                                 <label
                                                     className="shipping_address_label"
                                                     for="shipping_address"

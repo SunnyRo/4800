@@ -74,7 +74,7 @@ module.exports = {
                 console.log("Updated refreshtoken in the database");
             });
             // send accesstoken to the request and refreshtoken to cookie
-            sendTokens(res, req, user.customerID, user.firstName, user.city, user.zipcode, refreshtoken, accesstoken);
+            sendTokens(res, req, user.customerID, user.firstName, user.number, user.street, user.city, user.zipcode, refreshtoken, accesstoken);
         })
     },
     logout: (req, res) => {

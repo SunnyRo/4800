@@ -181,13 +181,16 @@ module.exports = {
         console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
         console.log(data)
         pool.query(
-            `insert into Address(number,street,city,zipcode,customerID) VALUES(?,?,?,?,?);`,
+            `insert into Address(number,street,city,zipcode,customerID) VALUES(?,?,?,?,?);
+            select * from Address where number=? and street=?`,
             [
                 data.number,
                 data.street,
                 data.city,
                 data.zipcode,
                 data.customerID,
+                data.number,
+                data.street,
             ],
             (error, results, fields) => {
                 if (error) {
