@@ -4,6 +4,8 @@ import Rating from "@material-ui/lab/Rating";
 import Box from "@material-ui/core/Box";
 import { Button } from "@material-ui/core";
 import AuthenticationService from "./Authentication";
+import { toast } from "react-toastify"
+import 'react-toastify/dist/ReactToastify.css'
 
 class AddReview extends Component {
     constructor(props) {
@@ -76,7 +78,8 @@ class AddReview extends Component {
                 if (json.error === "TokenExpiredError") {
                     console.log(json.error);
                 } else {
-                    alert(json.message);
+                    // alert(json.message);
+                    toast.success(json.message);
                 }
             });
         this.props.toggle();

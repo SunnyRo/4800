@@ -5,6 +5,8 @@ import Header from "./Header";
 import Footer from "./Footer";
 import SearchItem from "./SearchItem";
 import { Button, createMuiTheme, ThemeProvider } from "@material-ui/core";
+import { toast } from "react-toastify"
+import 'react-toastify/dist/ReactToastify.css'
 
 const theme = createMuiTheme({
     palette: {
@@ -51,7 +53,7 @@ class Product extends Component {
         console.log("Run getReviews");
         const user = AuthenticationService.getCurrentUser();
         let productID = product.productID.toString();
-        
+
         fetch("/review", {
             method: "POST",
             headers: {
@@ -74,7 +76,8 @@ class Product extends Component {
                     if (json.length != 0) {
                         this.props.history.push("/productreviews");
                     } else {
-                        alert("There are no reviews for this product!")
+                        // alert("There are no reviews for this product!")
+                        toast.info("There are no reviews for this product!")
                     }
                 }
             });

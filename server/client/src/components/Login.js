@@ -11,6 +11,8 @@ import Img from "./images/GroceryStore.jpg";
 import Img2 from "./images/cartoondelivery.jpg";
 import Header from "./Header";
 import AuthenticationService from "./Authentication";
+import { toast } from "react-toastify"
+import 'react-toastify/dist/ReactToastify.css'
 
 const theme = createMuiTheme({
     palette: {
@@ -69,7 +71,8 @@ class Login extends Component {
             .then((json) => {
                 if (json.message) {
                     console.log(json.message);
-                    alert(json.message);
+                    // alert(json.message);
+                    toast.error(json.message);
                 } else {
                     localStorage.setItem("user", JSON.stringify(json));
                     this.props.history.push("/home/stores");

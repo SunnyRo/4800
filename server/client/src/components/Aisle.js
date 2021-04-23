@@ -5,6 +5,7 @@ import Header from "./Header";
 import Footer from "./Footer";
 import AisleItem from "./AisleItem";
 import { Button, createMuiTheme, ThemeProvider } from "@material-ui/core";
+import { toast } from "react-toastify"
 
 const theme = createMuiTheme({
     palette: {
@@ -74,7 +75,8 @@ class Aisle extends Component {
                     if (json.length != 0) {
                         this.props.history.push("/productreviews");
                     } else {
-                        alert("There are no reviews for this product!")
+                        // alert("There are no reviews for this product!")
+                        toast.info("There are no reviews for this product!")
                     }
                 }
             });

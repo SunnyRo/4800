@@ -15,6 +15,8 @@ import AuthenticationService from "./Authentication";
 import Header from "./Header";
 import { red } from "@material-ui/core/colors";
 import validator from "validator";
+import { toast } from "react-toastify"
+import 'react-toastify/dist/ReactToastify.css'
 
 const theme = createMuiTheme({
     palette: {
@@ -102,15 +104,20 @@ class Signup extends Component {
             this.setState({ [event.target.name]: event.target.value });
         } else {
             if (event.target.name === "firstname") {
-                alert("Please enter a valid first name!");
+                // alert("Please enter a valid first name!");
+                toast.error("Please enter a valid first name!");
             } else if (event.target.name === "lastname") {
-                alert("Please enter a valid last name!");
+                // alert("Please enter a valid last name!");
+                toast.error("Please enter a valid last name!");
             } else if (event.target.name === "street") {
-                alert("Please enter a valid street!");
+                // alert("Please enter a valid street!");
+                toast.error("Please enter a valid street!");
             } else if (event.target.name === "city") {
-                alert("Please enter a valid city!");
+                // alert("Please enter a valid city!");
+                toast.error("Please enter a valid city!");
             } else {
-                alert("Please enter a valid input!");
+                // alert("Please enter a valid input!");
+                toast.error("Please enter a valid input!");
             }
         }
     };
@@ -122,13 +129,17 @@ class Signup extends Component {
             this.setState({ [event.target.name]: event.target.value });
         } else {
             if (event.target.name === "phone") {
-                alert("Please enter a valid 10-digit phone number!");
+                // alert("Please enter a valid 10-digit phone number!");
+                toast.error("Please enter a valid 10-digit phone number!");
             } else if (event.target.name === "number") {
-                alert("Please enter a valid street number!");
+                // alert("Please enter a valid street number!");
+                toast.error("Please enter a valid street number!");
             } else if (event.target.name === "zipcode") {
-                alert("Please enter a valid zipcode!");
+                // alert("Please enter a valid zipcode!");
+                toast.error("Please enter a valid zipcode!");
             } else {
-                alert("Please enter a valid input!");
+                // alert("Please enter a valid input!");
+                toast.error("Please enter a valid input!");
             }
         }
     };
@@ -150,7 +161,8 @@ class Signup extends Component {
         } = this.state;
         this.validatePassword(password);
         if (confirm_password !== password) {
-            alert("Passwords do not match! Please try again.");
+            // alert("Passwords do not match! Please try again.");
+            toast.error("Passwords do not match! Please try again.");
         } else {
             if (this.state.password_strength === true) {
                 fetch("/signup", {
@@ -174,16 +186,23 @@ class Signup extends Component {
                     .then((Response) => Response.json())
                     .then((json) => {
                         if (json.message === "invalid input") {
-                            alert(json.message);
+                            // alert(json.message);
+                            toast.error(json.message);
                         } else {
-                            alert(
+                            // alert(
+                            //     "Account successfully created! You can now log in at the sign in page."
+                            // );
+                            toast.success(
                                 "Account successfully created! You can now log in at the sign in page."
                             );
                             this.props.history.push("/");
                         }
                     });
             } else {
-                alert(
+                // alert(
+                //     "Password is not strong enough! Please try again with at least 7 characters, one uppercase letter, one lowercase letter, one number, and one symbol."
+                // );
+                toast.info(
                     "Password is not strong enough! Please try again with at least 7 characters, one uppercase letter, one lowercase letter, one number, and one symbol."
                 );
             }

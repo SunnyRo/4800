@@ -8,6 +8,8 @@ import {
     TextField,
 } from "@material-ui/core";
 import "./css/Checkout.css";
+import { toast } from "react-toastify"
+import 'react-toastify/dist/ReactToastify.css'
 import CheckoutItem from "./CheckoutItem";
 import AuthenticationService from "./Authentication";
 // google API
@@ -133,7 +135,7 @@ class Checkout extends Component {
     }
 
     handleDeliveryRateChange(event) {
-        this.setState({ 
+        this.setState({
             [event.target.name]: event.target.value
         });
         this.calc_delivery_fees();
@@ -235,15 +237,18 @@ class Checkout extends Component {
         let isCorrect = true;
         // checking the inputs
         if (!cartInfo.length) {
-            alert("There is no item in cart!!!");
+            // alert("There is no item in cart!!!");
+            toast.info("There is no item in cart!!!");
             isCorrect = false;
         } else {
             if (!this.state.addressID) {
-                alert("Please choose an address");
+                // alert("Please choose an address");
+                toast.error("Please choose an address");
                 isCorrect = false;
             }
             if (this.state.cc_number.length != 16) {
-                alert("Card Number is invalid");
+                // alert("Card Number is invalid");
+                toast.error("Card Number is invalid");
                 isCorrect = false;
             }
         }
@@ -281,7 +286,8 @@ class Checkout extends Component {
                 .then((json) => {
                     if (json.error === "TokenExpiredError") {
                         console.log(json.error);
-                        alert("Order failed");
+                        // alert("Order failed");
+                        toast.error("Order failed");
                     } else {
                         this.props.history.push("/");
                         localStorage.removeItem("cart");
@@ -322,7 +328,8 @@ class Checkout extends Component {
                     if (json.length != 0) {
                         this.props.history.push("/productreviews");
                     } else {
-                        alert("There are no reviews for this product!");
+                        // alert("There are no reviews for this product!");
+                        toast.info("There are no reviews for this product!");
                     }
                 }
             });
@@ -360,9 +367,6 @@ class Checkout extends Component {
     }
 
     render() {
-        // const storeDistances = JSON.parse(
-        //     localStorage.getItem("storeDistances")
-        // );
         const cartInfo = JSON.parse(localStorage.getItem("cartInfo"));
         const cart = JSON.parse(localStorage.getItem("cart"));
         const profile = JSON.parse(localStorage.getItem("profile"));
@@ -387,13 +391,6 @@ class Checkout extends Component {
                                     {profile.info[0].firstName}{" "}
                                     {profile.info[0].lastName}
                                 </div>
-
-                                {/* <Button
-                                    className="change_button"
-                                    color="primary"
-                                >
-                                    Change
-                                </Button> */}
                             </div>
                             <div className="address_text">
                                 <form className="shipping_address_form">
@@ -406,7 +403,6 @@ class Checkout extends Component {
                                                 <input
                                                     className="shipping_address_input"
                                                     type="radio"
-                                                    // value={address.number + ' ' + address.street + ' ' + address.city + ' ' + address.zipcode}
                                                     id="shipping_address"
                                                     name="addressID"
                                                     onChange={
@@ -429,12 +425,6 @@ class Checkout extends Component {
                                                         origins: coordinate,
                                                         travelMode: "DRIVING",
                                                     }}
-                                                    // callback={(response) => {
-                                                    //     localStorage.setItem(
-                                                    //         "distances",
-                                                    //         JSON.stringify(response)
-                                                    //     );
-                                                    // }}
                                                     callback={(response) => {
                                                         console.log("coordinate", coordinate)
                                                         localStorage.setItem(

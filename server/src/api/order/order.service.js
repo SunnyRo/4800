@@ -18,7 +18,7 @@ module.exports = {
                 if (error) {
                     callBack(error);
                 }
-                return callBack(null, results);
+                return callBack(null, results[0].insertId);
             }
         );
     },
@@ -60,7 +60,7 @@ module.exports = {
     getOrders: (data, callBack) => {
         console.log("getting orders", data.customerID)
         pool.query(
-            `SELECT customerID,Orders.orderID,orderDateTime,OrderStatus.status,addressID,paymentID,amount,CCnumber FROM Orders JOIN OrderStatus ON Orders.orderStatus=OrderStatus.orderstatusID JOIN Payment ON Payment.orderID=Orders.orderID where Orders.customerID=?`,
+            `SELECT customerID,Orders.orderID,orderDateTime,OrderStatus.status,addressID,paymentID,amount,CCnumber FROM Orders JOIN OrderStatus ON Orders.orderStatus=OrderStatus.orderstatusID JOIN Payment ON Payment.orderID=Orders.orderID where Orders.customerID=? ORDER BY orderDateTime DESC`,
             // `SELECT * FROM Orders where Orders.CustomerID=?`,
             [data.customerID],
             (error, results, fields) => {

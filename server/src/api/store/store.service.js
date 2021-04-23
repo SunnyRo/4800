@@ -12,7 +12,6 @@ module.exports = {
                 if (error) {
                     callBack(error);
                 }
-                console.log(results);
                 return callBack(null, results);
             }
         );
@@ -29,7 +28,6 @@ module.exports = {
                 if (error) {
                     callBack(error);
                 }
-                console.log(results);
                 return callBack(null, results);
             }
         );
@@ -44,7 +42,6 @@ module.exports = {
                 if (error) {
                     callBack(error);
                 }
-                console.log(results);
                 return callBack(null, results);
             }
         );

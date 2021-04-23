@@ -12,29 +12,14 @@ class socket {
         });
         io.on('connection', (socket) => {
             this._socket = socket;
-            this._socket.on('statusConnetion', (data) => {
-                console.log(data)
-            });
-            this._socket.on('disconnect', function () {
-                console.log(socket.id, "disconnect socket");
-            });
-            console.log(socket.room, socket.message)
-            console.log(`New socket connection: ${socket.id}`);
         });
     }
-    sendEvent(event, data, customerID) {
-        // this._socket.emit(event, data);
-        console.log(customerID)
-        // this._socket.join(customerID);
-        this._socket.to(customerID).emit(event, data);
-        // this._socket.leave(customerID);
+    sendEvent(event, data) {
+        this._socket.emit(event, data);
     }
 
     listenEvent(event, status, customerID) {
-        this._socket.on(event, (data) => {
-            this._socket.join(data.room)
-            this.__socket.to(customerID).emit('order', status)
-        });
+        console.log('testing')
     }
 
     static init(server) {

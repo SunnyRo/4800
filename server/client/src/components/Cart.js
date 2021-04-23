@@ -6,6 +6,8 @@ import "./css/Cart.css";
 import Footer from "./Footer";
 import Header from "./Header";
 import CartItem from "./CartItem";
+import { toast } from "react-toastify"
+import 'react-toastify/dist/ReactToastify.css'
 
 const theme = createMuiTheme({
     palette: {
@@ -64,7 +66,8 @@ export default class Cart extends React.Component {
                     if (json.length != 0) {
                         this.props.history.push("/productreviews");
                     } else {
-                        alert("There are no reviews for this product!")
+                        // alert("There are no reviews for this product!")
+                        toast.info("There are no reviews for this product!")
                     }
                 }
             });

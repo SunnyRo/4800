@@ -15,25 +15,21 @@ import OrderHistory from "./components/OrderHistory";
 import OrderDetails from "./components/OrderDetails";
 import AddReview from "./components/AddReview";
 import ProductReviews from "./components/ProductReviews";
-
+import { ToastContainer, toast } from "react-toastify"
+import 'react-toastify/dist/ReactToastify.css'
+import { connect } from "./api/notification"
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      loginPage: [],
-      uploadScreen: []
-    };
+    connect((message) => {
+      toast.success(message);
+    })
   }
-
-//  componentDidMount() {
-//    localStorage.clear();
-//  }
 
   render() {
     return (
-      // <div className="page-container">
       <Router>
-        {/* <div className="content-wrap"> */}
+        <ToastContainer />
         <Switch>
           <Route exact path="/" component={Login} />
           <Route exact path="/signup" component={Signup} />
@@ -51,10 +47,7 @@ class App extends Component {
           <PrivateRoute exact path="/addreview" component={AddReview} />
           <Route exact component={Error} />
         </Switch>
-        {/* </div> */}
-        {/* <Footer /> */}
       </Router>
-      // </div>
     );
   }
 }
