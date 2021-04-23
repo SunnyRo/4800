@@ -51,7 +51,7 @@ class Checkout extends Component {
             cart: [],
             cartInfo: {},
             profile: {},
-            delivery_rate: 0.0,
+            delivery_rate: 0.1,
             coordinate: [],
         };
         this.backtoCart = this.backtoCart.bind(this);
@@ -133,10 +133,10 @@ class Checkout extends Component {
     }
 
     handleDeliveryRateChange(event) {
-        this.setState({ [event.target.name]: event.target.value });
+        this.setState({ 
+            [event.target.name]: event.target.value
+        });
         this.calc_delivery_fees();
-        console.log("TEST");
-        console.log(this.state.delivery_rate);
     }
 
     updateCart = (product, quantity) => {
@@ -173,6 +173,7 @@ class Checkout extends Component {
             subtotal: num,
         });
     };
+
     calc_delivery_fees = () => {
         var num = 0.0;
         let store_names = [];
@@ -358,7 +359,6 @@ class Checkout extends Component {
         console.log(this.state.delivery_rate);
     }
 
-
     render() {
         // const storeDistances = JSON.parse(
         //     localStorage.getItem("storeDistances")
@@ -367,6 +367,7 @@ class Checkout extends Component {
         const cart = JSON.parse(localStorage.getItem("cart"));
         const profile = JSON.parse(localStorage.getItem("profile"));
         const { coordinate, storeDistances } = this.state;
+
         return (
             <div className="checkout">
                 <ThemeProvider theme={theme}>
@@ -495,9 +496,9 @@ class Checkout extends Component {
                                             className="delivery_option_input"
                                             type="radio"
                                             value={0.1}
-                                            checked={this.state.delivery_rate === 0.1}
                                             id="delivery_rate"
                                             name="delivery_rate"
+                                            clicked={this.state.delivery_rate === 0.1}
                                             onChange={
                                                 this.handleDeliveryRateChange
                                             }
@@ -514,9 +515,9 @@ class Checkout extends Component {
                                             className="delivery_option_input"
                                             type="radio"
                                             value={0.2}
-                                            checked={this.state.delivery_rate === 0.2}
                                             id="delivery_rate"
                                             name="delivery_rate"
+                                            clicked={this.state.delivery_rate === 0.2}
                                             onChange={
                                                 this.handleDeliveryRateChange
                                             }

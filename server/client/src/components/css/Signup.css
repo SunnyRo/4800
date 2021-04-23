@@ -9,14 +9,14 @@
 
 .signup_container::after {
     content: "";
-    background: url("../images/2.jpg");
+    background: url("../images/signup-background.jpg");
     top: 0;
     left: 0;
     bottom: 0;
     right: 0;
     position: absolute;
     z-index: -1;
-    opacity: 0.45;
+    opacity: 0.3;
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
