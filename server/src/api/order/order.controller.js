@@ -13,7 +13,7 @@ module.exports = {
             console.log("result from create order", results)
             orderID = results
             console.log("orderid", orderID)
-            res.send({ message: "Order Successfully Placed and your order #" + orderID })
+            res.send({ message: "Order successfully placed and your order #" + orderID })
         });
         const orderItemsData = data.orderItem;
         setTimeout(() => {
