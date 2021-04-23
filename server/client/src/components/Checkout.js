@@ -292,7 +292,8 @@ class Checkout extends Component {
                         this.props.history.push("/");
                         localStorage.removeItem("cart");
                         localStorage.removeItem("cartInfo");
-                        alert(json.message);
+                        // alert(json.message);
+                        toast.success(json.message);
                     }
                 });
         }
@@ -354,7 +355,6 @@ class Checkout extends Component {
                 this.setState({
                     coordinate: coordinate,
                 });
-                console.log("willmount in store.js", coordinate);
             },
             (error) => {
                 console.error(error);
@@ -379,7 +379,6 @@ class Checkout extends Component {
                     <div className="checkout_header">
                         {"Checkout"}{" "}
                         {"(" + Object.keys(cart).length + " Items)"}
-                        {coordinate}
                     </div>
                     <div className="shipping_address_and_checkout_details_flex_container">
                         <div className="shipping_address_container">
