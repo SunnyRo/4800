@@ -404,6 +404,7 @@ class Checkout extends Component {
                                                     type="radio"
                                                     id="shipping_address"
                                                     name="addressID"
+                                                    value={address.number + " " + address.street + " " + address.city + " " + address.zipcode}
                                                     onChange={
                                                         this.handleInputChange
                                                     }
