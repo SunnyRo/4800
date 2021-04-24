@@ -401,6 +401,7 @@ class Checkout extends Component {
                                             <div className="address_radio_button">
                                                 <input
                                                     className="shipping_address_input"
+                                                    value={address.number + ' ' + address.street + ' ' + address.city + ' ' + address.zipcode}
                                                     type="radio"
                                                     id="shipping_address"
                                                     name="addressID"
