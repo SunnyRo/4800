@@ -1,16 +1,17 @@
 const { updateRating, getRatings, getReviews, addReview } = require("./review.service");
 module.exports = {
     addProductReview: (req, res) => {
+        console.log("Controller addProductReview")
         const body = req.body;
         addReview(body, async (err, results) => {
             if (err) {
-                console.log(err)
+                console.log('errorSQL: addReview\n', err);
                 return res.send({ message: "You already wrote a review for this product" });
             }
             if (results) {
                 getRatings(body, async (err, results) => {
                     if (err) {
-                        return res.send(err);
+                        console.log('errorSQL: getRating\n', err);
                     }
                     // return res.send(results);
                     if (results == null) {
@@ -31,7 +32,7 @@ module.exports = {
                     console.log(data)
                     updateRating(data, async (err, results) => {
                         if (err) {
-                            return res.send(err);
+                            console.log('errorSQL: updateRating\n', err);
                         }
                         return res.send({ message: 'review successful' })
                     })
@@ -41,13 +42,14 @@ module.exports = {
 
     },
     getProductReview: (req, res) => {
+        console.log("Controller getProductReview")
         const body = req.body;
         getReviews(body, async (err, results) => {
             if (err) {
-                return res.send(err);
+                console.log('errorSQL: getReviews\n', err);
+                return res.send({ error: "no review for this product" });
             }
             return res.send(results);
         })
-
     },
 };

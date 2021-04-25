@@ -1,8 +1,6 @@
 const pool = require("../../config/database");
 module.exports = {
     createUser: (data, callBack) => {
-        console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-        console.log(data)
         pool.query(
             `insert into Customer(firstName, lastName, phone, email, password) VALUES(?,?,?,?,?);
              insert into Address(number,street,city,zipcode,customerID) VALUES(?,?,?,?,LAST_INSERT_ID());`,
@@ -19,7 +17,6 @@ module.exports = {
             ],
             (error, results, fields) => {
                 if (error) {
-                    console.log("error in customer table")
                     callBack(error);
                 }
                 return callBack(null, results)
@@ -59,7 +56,6 @@ module.exports = {
         );
     },
     updateName: (data, callBack) => {
-        console.log(data)
         pool.query(
             `update Customer set firstName=?, lastName=? where email=?`,
             [
@@ -106,7 +102,6 @@ module.exports = {
         );
     },
     getUserInfo: (email, callBack) => {
-        console.log("getting info", email)
         pool.query(
             `select customerID,firstName,lastName,phone,email from Customer
              where email=?`,
@@ -120,7 +115,6 @@ module.exports = {
         );
     },
     getUserAddresses: (email, callBack) => {
-        console.log("getting addresses", email)
         pool.query(
             `select addressID,number,street,city,zipcode,Customer.customerID from Customer JOIN Address ON Customer.customerID=Address.customerID 
              where email=?`,
@@ -178,8 +172,6 @@ module.exports = {
         );
     },
     addAddress: (data, callBack) => {
-        console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-        console.log(data)
         pool.query(
             `insert into Address(number,street,city,zipcode,customerID) VALUES(?,?,?,?,?);
             select * from Address where number=? and street=?`,
@@ -194,7 +186,6 @@ module.exports = {
             ],
             (error, results, fields) => {
                 if (error) {
-                    console.log("error in address table")
                     callBack(error);
                 }
                 return callBack(null, results)
@@ -202,7 +193,6 @@ module.exports = {
         );
     },
     removeAddress: (data, callBack) => {
-        console.log("remove card in service", data)
         pool.query(
             `delete from Address where addressID=? and customerID=?`,
             [

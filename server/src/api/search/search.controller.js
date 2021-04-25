@@ -2,33 +2,31 @@ const { getProduct, getProductByType, getType } = require("./search.service");
 
 module.exports = {
     searchProduct: (req, res) => {
+        console.log("Controller searchProduct")
         const key = req.body.searchterm;
         getProduct(key, async (err, results) => {
             if (err) {
-                console.log(err)
-                res.send({ message: "error" })
+                console.log('errorSQL: getProduct\n', err);
             }
             return res.send(results);
         });
     },
     searchProductByType: (req, res) => {
+        console.log("Controller searchProductByType")
         const key = req.body;
-        console.log("right here right there")
         getProductByType(key, async (err, results) => {
             if (err) {
-                console.log(err)
-                res.send({ message: "error" })
+                console.log('errorSQL: getProductByType\n', err);
             }
             return res.send(results);
         });
     },
     Type: (req, res) => {
+        console.log("Controller Type")
         getType(async (err, results) => {
             if (err) {
-                console.log(err)
-                res.send({ message: "error" })
+                console.log('errorSQL: getType\n', err);
             }
-            console.log(results)
             return res.send(results);
         });
     },

@@ -1,18 +1,15 @@
 const { createOrderAndPayment, updateProductQuantities, createOrderItems, getOrders, getOrderDetail } = require("./order.service");
 module.exports = {
     completeOrder: (req, res) => {
-        console.log(req.body);
+        console.log("Controller completeOrder")
         const data = req.body;
         const orderData = data.Order;
         let orderID = null;
         createOrderAndPayment(orderData, (err, results) => {
             if (err) {
-                console.log(err);
-                res.send({ err });
+                console.log('errorSQL: createOrderAndPayment\n', err);
             }
-            console.log("result from create order", results)
             orderID = results
-            console.log("orderid", orderID)
             res.send({ message: "Order successfully placed and your order #" + orderID })
         });
         const orderItemsData = data.orderItem;
@@ -22,14 +19,12 @@ module.exports = {
                 console.log(orderItemsData[index])
                 createOrderItems(orderItemsData[index], (err, results) => {
                     if (err) {
-                        console.log(err);
-                        res.send({ err });
+                        console.log('errorSQL: createOrderItems\n', err);
                     }
                 });
                 updateProductQuantities(orderItemsData[index], (err, results) => {
                     if (err) {
-                        console.log(err);
-                        res.send({ err });
+                        console.log('errorSQL: updateProductQuantities\n', err);
                     }
                 });
             }
@@ -38,20 +33,22 @@ module.exports = {
         console.log("done update orderedItem")
     },
     getUserOrders: (req, res) => {
+        console.log("Controller getUserOrders")
         const body = req.body;
         getOrders(body, async (err, results) => {
             if (err) {
-                return res.send(err);
+                console.log('errorSQL: getOrders\n', err);
             }
             return res.send(results);
         })
 
     },
     getUserOrderDetail: (req, res) => {
+        console.log("Controller getUserOrderDetail")
         const body = req.body;
         getOrderDetail(body, async (err, results) => {
             if (err) {
-                return res.send(err);
+                console.log('errorSQL: getOrderDetail\n', err);
             }
             return res.send(results);
         })

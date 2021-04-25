@@ -15,7 +15,6 @@ const sendAcessToken = (res, req, accesstoken) => {
     });
 };
 const sendTokens = (res, req, id, name, number, street, city, zipcode, refreshtoken, accesstoken) => {
-    console.log('send request token');
     res.cookie('refreshtoken', refreshtoken, {
         httpOnly: true,
         path: "/refresh_token",

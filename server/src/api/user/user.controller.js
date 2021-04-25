@@ -166,7 +166,7 @@ module.exports = {
             if (err) {
                 console.log('errorSQL: addAddress\n', err)
             }
-            return res.send({ message: "added an address" });
+            return res.send(results);
         })
 
     },
