@@ -43,21 +43,6 @@ module.exports = {
             }
         );
     },
-    updatePassword: (data, callBack) => {
-        pool.query(
-            `update Customer set password=? where email=?`,
-            [
-                data.password,
-                data.user,
-            ],
-            (error, results, fields) => {
-                if (error) {
-                    callBack(error);
-                }
-                return callBack(null, results);
-            }
-        );
-    },
     updatePhone: (data, callBack) => {
         pool.query(
             `update Customer set phone=? where email=?`,
@@ -96,6 +81,21 @@ module.exports = {
             [
                 data.email,
                 data.user,
+            ],
+            (error, results, fields) => {
+                if (error) {
+                    callBack(error);
+                }
+                return callBack(null, results);
+            }
+        );
+    },
+    updatePassword: (data, callBack) => {
+        pool.query(
+            `update Customer set password=? where email=?`,
+            [
+                data.password,
+                data.email,
             ],
             (error, results, fields) => {
                 if (error) {

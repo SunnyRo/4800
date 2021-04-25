@@ -23,11 +23,7 @@ router.post("/profile/addaddress",
 
     ]
     , checkToken, addUserAddress);
-router.post("/profile/updatepassword",
-    [
-        check('password').isLength({ min: 5 }),
-    ]
-    , checkToken, updateUserPassword);
+router.post("/profile/updatepassword", checkToken, updateUserPassword);
 router.post("/profile/updatephone",
     [
         check('phone').isNumeric(),

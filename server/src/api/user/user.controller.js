@@ -111,23 +111,27 @@ module.exports = {
             });
         });
     },
-    updateUserPassword: async (req, res) => {
-        const errors = validationResult(req);
-        console.log(errors)
-        if (!errors.isEmpty()) {
-            console.log("invalid input");
-            return res.send({ error: "invalid input" });
-        }
-        const body = req.body;
-        const hashedPassword = await hash(body.password, 10);
-        body.password = hashedPassword;
-        updatePassword(body, async (err, results) => {
+    updateUserPassword: (req, res) => {
+        console.log('update password', req)
+        // check if email is already existed in the database
+        getUserByUserEmail(req.body.email, async (err, results) => {
             if (err) {
-                return res.send(err);
+                console.log(err);
+                return res.send({ message: "error" })
             }
-            return res.send(results);
+            const user = results;
+            if (user) {
+                const body = req.body;
+                const hashedPassword = await hash(body.password, 10);
+                body.password = hashedPassword;
+                updatePassword(body, async (err, results) => {
+                    if (err) {
+                        return res.send(err);
+                    }
+                    return res.send({ message: "Password changed successfully" });
+                })
+            }
         })
-
     },
     updateUserPhone: (req, res) => {
         const errors = validationResult(req);
