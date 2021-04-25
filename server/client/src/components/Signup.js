@@ -161,7 +161,6 @@ class Signup extends Component {
         } = this.state;
         this.validatePassword(password);
         if (confirm_password !== password) {
-            // alert("Passwords do not match! Please try again.");
             toast.error("Passwords do not match! Please try again.");
         } else {
             if (this.state.password_strength === true) {
@@ -185,23 +184,14 @@ class Signup extends Component {
                 })
                     .then((Response) => Response.json())
                     .then((json) => {
-                        if (json.message === "invalid input") {
-                            // alert(json.message);
-                            toast.error(json.message);
+                        if (json.error) {
+                            toast.error(json.error);
                         } else {
-                            // alert(
-                            //     "Account successfully created! You can now log in at the sign in page."
-                            // );
-                            toast.success(
-                                "Account successfully created! You can now log in at the sign in page."
-                            );
+                            toast.success(json.message);
                             this.props.history.push("/");
                         }
                     });
             } else {
-                // alert(
-                //     "Password is not strong enough! Please try again with at least 7 characters, one uppercase letter, one lowercase letter, one number, and one symbol."
-                // );
                 toast.info(
                     "Password is not strong enough! Please try again with at least 7 characters, one uppercase letter, one lowercase letter, one number, and one symbol."
                 );

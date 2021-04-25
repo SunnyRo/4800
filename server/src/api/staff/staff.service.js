@@ -35,7 +35,6 @@ module.exports = {
             process.env.MAIL_URI,
         );
         oAuth2Client.setCredentials({ refresh_token: process.env.MAIL_REFRESH_TOKEN });
-        console.log(email)
         try {
             const accessToken = await oAuth2Client.getAccessToken();
             const transport = nodemailer.createTransport({
@@ -58,7 +57,6 @@ module.exports = {
                 html: 'Message from: growceries.com' + '<br></br> Email: ' + email + '<br></br> Message: ' + 'your order is ' + status,
             };
             const result = await transport.sendMail(mailOptions);
-            console.log(result)
         } catch (error) {
             console.log(error)
         }

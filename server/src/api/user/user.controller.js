@@ -1,59 +1,45 @@
 const { removeAddress, updatePassword, updateEmail, updateName, updatePhone, createUser, updateToken, removeToken, getUserByUserEmail, getUserInfo, getUserAddresses, addAddress } = require("./user.service");
 const { createAccessToken, createRefreshToken, sendAcessToken, sendTokens } = require("../../auth/token");
-const { validationResult } = require("express-validator")
 const { verify } = require('jsonwebtoken');
 const { hash, compare } = require('bcryptjs');
 
 module.exports = {
     signup: (req, res) => {
-        // check if its valid input
-        console.log(req.body);
-        const errors = validationResult(req);
-        console.log(errors);
-        if (!errors.isEmpty()) {
-            return res.send({ message: "invalid input" });
-        }
-        // get the body of req
+        console.log("Controller signup")
         const body = req.body
         // check if email is already existed in the database
         getUserByUserEmail(body.email, async (err, results) => {
             if (err) {
-                console.log(err);
-                return res.send({ message: "error" })
+                console.log('errorSQL: getUserByuserEmail\n', err);
             }
             const user = results;
             if (user) {
                 console.log("Email already existed");
-                return res.send({ message: "Email already existed" })
+                return res.send({ error: "Email already existed" })
             }
             // Email is new then create hashpasss store all info into database
             const hashedPassword = await hash(body.password, 10);
-            console.log("hashed pass");
-            console.log(hashedPassword);
             body.password = hashedPassword;
-            console.log(body)
             createUser(body, (err, results) => {
                 if (err) {
-                    console.log(err);
-                    res.send({ err });
+                    console.log('errorSQL:\n', err);
                 }
-                return res.send({ message: "done" });
+                return res.send({ message: "Account successfully created! You can now log in at the sign in page." });
             });
         })
     },
     login: (req, res) => {
-        console.log(req.body)
+        console.log("Controller login")
         const body = req.body;
         // check if User is existed in the database
         getUserByUserEmail(body.email, async (err, results) => {
             if (err) {
-                console.log(err);
-                return res.send({ message: "error" });
+                console.log('errorSQL: getUserByUserEmail\n', err);
             }
             const user = results;
             if (!user) {
                 console.log("User does not exist");
-                return res.send({ message: "User does not exist" });
+                return res.send({ error: "User does not exist" });
             }
             // check if password is correct
             const valid = await compare(body.password, user.password);
@@ -68,22 +54,20 @@ module.exports = {
             user.refreshToken = refreshtoken;
             updateToken(user, async (err, results) => {
                 if (err) {
-                    console.log(err);
-                    return res.send({ message: "Error with update token" })
+                    console.log("errorSQL", err);
                 }
-                console.log("Updated refreshtoken in the database");
             });
             // send accesstoken to the request and refreshtoken to cookie
             sendTokens(res, req, user.customerID, user.firstName, user.number, user.street, user.city, user.zipcode, refreshtoken, accesstoken);
         })
     },
     logout: (req, res) => {
+        console.log("Controller logout")
         const userEmail = req.body.email;
         // remove refreshtoken in the database
         removeToken(userEmail, async (err, results) => {
             if (err) {
-                console.log(err)
-                res.send({ message: "error" })
+                console.log('errorSQL: removeToken\n', err)
             }
             console.log("Removed refreshtoken in the database");
         });
@@ -92,17 +76,17 @@ module.exports = {
         return res.send({ message: 'Logged out' });
     },
     getProfile: (req, res) => {
-        console.log("get profile controller")
+        console.log("Controller getProfile")
         const userEmail = req.userEmail;
         let info = {}
         let addresses = {}
         getUserInfo(userEmail, async (err, info) => {
             if (err) {
-                res.send((err));
+                console.log('errorSQL: getUserInfo\n', err)
             }
             getUserAddresses(userEmail, async (err, addresses) => {
                 if (err) {
-                    res.send((err));
+                    console.log('errorSQL: getUserAddresses\n', err)
                 }
                 return res.send({
                     info: info,
@@ -112,12 +96,10 @@ module.exports = {
         });
     },
     updateUserPassword: (req, res) => {
-        console.log('update password', req)
-        // check if email is already existed in the database
+        console.log("Controller updateUserPassword")
         getUserByUserEmail(req.body.email, async (err, results) => {
             if (err) {
-                console.log(err);
-                return res.send({ message: "error" })
+                console.log('errorSQL: getUserByUserEmail\n', err)
             }
             const user = results;
             if (user) {
@@ -126,7 +108,7 @@ module.exports = {
                 body.password = hashedPassword;
                 updatePassword(body, async (err, results) => {
                     if (err) {
-                        return res.send(err);
+                        console.log('errorSQL: updatePassword\n', err)
                     }
                     return res.send({ message: "Password changed successfully" });
                 })
@@ -134,51 +116,34 @@ module.exports = {
         })
     },
     updateUserPhone: (req, res) => {
-        const errors = validationResult(req);
-        console.log(errors)
-        if (!errors.isEmpty()) {
-            console.log("invalid input");
-            return res.send({ error: "invalid input" });
-        }
+        console.log("Controller updateUserPhone")
         const body = req.body;
         updatePhone(body, async (err, results) => {
             if (err) {
-                return res.send(err);
+                console.log('errorSQL: updateUserPhone\n', err)
             }
-            return res.send(results);
+            // return res.send(results);
+            return res.send({ message: "updated phone" });
         })
 
     },
     updateUserName: (req, res) => {
-        const errors = validationResult(req);
-        console.log(errors)
-        if (!errors.isEmpty()) {
-            console.log("invalid input");
-            return res.send({ error: "invalid input" });
-        }
+        console.log("Controller updateUserName")
         const body = req.body;
         updateName(body, async (err, results) => {
             if (err) {
-                return res.send(err);
+                console.log('errorSQL: updateUserName\n', err)
             }
-            return res.send(results);
+            return res.send({ message: "updated name" });
         })
 
     },
     updateUserEmail: (req, res) => {
-        console.log("email controller")
-        const errors = validationResult(req);
-        console.log(errors)
-        // Email is new then create hashpasss store all info into database
-        if (!errors.isEmpty()) {
-            console.log("invalid input");
-            return res.send({ error: "invalid input" });
-        }
+        console.log("Controller updateUserEmail")
         const body = req.body;
         getUserByUserEmail(body.email, async (err, results) => {
             if (err) {
-                console.log(err);
-                return res.send({ message: "error" })
+                console.log('errorSQL: updateUserName\n', err)
             }
             const user = results;
             if (user) {
@@ -187,46 +152,40 @@ module.exports = {
             }
             updateEmail(body, async (err, results) => {
                 if (err) {
-                    return res.send(err);
+                    console.log('errorSQL: updateEmail\n', err)
                 }
-                return res.send(results);
+                return res.send({ message: "updated email" });
             })
         })
 
     },
     addUserAddress: (req, res) => {
-        console.log("address controller")
-        const errors = validationResult(req);
-        console.log(errors)
-        if (!errors.isEmpty()) {
-            console.log("invalid input");
-            return res.send({ error: "invalid input" });
-        }
+        console.log("Controller addUserAddress")
         const body = req.body;
         addAddress(body, async (err, results) => {
             if (err) {
-                return res.send(err);
+                console.log('errorSQL: addAddress\n', err)
             }
-            return res.send(results);
+            return res.send({ message: "added an address" });
         })
 
     },
     removeUserAddress: (req, res) => {
+        console.log("Controller removeUserAddress")
         const body = req.body;
         removeAddress(body, async (err, results) => {
             if (err) {
-                return res.send(err);
+                console.log('errorSQL: removeAddress\n', err)
             }
-            return res.send(results);
+            return res.send({ message: "removed an address" });
         })
 
     },
     refresh_token: async (req, res) => {
+        console.log("Controller refresh_token")
         const token = req.cookies.refreshtoken;
-        // const refreshtoken = localStorage.getItem("refreshtoken")
         if (!token) {
             console.log("cookies not found on /refresh_token");
-            return res.send({ accesstoken: '' });
         }
         // check if refreshtoken is valid
         if (!token.includes(req.body.refreshtoken)) return res.sendStatus(403)

@@ -69,10 +69,8 @@ class Login extends Component {
         })
             .then((Response) => Response.json())
             .then((json) => {
-                if (json.message) {
-                    console.log(json.message);
-                    // alert(json.message);
-                    toast.error(json.message);
+                if (json.error) {
+                    toast.error(json.error);
                 } else {
                     localStorage.setItem("user", JSON.stringify(json));
                     this.props.history.push("/home/stores");

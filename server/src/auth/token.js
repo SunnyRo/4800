@@ -27,7 +27,6 @@ const sendTokens = (res, req, id, name, number, street, city, zipcode, refreshto
         name: name,
         fulladdress: number + ' ' + street + ' ' + city + ' ' + zipcode,
         address: city + ' ' + zipcode,
-
     });
 };
 module.exports = {
