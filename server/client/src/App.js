@@ -15,17 +15,12 @@ import OrderHistory from "./components/OrderHistory";
 import OrderDetails from "./components/OrderDetails";
 import AddReview from "./components/AddReview";
 import ProductReviews from "./components/ProductReviews";
-import { ToastContainer, toast } from "react-toastify"
+import { ToastContainer } from "react-toastify"
 import 'react-toastify/dist/ReactToastify.css'
-import { connect } from "./api/notification"
 class App extends Component {
   constructor(props) {
     super(props);
-    connect((message) => {
-      toast.success(message);
-    })
   }
-
   render() {
     return (
       <Router>
