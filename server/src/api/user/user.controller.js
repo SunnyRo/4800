@@ -45,7 +45,7 @@ module.exports = {
             const valid = await compare(body.password, user.password);
             if (!valid) {
                 console.log("incorrect password");
-                return res.send({ message: "incorrect password" });
+                return res.send({ error: "incorrect password" });
             }
             // create refresh and accesstoken (using email and secret to generate token)
             const accesstoken = createAccessToken(user.email);

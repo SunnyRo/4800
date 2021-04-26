@@ -15,8 +15,6 @@ module.exports = {
         const orderItemsData = data.orderItem;
         setTimeout(() => {
             for (index = 0; index < orderItemsData.length; index++) {
-                console.log(index)
-                console.log(orderItemsData[index])
                 createOrderItems(orderItemsData[index], (err, results) => {
                     if (err) {
                         console.log('errorSQL: createOrderItems\n', err);

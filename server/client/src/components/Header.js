@@ -47,8 +47,7 @@ class Header extends Component {
         })
             .then((Response) => Response.json())
             .then((json) => {
-                if (json.error === "TokenExpiredError") {
-                    console.log(json.error);
+                if (json.token) {
                     localStorage.clear();
                     this.props.history.push("/");
                 } else {
@@ -85,8 +84,7 @@ class Header extends Component {
             })
                 .then((Response) => Response.json())
                 .then((json) => {
-                    if (json.error === "TokenExpiredError") {
-                        console.log(json.error);
+                    if (json.token) {
                         localStorage.clear();
                         this.props.history.push("/");
                     } else if (json.message) {
@@ -113,8 +111,7 @@ class Header extends Component {
             })
                 .then((Response) => Response.json())
                 .then((json) => {
-                    if (json.error === "TokenExpiredError") {
-                        console.log(json.error);
+                    if (json.token) {
                         localStorage.clear();
                         this.props.history.push("/");
                     } else if (json.message) {
@@ -130,7 +127,6 @@ class Header extends Component {
     }
 
     getOrderHistory = async () => {
-        console.log("Run getOrderHistory");
         const user = AuthenticationService.getCurrentUser();
         const currentUser = JSON.parse(localStorage.getItem("user"));
         const customerID = user.customerID;
@@ -148,8 +144,7 @@ class Header extends Component {
         })
             .then((Response) => Response.json())
             .then((json) => {
-                if (json.error === "TokenExpiredError") {
-                    console.log(json.error);
+                if (json.token) {
                     localStorage.clear();
                     this.props.history.push("/");
                 }
@@ -189,7 +184,7 @@ class Header extends Component {
                             onChange={this.handleChange}
                         >
                             <option value="">&nbsp;&nbsp;&nbsp;All</option>
-                            {type.map((type) => (
+                            {type.map((type, index) => (
                                 <option value={type.type}>{type.type}</option>
                             ))}
                         </select>

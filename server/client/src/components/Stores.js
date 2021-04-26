@@ -59,8 +59,7 @@ class Stores extends Component {
             })
                 .then((Response) => Response.json())
                 .then((json) => {
-                    if (json.error === "TokenExpiredError") {
-                        console.log(json.error);
+                    if (json.token) {
                         localStorage.clear();
                         this.props.history.push("/");
                     } else {
@@ -77,8 +76,6 @@ class Stores extends Component {
 
     handleClick = (stores) => {
         const store = stores.name;
-        console.log(stores);
-        console.log("TEST");
         const user = AuthenticationService.getCurrentUser();
         if (user) {
             fetch("/home/products", {
@@ -94,8 +91,7 @@ class Stores extends Component {
             })
                 .then((Response) => Response.json())
                 .then((json) => {
-                    if (json.error === "TokenExpiredError") {
-                        console.log(json.error);
+                    if (json.token) {
                         localStorage.clear();
                         this.props.history.push("/");
                     } else {
@@ -115,7 +111,6 @@ class Stores extends Component {
     componentWillMount() {
         this.getData();
         const userAddress = JSON.parse(localStorage.getItem("user")).address;
-        console.log(userAddress);
         Geocode.fromAddress(userAddress).then(
             (response) => {
                 const { lat, lng } = response.results[0].geometry.location;
@@ -123,10 +118,10 @@ class Stores extends Component {
                 this.setState({
                     coordinate: coordinate,
                 });
-                console.log("willmount in store.js", coordinate);
             },
             (error) => {
-                console.error(error);
+                // console.error(error);
+                console.log(error);
             }
         );
     }
@@ -147,8 +142,7 @@ class Stores extends Component {
         })
             .then((Response) => Response.json())
             .then((json) => {
-                if (json.error === "TokenExpiredError") {
-                    console.log(json.error);
+                if (json.token) {
                     localStorage.clear();
                     this.props.history.push("/");
                 } else if (json.message) {
@@ -165,7 +159,7 @@ class Stores extends Component {
 
     render() {
         const { isLoaded, stores, products, coordinate } = this.state;
-        if (isLoaded) {
+        if (isLoaded && stores.length != 0) {
             return <div className="storesContainer">Loading.............</div>;
         } else {
             return (
@@ -335,7 +329,7 @@ class Stores extends Component {
                         <div className="stores_heading">Featured Stores</div>
                         <ul>
                             <div className="stores_grid_wrapper">
-                                {stores.map((stores) => (
+                                {stores.map((stores, index) => (
                                     <li className="grid_item" key={stores.id}>
                                         <Button
                                             className="store_button"
@@ -345,6 +339,7 @@ class Stores extends Component {
                                             /*href or onClick to redirect user*/
                                             value={stores.name}
                                             data-button-key={stores.name}
+                                            key={index}
                                             onClick={() =>
                                                 this.handleClick(stores)
                                             }

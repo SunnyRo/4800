@@ -171,13 +171,14 @@ class Product extends Component {
                         <div className="product_body">
                             <ul>
                                 <div className="products_grid_wrapper">
-                                    {search.map((product) => (
+                                    {search.map((product, index) => (
                                         <SearchItem
                                             product={product}
                                             storeDistances={storeDistances}
                                             addToCart={this.addToCart}
                                             convert={this.convertDistance}
                                             getReviews={this.getReviews}
+                                            key={index}
                                         />
                                     ))}
                                 </div>

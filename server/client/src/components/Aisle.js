@@ -38,7 +38,6 @@ class Aisle extends Component {
     };
 
     logout = () => {
-        console.log("trying to log out");
         AuthenticationService.signOut();
         this.props.history.push("/");
         window.location.reload();
@@ -49,7 +48,6 @@ class Aisle extends Component {
     };
 
     getReviews = (product) => {
-        console.log("Run getReviews");
         const user = AuthenticationService.getCurrentUser();
         let productID = product.productID.toString();
 
@@ -66,8 +64,7 @@ class Aisle extends Component {
         })
             .then((Response) => Response.json())
             .then((json) => {
-                if (json.error === "TokenExpiredError") {
-                    console.log(json.error);
+                if (json.token) {
                     localStorage.clear();
                     this.props.history.push("/");
                 } else {
@@ -75,7 +72,6 @@ class Aisle extends Component {
                     if (json.length != 0) {
                         this.props.history.push("/productreviews");
                     } else {
-                        // alert("There are no reviews for this product!")
                         toast.info("There are no reviews for this product!")
                     }
                 }
@@ -95,7 +91,6 @@ class Aisle extends Component {
             "Albertsons",
         ];
         const storeDistances = {};
-        console.log(distances.rows[0].elements[0].distance.text);
         distances.rows[0].elements.forEach((element, i) => {
             storeDistances[names[i]] = element.distance.text;
         });
@@ -110,7 +105,6 @@ class Aisle extends Component {
     }
 
     addToCart = (product, qty) => {
-        console.log("Add to cart");
         let cart = localStorage.getItem("cart")
             ? JSON.parse(localStorage.getItem("cart"))
             : {};
@@ -168,7 +162,7 @@ class Aisle extends Component {
                         <div className="product_body">
                             <ul>
                                 <div className="products_grid_wrapper">
-                                    {search.map((product) => (
+                                    {search.map((product, index) => (
                                         <AisleItem
                                             product={product}
                                             storeDistances={storeDistances}

@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import AuthenticationService from "./Authentication";
 import "./css/PopUp.css";
-
+import { toast } from "react-toastify"
+import 'react-toastify/dist/ReactToastify.css'
 export default class PopUpName extends Component {
     constructor(props) {
         super(props);
@@ -32,11 +33,12 @@ export default class PopUpName extends Component {
         })
             .then((Response) => Response.json())
             .then((json) => {
-                if (json.error === "TokenExpiredError") {
+                if (json.token) {
                     console.log(json.error);
                     localStorage.clear();
                     this.props.history.push("/");
                 }
+                toast.success(json.message)
             });
         this.props.updateStorage(firstName, lastName);
     };
@@ -89,7 +91,7 @@ export default class PopUpName extends Component {
                         />
                     </form>
                 </div>
-            </div>
+            </div >
         );
     }
 }

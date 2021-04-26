@@ -51,33 +51,7 @@ export class Profile extends Component {
         });
     }
 
-    refresh = () => {
-        const user = AuthenticationService.getCurrentUser();
-        const currentUser = JSON.parse(localStorage.getItem("user"));
-        fetch("/profile", {
-            method: "POST",
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-                authorization: "Bearer " + user.accesstoken,
-            },
-            body: JSON.stringify({
-                userEmail: currentUser.email,
-            }),
-        })
-            .then((Response) => Response.json())
-            .then((json) => {
-                if (json.error === "TokenExpiredError") {
-                    console.log(json.error);
-                    localStorage.clear();
-                    this.props.history.push("/");
-                } else {
-                    localStorage.setItem("profile", JSON.stringify(json));
-                    this.props.history.push("/profile");
-                }
-            });
-    };
-
+    //
     togglePopName = () => {
         this.setState({
             seenName: !this.state.seenName,
@@ -292,7 +266,7 @@ export class Profile extends Component {
                                     Delivery Addresses
                                 </h3>
                             </div>
-                            {addresses.map((address, i) => (
+                            {addresses.map((address, index) => (
                                 <div className="line">
                                     <div className="profile__icon">
                                         <HomeOutlinedIcon />
@@ -317,7 +291,7 @@ export class Profile extends Component {
                                                     this.togglePopRemoveAddress
                                                 }
                                                 updateStorage={this.updateAddress}
-                                            // addressID={addresses[i]}
+                                                key={index}
                                             />
                                         ) : null}
                                     </div>

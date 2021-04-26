@@ -45,8 +45,6 @@ class Signup extends Component {
             field: {},
             errors: {},
             password_strength: false,
-            // item: [],
-            // isLoaded: false,
         };
 
         this.register = this.register.bind(this);

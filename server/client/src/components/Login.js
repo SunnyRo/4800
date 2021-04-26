@@ -32,7 +32,6 @@ class Login extends Component {
             email: "",
             password: "",
             accesstoken: "",
-            // message: ""
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -49,8 +48,6 @@ class Login extends Component {
         const user = AuthenticationService.getCurrentUser();
         if (user) {
             this.props.history.push("/home/stores");
-            // return this.props.history.push("/home/stores")
-            // return <Redirect to='/Welcome' />
         }
     }
 
@@ -86,8 +83,7 @@ class Login extends Component {
         })
             .then((Response) => Response.json())
             .then((json) => {
-                if (json.error === "TokenExpiredError") {
-                    console.log(json.error);
+                if (json.token) {
                     localStorage.clear();
                     this.props.history.push("/");
                 } else {

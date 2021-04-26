@@ -2,7 +2,7 @@ const { sign } = require('jsonwebtoken');
 
 // Create tokens
 const createAccessToken = userEmail => {
-    return sign({ userEmail }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '30m', });
+    return sign({ userEmail }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '30min', });
 };
 const createRefreshToken = userEmail => {
     return sign({ userEmail }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '1h', });
