@@ -63,6 +63,7 @@ class Checkout extends Component {
         this.updateCart = this.updateCart.bind(this);
         this.calc_subtotal = this.calc_subtotal.bind(this);
         this.calc_delivery_fees = this.calc_delivery_fees.bind(this);
+        this.refresh = this.refresh.bind(this);
         this.handleDeliveryRateChange = this.handleDeliveryRateChange.bind(
             this
         );
@@ -78,39 +79,52 @@ class Checkout extends Component {
                     coordinate: coordinate,
                 });
                 setTimeout(() => {
-                    const distances = JSON.parse(localStorage.getItem("distances"));
-                    const names = [
-                        "Walmart",
-                        "Whole Foods",
-                        "Trader Joe's",
-                        "Ralphs",
-                        "Vons",
-                        "Costco",
-                        "Safeway",
-                        "Albertsons",
-                    ];
-                    const storeDistances = {};
-                    console.log(distances.rows[0].elements[0].distance.text);
-                    distances.rows[0].elements.forEach((element, i) => {
-                        storeDistances[names[i]] = element.distance.text;
-                    });
-                    localStorage.setItem(
-                        "storeDistances",
-                        JSON.stringify(storeDistances)
-                    );
-                    this.setState({
-                        storeDistances: storeDistances,
-                    })
-                    this.calc_delivery_fees();
-                }, 2000);
-            },
+                    this.refresh()
+                }, 1000);
+                setTimeout(() => {
+                    this.refresh()
+                }, 1000);
+                setTimeout(() => {
+                    this.refresh()
+                }, 1000);
+                setTimeout(() => {
+                    this.refresh()
+                }, 1000);
 
+            },
         );
     }
+    refresh = () => {
+        const distances = JSON.parse(localStorage.getItem("distances"));
+        if (distances) {
+            const names = [
+                "Walmart",
+                "Whole Foods",
+                "Trader Joe's",
+                "Ralphs",
+                "Vons",
+                "Costco",
+                "Safeway",
+                "Albertsons",
+            ];
+            const storeDistances = {};
+            // console.log(distances.rows[0].elements[0].distance.text);
+            distances.rows[0].elements.forEach((element, i) => {
+                storeDistances[names[i]] = element.distance.text;
+            });
+            localStorage.setItem(
+                "storeDistances",
+                JSON.stringify(storeDistances)
+            );
+            this.setState({
+                storeDistances: storeDistances,
+            })
+            this.calc_delivery_fees();
 
+        }
+    }
     removeFromCart = (product) => {
         const productID = product.id;
-        console.log(productID);
         let cart = JSON.parse(localStorage.getItem("cart"));
         let cartInfo = JSON.parse(localStorage.getItem("cartInfo"));
         const filteredItems = cartInfo.filter((item) => item.id !== productID);
@@ -144,7 +158,6 @@ class Checkout extends Component {
     updateCart = (product, quantity) => {
         let cart = JSON.parse(localStorage.getItem("cart"));
         const productID = product.id;
-        console.log(cart[productID]);
         cart[productID] = quantity;
         localStorage.setItem("cart", JSON.stringify(cart));
         this.setState({
@@ -191,13 +204,10 @@ class Checkout extends Component {
         store_names.forEach((store, i) => {
             num = num + parseFloat(storeDistances[store]) * 0.621371;
         });
-        console.log("delivery fees before", num)
         num = num * this.state.delivery_rate;
         this.setState({
             delivery_fees: num,
         });
-        console.log("calc delivery fees", storeDistances)
-        console.log('delivery fees', num)
         this.forceUpdate();
     };
 
@@ -210,7 +220,6 @@ class Checkout extends Component {
     updateCart = (product, quantity) => {
         let cart = JSON.parse(localStorage.getItem("cart"));
         const productID = product.id;
-        console.log(cart[productID]);
         cart[productID] = quantity;
         localStorage.setItem("cart", JSON.stringify(cart));
         this.setState({
@@ -267,9 +276,6 @@ class Checkout extends Component {
                 item["quantity"] = cart[product.id];
                 orderItem.push(item);
             });
-            console.log("placeOrder");
-            console.log(Order);
-            console.log(orderItem);
             fetch("/order/checkout", {
                 method: "POST",
                 headers: {
@@ -284,10 +290,9 @@ class Checkout extends Component {
             })
                 .then((Response) => Response.json())
                 .then((json) => {
-                    if (json.error === "TokenExpiredError") {
-                        console.log(json.error);
-                        // alert("Order failed");
-                        toast.error("Order failed");
+                    if (json.token) {
+                        localStorage.clear();
+                        this.props.history.push("/");
                     } else {
                         this.props.history.push("/");
                         localStorage.removeItem("cart");
@@ -300,7 +305,6 @@ class Checkout extends Component {
     };
 
     getReviews = (product) => {
-        console.log("Run getReviews");
         const user = AuthenticationService.getCurrentUser();
         let productID = product.id.toString();
 
@@ -317,8 +321,7 @@ class Checkout extends Component {
         })
             .then((Response) => Response.json())
             .then((json) => {
-                if (json.error === "TokenExpiredError") {
-                    console.log(json.error);
+                if (json.token) {
                     localStorage.clear();
                     this.props.history.push("/");
                 } else {
@@ -347,7 +350,6 @@ class Checkout extends Component {
             storeDistances: storeDistances,
         })
         const userAddress = JSON.parse(localStorage.getItem("user")).fulladdress;
-        console.log(userAddress);
         Geocode.fromAddress(userAddress).then(
             (response) => {
                 const { lat, lng } = response.results[0].geometry.location;
@@ -362,9 +364,6 @@ class Checkout extends Component {
         );
     }
 
-    onClickTest() {
-        console.log(this.state.delivery_rate);
-    }
 
     render() {
         const cartInfo = JSON.parse(localStorage.getItem("cartInfo"));
@@ -427,38 +426,10 @@ class Checkout extends Component {
                                                         travelMode: "DRIVING",
                                                     }}
                                                     callback={(response) => {
-                                                        console.log("coordinate", coordinate)
                                                         localStorage.setItem(
                                                             "distances",
                                                             JSON.stringify(response)
                                                         );
-                                                        const distances = response;
-                                                        if (distances && distances.length > 0) {
-                                                            console.log(distances)
-                                                            const names = [
-                                                                "Walmart",
-                                                                "Whole Foods",
-                                                                "Trader Joe's",
-                                                                "Ralphs",
-                                                                "Vons",
-                                                                "Costco",
-                                                                "Safeway",
-                                                                "Albertsons",
-                                                            ];
-                                                            const storeDistances = {};
-                                                            console.log(distances.rows[0].elements[0].distance.text);
-                                                            distances.rows[0].elements.forEach((element, i) => {
-                                                                storeDistances[names[i]] = element.distance.text;
-                                                            });
-                                                            localStorage.setItem(
-                                                                "storeDistances",
-                                                                JSON.stringify(storeDistances)
-                                                            );
-                                                            this.setState({
-                                                                storeDistances: storeDistances,
-                                                            })
-                                                            this.calc_delivery_fees();
-                                                        }
                                                     }}
                                                 />
                                                 <label
