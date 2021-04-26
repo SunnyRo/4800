@@ -109,7 +109,7 @@ class PreviousOrders extends Component {
                     <div className="main_heading">Your Order History</div>
                     <div className="order_card">
                         <div className="order_info_box">
-                            {order_history.map((order) => (
+                            {order_history.map((order, index) => (
                                 <li
                                     className="order_history_list"
                                     key={order.orderID}

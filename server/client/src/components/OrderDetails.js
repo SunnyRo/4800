@@ -35,7 +35,7 @@ class OrderDetails extends Component {
     }
 
     togglePopup = (product) => {
-        if(!this.state.seePopup) {
+        if (!this.state.seePopup) {
             localStorage.setItem("product", JSON.stringify(product));
         }
         this.setState({
@@ -128,7 +128,7 @@ class OrderDetails extends Component {
                         </div>
                     </div>
                     <div className="order_product_list">
-                        {order_details.map((product) => (
+                        {order_details.map((product, index) => (
                             <li className="product_list" key={product.orderID}>
                                 <div className="product_container">
                                     <img
