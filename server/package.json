@@ -5,12 +5,15 @@
   "main": "index.js",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "concurrently": "^6.0.2",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
     "create-react-app": "^4.0.3",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "express-fileupload": "^1.2.1",
     "express-validator": "^6.10.0",
+    "glob": "^7.1.6",
     "googleapis": "^72.0.0",
     "jsonwebtoken": "^8.5.1",
     "mysql": "^2.18.1",
@@ -20,7 +23,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "devStart": "nodemon index.js",
-    "start": "node index.js"
+    "start": "node index.js",
+    "server": "nodemon index.js",
+    "client": "npm start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "author": "",
   "license": "ISC"

@@ -40,6 +40,21 @@ module.exports = {
             }
         );
     },
+    updateImage: (data, callBack) => {
+        pool.query(
+            `update Customer set image=? where customerID=?`,
+            [
+                data.image,
+                data.customerID,
+            ],
+            (error, results, fields) => {
+                if (error) {
+                    callBack(error);
+                }
+                return callBack(null, results);
+            }
+        );
+    },
     updatePhone: (data, callBack) => {
         pool.query(
             `update Customer set phone=? where email=?`,

@@ -1,4 +1,4 @@
-const { removeAddress, updatePassword, updateEmail, updateName, updatePhone, createUser, updateToken, removeToken, getUserByUserEmail, getUserInfo, getUserAddresses, addAddress } = require("./user.service");
+const { updateImage, removeAddress, updatePassword, updateEmail, updateName, updatePhone, createUser, updateToken, removeToken, getUserByUserEmail, getUserInfo, getUserAddresses, addAddress } = require("./user.service");
 const { createAccessToken, createRefreshToken, sendAcessToken, sendTokens } = require("../../auth/token");
 const { verify } = require('jsonwebtoken');
 const { hash, compare } = require('bcryptjs');
@@ -58,7 +58,7 @@ module.exports = {
                 }
             });
             // send accesstoken to the request and refreshtoken to cookie
-            sendTokens(res, req, user.customerID, user.firstName, user.number, user.street, user.city, user.zipcode, refreshtoken, accesstoken);
+            sendTokens(res, req, user.image, user.customerID, user.firstName, user.number, user.street, user.city, user.zipcode, refreshtoken, accesstoken);
         })
     },
     logout: (req, res) => {
@@ -126,6 +126,50 @@ module.exports = {
             return res.send({ message: "updated phone" });
         })
 
+    },
+    updateUserImage: (req, res) => {
+        console.log("Controller updateUserImage")
+        if (req.files === null) {
+            return res.status(400).json({ error: 'No file uploaded' });
+        }
+        const file = req.files.file;
+        const check = "./client/public/uploads/" + file.name
+        const name = 'customerID' + '_' + req.body.customerID + '_' + file.name
+        const fs = require('fs');
+        const glob = require('glob');
+        glob("./client/public/uploads/" + 'customerID' + '_' + req.body.customerID + '_' + '*', function (er, files) {
+            files.map((name) => {
+                fs.unlink(name, (err) => {
+                    if (err) {
+                        console.log(err)
+                    }
+                })
+            })
+        })
+
+        fs.promises.access(check)
+            .then(() => {
+                return res.send({ fileName: name, filePath: `/uploads/${name}` });
+            })
+            .catch(() => {
+                file.mv(`./client/public/uploads/${file.name}`, err => {
+                    if (err) {
+                        console.error(err);
+                    }
+                    fs.rename('./client/public/uploads/' + file.name, './client/public/uploads/' + name, () => {
+                        console.log("renamed file")
+                    })
+                    let data = {}
+                    data['customerID'] = req.body.customerID;
+                    data['image'] = name
+                    updateImage(data, async (err, results) => {
+                        if (err) {
+                            console.log('errorSQL: updateImage\n', err)
+                        }
+                        return res.send({ fileName: name, filePath: `/uploads/${name}` });
+                    })
+                });
+            });
     },
     updateUserName: (req, res) => {
         console.log("Controller updateUserName")

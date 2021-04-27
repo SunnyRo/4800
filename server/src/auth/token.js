@@ -14,7 +14,7 @@ const sendAcessToken = (res, req, accesstoken) => {
         email: req.body.email,
     });
 };
-const sendTokens = (res, req, id, name, number, street, city, zipcode, refreshtoken, accesstoken) => {
+const sendTokens = (res, req, image, id, name, number, street, city, zipcode, refreshtoken, accesstoken) => {
     res.cookie('refreshtoken', refreshtoken, {
         httpOnly: true,
         path: "/refresh_token",
@@ -26,6 +26,7 @@ const sendTokens = (res, req, id, name, number, street, city, zipcode, refreshto
         name: name,
         fulladdress: number + ' ' + street + ' ' + city + ' ' + zipcode,
         address: city + ' ' + zipcode,
+        image: '/uploads/' + image
     });
 };
 module.exports = {

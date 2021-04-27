@@ -18,7 +18,9 @@ import EditIcon from "@material-ui/icons/Edit";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import AuthenticationService from "./Authentication";
 import { Link } from "react-router-dom";
-
+import { toast } from "react-toastify"
+import 'react-toastify/dist/ReactToastify.css'
+import axios from 'axios'
 export class Profile extends Component {
     constructor(props) {
         super(props);
@@ -33,16 +35,23 @@ export class Profile extends Component {
             seenAddAddress: false,
             seenRemoveAddress: false,
             seenPassword: false,
+            image: null,
+            imagePath: null,
+            imageName: null,
         };
     }
 
     componentWillMount() {
         const profile = JSON.parse(localStorage.getItem("profile")).info[0];
         const addresses = JSON.parse(localStorage.getItem("profile")).addresses;
+        const user = JSON.parse(localStorage.getItem("user"));
+        console.log(user.image)
         this.setState({
             profile: profile,
             addresses: addresses,
+            imagePath: user.image
         });
+        this.forceUpdate();
     }
 
     handleChange(event) {
@@ -159,9 +168,27 @@ export class Profile extends Component {
     clickedAdress = (addressID) => {
         localStorage.setItem("clickedAdress", JSON.stringify(addressID));
     }
+    updateImage = async e => {
+        console.log(e.target.files[0])
+        const user = AuthenticationService.getCurrentUser();
+        const formData = new FormData();
+        formData.append('file', e.target.files[0]);
+        formData.append('customerID', user.customerID);
+        const res = await axios.post("/profile/updateimage", formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            },
+        });
+        console.log(res.data)
+        this.setState({
+            imageName: res.data.fileName,
+            imagePath: res.data.filePath,
+        })
+    };
+
 
     render() {
-        const { addresses, profile } = this.state;
+        const { addresses, profile, image, imageName, imagePath } = this.state;
         return (
             <div>
                 <Header />
@@ -178,7 +205,10 @@ export class Profile extends Component {
                                     My Account
                                 </h3>
                             </div>
-                            <div className="profile__image"></div>
+                            <input class="upload" type="file" onChange={this.updateImage} />
+                            <div className="profile__image">
+                                <img className="profile__image" style={{ width: '100%' }} src={imagePath} alt='' />
+                            </div>
                             <div className="line">
                                 <div className="profile__icon">
                                     <EmojiEmotionsIcon />
