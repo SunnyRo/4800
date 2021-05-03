@@ -66,6 +66,17 @@ class ProductReviews extends Component {
                     {product_review.map((review) => (
                         <li className="ratings_list" key={review.id}>
                             <div className="review_container">
+                                <div className="review_photo">
+                                    <img
+                                        className="review_photo"
+                                        src={review.image}
+                                    />
+                                </div>
+                                <div className="review_name">
+                                    {review.firstName} {review.lastName}
+                                </div>
+                            </div>
+                            <div className="rating_title_container">
                                 <Box
                                     className="rating_box"
                                     component="fieldset"
@@ -80,13 +91,10 @@ class ProductReviews extends Component {
                                 <div className="review_title">
                                     {review.title}
                                 </div>
-                                <div className="by_text">{" by"}</div>
-                                <div className="review_name">
-                                    {review.firstName}{" "}{review.lastName}
-                                </div>
                             </div>
                             <div className="review_date">
-                                {"Reviewed on "}{review.datetime.slice(0, 10)}
+                                {"Reviewed on "}
+                                {review.datetime.slice(0, 10)}
                             </div>
                             <div className="review_body">{review.body}</div>
                         </li>

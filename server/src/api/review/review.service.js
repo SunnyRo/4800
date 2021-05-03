@@ -2,7 +2,7 @@ const pool = require("../../config/database");
 module.exports = {
     getReviews: (data, callBack) => {
         pool.query(
-            `SELECT firstName,lastName,Product.numberofreviews,Product.rating as averageRating, Product.photo,Product.name as productname, Store.name as storename,title,body,Review.rating,Review.datetime as datetime FROM Review JOIN OrderItem ON Review.orderitemID=OrderItem.orderitemID JOIN Product ON OrderItem.productID=Product.productID JOIN Store ON Product.storeID=Store.storeID JOIN Orders ON OrderItem.orderID=Orders.orderID JOIN Customer ON Orders.customerID=Customer.customerID where OrderItem.productID=?`,
+            `SELECT firstName,lastName,image,Product.numberofreviews,Product.rating as averageRating, Product.photo,Product.name as productname, Store.name as storename,title,body,Review.rating,Review.datetime as datetime FROM Review JOIN OrderItem ON Review.orderitemID=OrderItem.orderitemID JOIN Product ON OrderItem.productID=Product.productID JOIN Store ON Product.storeID=Store.storeID JOIN Orders ON OrderItem.orderID=Orders.orderID JOIN Customer ON Orders.customerID=Customer.customerID where OrderItem.productID=?`,
             [data.productID],
             (error, results, fields) => {
                 if (error) {

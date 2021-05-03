@@ -133,11 +133,11 @@ module.exports = {
             return res.status(400).json({ error: 'No file uploaded' });
         }
         const file = req.files.file;
-        const check = "./client/public/uploads/" + file.name
+        const check = "./client/public/" + file.name
         const name = 'customerID' + '_' + req.body.customerID + '_' + file.name
         const fs = require('fs');
         const glob = require('glob');
-        glob("./client/public/uploads/" + 'customerID' + '_' + req.body.customerID + '_' + '*', function (er, files) {
+        glob("./client/public/" + 'customerID' + '_' + req.body.customerID + '_' + '*', function (er, files) {
             files.map((name) => {
                 fs.unlink(name, (err) => {
                     if (err) {
@@ -149,14 +149,14 @@ module.exports = {
 
         fs.promises.access(check)
             .then(() => {
-                return res.send({ fileName: name, filePath: `/uploads/${name}` });
+                return res.send({ fileName: name, filePath: `/${name}` });
             })
             .catch(() => {
-                file.mv(`./client/public/uploads/${file.name}`, err => {
+                file.mv(`./client/public/${file.name}`, err => {
                     if (err) {
                         console.error(err);
                     }
-                    fs.rename('./client/public/uploads/' + file.name, './client/public/uploads/' + name, () => {
+                    fs.rename('./client/public/' + file.name, './client/public/' + name, () => {
                         console.log("renamed file")
                     })
                     let data = {}
@@ -166,7 +166,7 @@ module.exports = {
                         if (err) {
                             console.log('errorSQL: updateImage\n', err)
                         }
-                        return res.send({ fileName: name, filePath: `/uploads/${name}` });
+                        return res.send({ fileName: name, filePath: `/${name}` });
                     })
                 });
             });
