@@ -18,9 +18,11 @@ import EditIcon from "@material-ui/icons/Edit";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import AuthenticationService from "./Authentication";
 import { Link } from "react-router-dom";
-import { toast } from "react-toastify"
-import 'react-toastify/dist/ReactToastify.css'
-import axios from 'axios'
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import axios from "axios";
+import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
+
 export class Profile extends Component {
     constructor(props) {
         super(props);
@@ -45,11 +47,11 @@ export class Profile extends Component {
         const profile = JSON.parse(localStorage.getItem("profile")).info[0];
         const addresses = JSON.parse(localStorage.getItem("profile")).addresses;
         const user = JSON.parse(localStorage.getItem("user"));
-        console.log(user.image)
+        console.log(user.image);
         this.setState({
             profile: profile,
             addresses: addresses,
-            imagePath: user.image
+            imagePath: user.image,
         });
         this.forceUpdate();
     }
@@ -60,7 +62,6 @@ export class Profile extends Component {
         });
     }
 
-    //
     togglePopName = () => {
         this.setState({
             seenName: !this.state.seenName,
@@ -101,8 +102,8 @@ export class Profile extends Component {
     togglePopPassword = () => {
         this.setState({
             seenPassword: !this.state.seenPassword,
-        })
-    }
+        });
+    };
 
     updateName = (firstName, lastName) => {
         let profile = JSON.parse(localStorage.getItem("profile"));
@@ -131,64 +132,69 @@ export class Profile extends Component {
 
     updateAddress = (address, logic) => {
         console.log("addAddress");
-        console.log(address)
+        console.log(address);
         if (logic) {
             let profile = JSON.parse(localStorage.getItem("profile")).info[0];
-            let addresses = JSON.parse(localStorage.getItem("profile")).addresses;
-            let newProfile = {}
-            let newInfo = []
+            let addresses = JSON.parse(localStorage.getItem("profile"))
+                .addresses;
+            let newProfile = {};
+            let newInfo = [];
             addresses.push(address);
-            newInfo.push(profile)
-            newProfile['info'] = newInfo;
-            newProfile['addresses'] = addresses;
-            console.log("newprofile : " + newProfile.info[0])
+            newInfo.push(profile);
+            newProfile["info"] = newInfo;
+            newProfile["addresses"] = addresses;
+            console.log("newprofile : " + newProfile.info[0]);
             localStorage.setItem("profile", JSON.stringify(newProfile));
             this.setState({
                 profile: profile,
                 addresses: addresses,
-            })
+            });
         } else {
             let array = JSON.parse(localStorage.getItem("profile")).addresses;
             let profile = JSON.parse(localStorage.getItem("profile")).info[0];
-            const addresses = array.filter((item) => item.addressID !== address)
+            const addresses = array.filter(
+                (item) => item.addressID !== address
+            );
 
-            let newProfile = {}
-            let newInfo = []
-            newInfo.push(profile)
-            newProfile['info'] = newInfo;
-            newProfile['addresses'] = addresses;
+            let newProfile = {};
+            let newInfo = [];
+            newInfo.push(profile);
+            newProfile["info"] = newInfo;
+            newProfile["addresses"] = addresses;
             localStorage.setItem("profile", JSON.stringify(newProfile));
             this.setState({
                 profile: profile,
                 addresses: addresses,
-            })
+            });
         }
         this.forceUpdate();
     };
+
     clickedAdress = (addressID) => {
         localStorage.setItem("clickedAdress", JSON.stringify(addressID));
-    }
-    updateImage = async e => {
-        console.log(e.target.files[0])
+    };
+
+    updateImage = async (e) => {
+        console.log(e.target.files[0]);
         const user = AuthenticationService.getCurrentUser();
         const formData = new FormData();
-        formData.append('file', e.target.files[0]);
-        formData.append('customerID', user.customerID);
+        formData.append("file", e.target.files[0]);
+        formData.append("customerID", user.customerID);
         const res = await axios.post("/profile/updateimage", formData, {
             headers: {
-                'Content-Type': 'multipart/form-data'
+                "Content-Type": "multipart/form-data",
             },
         });
-        console.log(res.data)
+        console.log(res.data);
         this.setState({
             imageName: res.data.fileName,
             imagePath: res.data.filePath,
-        })
+        });
     };
-
 
     render() {
         const { addresses, profile, image, imageName, imagePath } = this.state;
+
         return (
             <div>
                 <Header />
@@ -205,9 +211,25 @@ export class Profile extends Component {
                                     My Account
                                 </h3>
                             </div>
-                            <input class="upload" type="file" onChange={this.updateImage} />
-                            <div className="profile__image">
-                                <img className="profile__image" style={{ width: '100%' }} src={imagePath} alt='' />
+                            <label
+                                for="image_upload"
+                                class="image__upload__label"
+                            >
+                                <AddCircleOutlineIcon/>
+                            </label>
+                            <input
+                                class="upload"
+                                id="image_upload"
+                                type="file"
+                                onChange={this.updateImage}
+                            />
+                            <div className="profile__image__container">
+                                <img
+                                    className="profile__image"
+                                    style={{ width: "100%" }}
+                                    src={imagePath}
+                                    alt=""
+                                />
                             </div>
                             <div className="line">
                                 <div className="profile__icon">
@@ -283,7 +305,9 @@ export class Profile extends Component {
                                         {this.state.seenPassword ? (
                                             <PopUpPassword
                                                 toggle={this.togglePopPassword}
-                                                updateStorage={this.updatePassword}
+                                                updateStorage={
+                                                    this.updatePassword
+                                                }
                                             />
                                         ) : null}
                                     </div>
@@ -311,8 +335,10 @@ export class Profile extends Component {
                                     </div>
                                     <div className="profile__icon">
                                         <DeleteForeverIcon
-                                            onClick={
-                                                () => this.togglePopRemoveAddress(address.addressID)
+                                            onClick={() =>
+                                                this.togglePopRemoveAddress(
+                                                    address.addressID
+                                                )
                                             }
                                         />
                                         {this.state.seenRemoveAddress ? (
@@ -320,7 +346,9 @@ export class Profile extends Component {
                                                 toggle={
                                                     this.togglePopRemoveAddress
                                                 }
-                                                updateStorage={this.updateAddress}
+                                                updateStorage={
+                                                    this.updateAddress
+                                                }
                                                 key={index}
                                             />
                                         ) : null}

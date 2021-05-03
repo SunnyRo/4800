@@ -1,7 +1,5 @@
 import React, { Component, useState } from "react";
 import "./css/Signup.css";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import render from "@testing-library/react";
 import {
     createMuiTheme,
     ThemeProvider,
@@ -9,14 +7,11 @@ import {
     TextField,
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
-import { Form } from "reactstrap";
-import Login from "./Login";
 import AuthenticationService from "./Authentication";
 import Header from "./Header";
-import { red } from "@material-ui/core/colors";
 import validator from "validator";
-import { toast } from "react-toastify"
-import 'react-toastify/dist/ReactToastify.css'
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const theme = createMuiTheme({
     palette: {
@@ -51,8 +46,6 @@ class Signup extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.validatePassword = this.validatePassword.bind(this);
         this.handlePasswordChange = this.handlePasswordChange.bind(this);
-        this.handleChangeNumber = this.handleChangeNumber.bind(this);
-        this.handleChangeText = this.handleChangeText.bind(this);
     }
 
     componentDidMount() {
@@ -95,55 +88,13 @@ class Signup extends Component {
         }
     };
 
-    handleChangeText = (event) => {
-        const re = /^[A-Za-z\s]*$/;
-
-        if (event.target.value === "" || re.test(event.target.value)) {
-            this.setState({ [event.target.name]: event.target.value });
-        } else {
-            if (event.target.name === "firstname") {
-                // alert("Please enter a valid first name!");
-                toast.error("Please enter a valid first name!");
-            } else if (event.target.name === "lastname") {
-                // alert("Please enter a valid last name!");
-                toast.error("Please enter a valid last name!");
-            } else if (event.target.name === "street") {
-                // alert("Please enter a valid street!");
-                toast.error("Please enter a valid street!");
-            } else if (event.target.name === "city") {
-                // alert("Please enter a valid city!");
-                toast.error("Please enter a valid city!");
-            } else {
-                // alert("Please enter a valid input!");
-                toast.error("Please enter a valid input!");
-            }
-        }
-    };
-
-    handleChangeNumber = (event) => {
-        const re = /^[0-9\b]+$/;
-
-        if (event.target.value === "" || re.test(event.target.value)) {
-            this.setState({ [event.target.name]: event.target.value });
-        } else {
-            if (event.target.name === "phone") {
-                // alert("Please enter a valid 10-digit phone number!");
-                toast.error("Please enter a valid 10-digit phone number!");
-            } else if (event.target.name === "number") {
-                // alert("Please enter a valid street number!");
-                toast.error("Please enter a valid street number!");
-            } else if (event.target.name === "zipcode") {
-                // alert("Please enter a valid zipcode!");
-                toast.error("Please enter a valid zipcode!");
-            } else {
-                // alert("Please enter a valid input!");
-                toast.error("Please enter a valid input!");
-            }
-        }
-    };
-
     register(event) {
         event.preventDefault();
+        // Regex to test for string input
+        const string_re = /^[A-Za-z\s]*$/;
+
+        // Regex to test for number input
+        const number_re = /^[0-9\b]+$/;
 
         const {
             firstname,
@@ -157,43 +108,88 @@ class Signup extends Component {
             city,
             zipcode,
         } = this.state;
-        this.validatePassword(password);
-        if (confirm_password !== password) {
-            toast.error("Passwords do not match! Please try again.");
-        } else {
-            if (this.state.password_strength === true) {
-                fetch("/signup", {
-                    method: "POST",
-                    headers: {
-                        Accept: "application/json",
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        firstname: firstname,
-                        lastname: lastname,
-                        email: email,
-                        phone: phone,
-                        password: password,
-                        number: number,
-                        street: street,
-                        city: city,
-                        zipcode: zipcode,
-                    }),
-                })
-                    .then((Response) => Response.json())
-                    .then((json) => {
-                        if (json.error) {
-                            toast.error(json.error);
+
+        if (string_re.test(this.state.firstname)) {
+            if (string_re.test(this.state.lastname)) {
+                if (string_re.test(this.state.street)) {
+                    if (string_re.test(this.state.city)) {
+                        if (number_re.test(this.state.phone)) {
+                            if (number_re.test(this.state.number)) {
+                                if (number_re.test(this.state.zipcode)) {
+                                    if (!(this.state.phone.length == 10)) {
+                                        toast.error(
+                                            "Please enter a valid phone number!"
+                                        );
+                                    } else {
+                                        this.validatePassword(password);
+                                        if (confirm_password !== password) {
+                                            toast.error(
+                                                "Passwords do not match! Please try again."
+                                            );
+                                        } else {
+                                            if (this.state.password_strength ===true) 
+                                            {
+                                                fetch("/signup", {
+                                                    method: "POST",
+                                                    headers: {
+                                                        Accept: "application/json",
+                                                        "Content-Type": "application/json",
+                                                    },
+                                                    body: JSON.stringify({
+                                                        firstname: firstname,
+                                                        lastname: lastname,
+                                                        email: email,
+                                                        phone: phone,
+                                                        password: password,
+                                                        number: number,
+                                                        street: street,
+                                                        city: city,
+                                                        zipcode: zipcode,
+                                                    }),
+                                                })
+                                                    .then((Response) =>
+                                                        Response.json()
+                                                    )
+                                                    .then((json) => {
+                                                        if (json.error) {
+                                                            toast.error(json.error);
+                                                        } else {
+                                                            toast.success(json.message);
+                                                            this.props.history.push("/");
+                                                        }
+                                                    });
+                                                toast.success("Success!");
+                                            } else {
+                                                toast.info(
+                                                    "Password is not strong enough! Please try again with at least 7 characters, one uppercase letter, one lowercase letter, one number, and one symbol."
+                                                );
+                                            }
+                                        }
+                                    }
+                                } else {
+                                    toast.error(
+                                        "Please enter a valid zipcode!"
+                                    );
+                                }
+                            } else {
+                                toast.error(
+                                    "Please enter a valid street number!"
+                                );
+                            }
                         } else {
-                            toast.success(json.message);
-                            this.props.history.push("/");
+                            toast.error("Please enter a valid phone number!");
                         }
-                    });
+                    } else {
+                        toast.error("Please enter a valid city!");
+                    }
+                } else {
+                    toast.error("Please enter a valid street!");
+                }
             } else {
-                toast.info(
-                    "Password is not strong enough! Please try again with at least 7 characters, one uppercase letter, one lowercase letter, one number, and one symbol."
-                );
+                toast.error("Please enter a valid last name!");
             }
+        } else {
+            toast.error("Please enter a valid first name!");
         }
     }
 
@@ -221,7 +217,7 @@ class Signup extends Component {
                                 style={style}
                                 label="First Name"
                                 value={this.state.firstname}
-                                onChange={this.handleChangeText}
+                                onChange={this.handleChange}
                             ></TextField>
                             <TextField
                                 required
@@ -232,7 +228,7 @@ class Signup extends Component {
                                 style={style}
                                 label="Last Name"
                                 value={this.state.lastname}
-                                onChange={this.handleChangeText}
+                                onChange={this.handleChange}
                             ></TextField>
                         </div>
                         <div className="signup_row">
@@ -284,7 +280,7 @@ class Signup extends Component {
                                 style={style}
                                 label="Phone Number"
                                 value={this.state.phone}
-                                onChange={this.handleChangeNumber}
+                                onChange={this.handleChange}
                             ></TextField>
                         </div>
                         <div className="signup_row">
@@ -300,7 +296,7 @@ class Signup extends Component {
                                 style={style}
                                 label="Number"
                                 value={this.state.number}
-                                onChange={this.handleChangeNumber}
+                                onChange={this.handleChange}
                             ></TextField>
                         </div>
                         <div className="signupRow">
@@ -313,7 +309,7 @@ class Signup extends Component {
                                 style={style}
                                 label="Street"
                                 value={this.state.street}
-                                onChange={this.handleChangeText}
+                                onChange={this.handleChange}
                             ></TextField>
                         </div>
                         <div className="signupRow">
@@ -326,7 +322,7 @@ class Signup extends Component {
                                 style={style}
                                 label="City"
                                 value={this.state.city}
-                                onChange={this.handleChangeText}
+                                onChange={this.handleChange}
                             ></TextField>
                         </div>
                         <div className="signupRow">
@@ -339,7 +335,7 @@ class Signup extends Component {
                                 style={style}
                                 label="Zipcode"
                                 value={this.state.zipcode}
-                                onChange={this.handleChangeNumber}
+                                onChange={this.handleChange}
                             ></TextField>
                         </div>
                         <div className="signup_row">

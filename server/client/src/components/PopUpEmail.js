@@ -62,7 +62,8 @@ export default class PopUpEmail extends Component {
                             <div className="email">Email:</div>
                             <input
                                 className="email_input"
-                                type="text"
+                                type="email"
+                                required
                                 name="email"
                                 value={this.state.email}
                                 onChange={this.handleChange}

@@ -8,13 +8,14 @@ import {
     TextField,
 } from "@material-ui/core";
 import "./css/Checkout.css";
-import { toast } from "react-toastify"
-import 'react-toastify/dist/ReactToastify.css'
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import CheckoutItem from "./CheckoutItem";
 import AuthenticationService from "./Authentication";
 // google API
 import { DistanceMatrixService } from "@react-google-maps/api";
 import Geocode from "react-geocode";
+import validator from "validator";
 Geocode.enableDebug();
 Geocode.setApiKey("AIzaSyDUENlRwq9j2Zgz9NUIxHHFN9cnUa7SuBk");
 
@@ -70,30 +71,29 @@ class Checkout extends Component {
         this.getCoordinate = this.getCoordinate.bind(this);
         this.getReviews = this.getReviews.bind(this);
     }
-    getCoordinate = (address) => {
-        Geocode.fromAddress(address).then(
-            (response) => {
-                const { lat, lng } = response.results[0].geometry.location;
-                const coordinate = [`${lat},${lng}`];
-                this.setState({
-                    coordinate: coordinate,
-                });
-                setTimeout(() => {
-                    this.refresh()
-                }, 1000);
-                setTimeout(() => {
-                    this.refresh()
-                }, 1000);
-                setTimeout(() => {
-                    this.refresh()
-                }, 1000);
-                setTimeout(() => {
-                    this.refresh()
-                }, 1000);
 
-            },
-        );
-    }
+    getCoordinate = (address) => {
+        Geocode.fromAddress(address).then((response) => {
+            const { lat, lng } = response.results[0].geometry.location;
+            const coordinate = [`${lat},${lng}`];
+            this.setState({
+                coordinate: coordinate,
+            });
+            setTimeout(() => {
+                this.refresh();
+            }, 1000);
+            setTimeout(() => {
+                this.refresh();
+            }, 1000);
+            setTimeout(() => {
+                this.refresh();
+            }, 1000);
+            setTimeout(() => {
+                this.refresh();
+            }, 1000);
+        });
+    };
+
     refresh = () => {
         const distances = JSON.parse(localStorage.getItem("distances"));
         if (distances) {
@@ -118,11 +118,11 @@ class Checkout extends Component {
             );
             this.setState({
                 storeDistances: storeDistances,
-            })
+            });
             this.calc_delivery_fees();
-
         }
-    }
+    };
+
     removeFromCart = (product) => {
         const productID = product.id;
         let cart = JSON.parse(localStorage.getItem("cart"));
@@ -150,7 +150,7 @@ class Checkout extends Component {
 
     handleDeliveryRateChange(event) {
         this.setState({
-            [event.target.name]: event.target.value
+            [event.target.name]: event.target.value,
         });
         this.calc_delivery_fees();
     }
@@ -228,6 +228,11 @@ class Checkout extends Component {
     };
 
     placeOrder = () => {
+        // Regex to test for string input
+        const string_re = /^[A-Za-z\s]*$/;
+        // Regex to test for number input
+        const number_re = /^[0-9\b]+$/;
+
         const total = (
             this.state.subtotal * 1.0725 +
             this.state.delivery_fees
@@ -244,20 +249,42 @@ class Checkout extends Component {
             "-" +
             currentDate.getDate();
         let isCorrect = true;
-        // checking the inputs
+
         if (!cartInfo.length) {
             // alert("There is no item in cart!!!");
-            toast.info("There is no item in cart!!!");
+            toast.info("There are no items in your cart!!!");
             isCorrect = false;
         } else {
+            // checking the inputs
             if (!this.state.addressID) {
                 // alert("Please choose an address");
-                toast.error("Please choose an address");
+                toast.error("Please choose an address.");
                 isCorrect = false;
             }
             if (this.state.cc_number.length != 16) {
-                // alert("Card Number is invalid");
-                toast.error("Card Number is invalid");
+                toast.error("Card number is invalid!");
+                isCorrect = false;
+            } else if (!number_re.test(this.state.cc_number)) {
+                toast.error("Card number is invalid!");
+                isCorrect = false;
+            }
+            if (this.state.cc_cvv_number.length != 3) {
+                toast.error("Card CVV number is invalid!");
+                isCorrect = false;
+            } else if (!number_re.test(this.state.cc_cvv_number)) {
+                toast.error("Card CVV number is invalid!");
+                isCorrect = false;
+            }
+            if (!string_re.test(this.state.cc_name)) {
+                toast.error("Please enter a valid name for your credit card!");
+                isCorrect = false;
+            }
+            if (!number_re.test(this.state.cc_month)) {
+                toast.error("Please select a valid month!");
+                isCorrect = false;
+            }
+            if (!number_re.test(this.state.cc_year)) {
+                toast.error("Please select a valid year!");
                 isCorrect = false;
             }
         }
@@ -348,8 +375,9 @@ class Checkout extends Component {
         );
         this.setState({
             storeDistances: storeDistances,
-        })
-        const userAddress = JSON.parse(localStorage.getItem("user")).fulladdress;
+        });
+        const userAddress = JSON.parse(localStorage.getItem("user"))
+            .fulladdress;
         Geocode.fromAddress(userAddress).then(
             (response) => {
                 const { lat, lng } = response.results[0].geometry.location;
@@ -363,7 +391,6 @@ class Checkout extends Component {
             }
         );
     }
-
 
     render() {
         const cartInfo = JSON.parse(localStorage.getItem("cartInfo"));
@@ -400,15 +427,41 @@ class Checkout extends Component {
                                             <div className="address_radio_button">
                                                 <input
                                                     className="shipping_address_input"
-                                                    value={address.number + ' ' + address.street + ' ' + address.city + ' ' + address.zipcode}
+                                                    value={
+                                                        address.number +
+                                                        " " +
+                                                        address.street +
+                                                        " " +
+                                                        address.city +
+                                                        " " +
+                                                        address.zipcode
+                                                    }
                                                     type="radio"
                                                     id="shipping_address"
                                                     name="addressID"
-                                                    value={address.number + " " + address.street + " " + address.city + " " + address.zipcode}
+                                                    value={
+                                                        address.number +
+                                                        " " +
+                                                        address.street +
+                                                        " " +
+                                                        address.city +
+                                                        " " +
+                                                        address.zipcode
+                                                    }
                                                     onChange={
                                                         this.handleInputChange
                                                     }
-                                                    onClick={() => this.getCoordinate(address.number + ' ' + address.street + ' ' + address.city + ' ' + address.zipcode)}
+                                                    onClick={() =>
+                                                        this.getCoordinate(
+                                                            address.number +
+                                                                " " +
+                                                                address.street +
+                                                                " " +
+                                                                address.city +
+                                                                " " +
+                                                                address.zipcode
+                                                        )
+                                                    }
                                                 />
                                                 <DistanceMatrixService
                                                     options={{
@@ -428,7 +481,9 @@ class Checkout extends Component {
                                                     callback={(response) => {
                                                         localStorage.setItem(
                                                             "distances",
-                                                            JSON.stringify(response)
+                                                            JSON.stringify(
+                                                                response
+                                                            )
                                                         );
                                                     }}
                                                 />
@@ -460,7 +515,7 @@ class Checkout extends Component {
                                             value={0.1}
                                             id="delivery_rate"
                                             name="delivery_rate"
-                                            clicked={this.state.delivery_rate === 0.1}
+                                            defaultChecked
                                             onChange={
                                                 this.handleDeliveryRateChange
                                             }
@@ -479,7 +534,9 @@ class Checkout extends Component {
                                             value={0.2}
                                             id="delivery_rate"
                                             name="delivery_rate"
-                                            clicked={this.state.delivery_rate === 0.2}
+                                            clicked={
+                                                this.state.delivery_rate === 0.2
+                                            }
                                             onChange={
                                                 this.handleDeliveryRateChange
                                             }
@@ -546,7 +603,7 @@ class Checkout extends Component {
                                 variant="contained"
                                 color="primary"
                                 onClick={this.placeOrder}
-                            // Event TODO onClick
+                                // Event TODO onClick
                             >
                                 Place your order
                             </Button>
@@ -597,10 +654,10 @@ class Checkout extends Component {
                                     onChange={this.handleInputChange}
                                 >
                                     <option value="invalid">MM</option>
-                                    <option value="01">01</option>
-                                    <option value="02">02</option>
-                                    <option value="03">03</option>
-                                    <option value="02">04</option>
+                                    <option value="01">{"01"}</option>
+                                    <option value="02">{"02"}</option>
+                                    <option value="03">{"03"}</option>
+                                    <option value="02">{"04"}</option>
                                     <option value="02">05</option>
                                     <option value="02">06</option>
                                     <option value="02">07</option>

@@ -97,7 +97,7 @@
 
 .profile__icon {
     justify-content: left;
-    color: yellowgreen;
+    color: rgb(6, 193, 103);
 }
 
 .profile__block {
@@ -110,7 +110,7 @@
     cursor: pointer;
     border: transparent;
     background-color: transparent;
-    color: yellowgreen;
+    color: rgb(6, 193, 103);
 }
 
 .profile__link {
@@ -121,7 +121,7 @@
     cursor: pointer;
     border: transparent;
     background-color: transparent;
-    color: yellowgreen;
+    color: rgb(6, 193, 103);
 }
 
 .profile__columnLeft .my_account_heading {
@@ -183,4 +183,30 @@
     text-align: center;
     font-size: 1.5rem;
     font-weight: 500;
+}
+
+.profile__body .profile__columnLeft .image__upload__label {
+    color: rgb(6, 193, 103);
+}
+
+.profile__body .profile__columnLeft .upload {
+    display: none;
+}
+
+.profile__body .profile__columnLeft .profile__image__container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 25rem;
+    background-color: rgb(6, 193, 103);
+    border-radius: 10%;
+}
+
+.profile__image__container .profile__image {
+    align-self: center;
+    border-radius: 50%;
+    min-width: 60%;
+    max-width: 60%;
+    min-height: 35vh;
+    max-height: 100%;
 }

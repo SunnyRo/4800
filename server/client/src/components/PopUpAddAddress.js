@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { toast } from "react-toastify";
 import AuthenticationService from "./Authentication";
 import "./css/PopUp.css";
 
@@ -14,38 +15,64 @@ export default class PopUpAddAddress extends Component {
 
         this.handleChange = this.handleChange.bind(this);
         this.update = this.update.bind(this);
-    };
+    }
 
-    update = () => {
+    update = (event) => {
+        // Regex to test for string input
+        const string_re = /^[A-Za-z\s]*$/;
+        // Regex to test for number input
+        const number_re = /^[0-9\b]+$/;
+
         const user = AuthenticationService.getCurrentUser();
         const { number, street, city, zipcode } = this.state;
         let currentUser = JSON.parse(localStorage.getItem("user"));
-        fetch("/profile/addaddress", {
-            method: "POST",
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-                authorization: "Bearer " + user.accesstoken,
-            },
-            body: JSON.stringify({
-                number: number,
-                street: street,
-                city: city,
-                zipcode: zipcode,
-                customerID: currentUser.customerID,
-            }),
-        })
-            .then((Response) => Response.json())
-            .then((json) => {
-                if (json.error === "TokenExpiredError") {
-                    console.log(json.error);
-                    localStorage.clear();
-                    this.props.history.push("/");
+
+        if (number_re.test(number)) {
+            if (string_re.test(street)) {
+                if (string_re.test(city)) {
+                    if (number_re.test(zipcode)) {
+                        fetch("/profile/addaddress", {
+                            method: "POST",
+                            headers: {
+                                Accept: "application/json",
+                                "Content-Type": "application/json",
+                                authorization: "Bearer " + user.accesstoken,
+                            },
+                            body: JSON.stringify({
+                                number: number,
+                                street: street,
+                                city: city,
+                                zipcode: zipcode,
+                                customerID: currentUser.customerID,
+                            }),
+                        })
+                            .then((Response) => Response.json())
+                            .then((json) => {
+                                if (json.error === "TokenExpiredError") {
+                                    console.log(json.error);
+                                    localStorage.clear();
+                                    this.props.history.push("/");
+                                }
+                                const address = json[1][0];
+                                this.props.updateStorage(address, true);
+                                this.props.toggle();
+                            });
+                    } else {
+                        event.preventDefault();
+                        toast.error("Please enter a valid zipcode!");
+                    }
+                } else {
+                    event.preventDefault();
+                    toast.error("Please enter a valid city!");
                 }
-                const address = json[1][0]
-                this.props.updateStorage(address, true);
-                this.props.toggle();
-            });
+            } else {
+                event.preventDefault();
+                toast.error("Please enter a valid street!");
+            }
+        } else {
+            event.preventDefault();
+            toast.error("Please enter a valid street number!");
+        }
     };
 
     handleClick = () => {
@@ -56,7 +83,7 @@ export default class PopUpAddAddress extends Component {
         this.setState({
             [event.target.name]: event.target.value,
         });
-    };
+    }
 
     render() {
         return (
@@ -72,6 +99,7 @@ export default class PopUpAddAddress extends Component {
                         <input
                             className="street_number_input"
                             type="text"
+                            required
                             name="number"
                             value={this.state.number}
                             onChange={this.handleChange}
@@ -83,6 +111,7 @@ export default class PopUpAddAddress extends Component {
                         <input
                             className="street_input"
                             type="text"
+                            required
                             name="street"
                             value={this.state.street}
                             onChange={this.handleChange}
@@ -94,6 +123,7 @@ export default class PopUpAddAddress extends Component {
                         <input
                             className="city_input"
                             type="text"
+                            required
                             name="city"
                             value={this.state.city}
                             onChange={this.handleChange}
@@ -105,6 +135,7 @@ export default class PopUpAddAddress extends Component {
                         <input
                             className="zip_input"
                             type="text"
+                            required
                             name="zipcode"
                             value={this.state.zipcode}
                             onChange={this.handleChange}
@@ -118,7 +149,7 @@ export default class PopUpAddAddress extends Component {
                     />
                     {/* </form> */}
                 </div>
-            </div >
+            </div>
         );
     }
 }
