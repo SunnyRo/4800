@@ -13,6 +13,7 @@ import Store from "./components/Store";
 import Aisle from "./components/Aisle";
 import OrderHistory from "./components/OrderHistory";
 import OrderDetails from "./components/OrderDetails";
+import StaffOrders from "./components/StaffOrders";
 import AddReview from "./components/AddReview";
 import ProductReviews from "./components/ProductReviews";
 import { ToastContainer } from "react-toastify"
@@ -40,6 +41,7 @@ class App extends Component {
           <PrivateRoute exact path="/addreview" component={AddReview} />
           <PrivateRoute exact path="/productreviews" component={ProductReviews} />
           <PrivateRoute exact path="/addreview" component={AddReview} />
+          <PrivateRoute exact path="/staff/orders" component={StaffOrders} />
           <Route exact component={Error} />
         </Switch>
       </Router>

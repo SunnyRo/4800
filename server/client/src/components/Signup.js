@@ -81,12 +81,10 @@ class Signup extends Component {
             this.setState({
                 password_strength: true,
             });
-            console.log("password is valid")
         } else {
             this.setState({
                 password_strength: false,
             });
-            console.log("password is not valid")
         }
     };
 
@@ -148,7 +146,6 @@ class Signup extends Component {
         this.validatePassword(password);
         if (!this.state.password_strength) {
             toast.error("Password is not strong enough! Please try again with at least 7 characters, one uppercase letter, one lowercase letter, one number, and one symbol.");
-            console.log(password)
             isValid = false;
         }
         if (confirm_password !== password) {
