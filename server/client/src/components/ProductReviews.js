@@ -69,7 +69,7 @@ class ProductReviews extends Component {
                                 <div className="review_photo">
                                     <img
                                         className="review_photo"
-                                        src={review.image}
+                                        src={review.image ? review.image : 'default.jpeg'}
                                     />
                                 </div>
                                 <div className="review_name">
