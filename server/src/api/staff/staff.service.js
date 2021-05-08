@@ -57,6 +57,7 @@ module.exports = {
                 html: 'Message from: growceries.com' + '<br></br> Email: ' + email + '<br></br> Message: ' + 'your order is ' + status,
             };
             const result = await transport.sendMail(mailOptions);
+            console.log("sended mail", result)
         } catch (error) {
             console.log(error)
         }

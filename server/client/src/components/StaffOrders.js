@@ -1,9 +1,11 @@
 import React, { Component } from "react";
+import EditIcon from "@material-ui/icons/Edit";
 import "./css/ProductReviews.css";
 import Rating from "@material-ui/lab/Rating";
 import Box from "@material-ui/core/Box";
 import Header from "./Header";
 import Footer from "./Footer";
+import PopUpOrderStatus from "./PopUpOrderStatus";
 
 class StaffOrders extends Component {
     constructor(props) {
@@ -16,9 +18,18 @@ class StaffOrders extends Component {
     componentWillMount() {
         const stafforders = JSON.parse(localStorage.getItem("stafforders"));
         this.setState({
-            stafforders: stafforders
+            stafforders: stafforders,
+            seenUpdate: false,
         })
     }
+    togglePopUpdate = (order) => {
+        if (!this.state.seePopup) {
+            localStorage.setItem("orderstatus", JSON.stringify(order));
+        }
+        this.setState({
+            seenUpdate: !this.state.seenUpdate,
+        });
+    };
 
     render() {
         const { stafforders } = this.state
@@ -55,6 +66,14 @@ class StaffOrders extends Component {
                                 <div className="order_body">
                                     Status: {order.orderStatus}
                                 </div>
+                            </div>
+                            <div className="order_body">
+                                <EditIcon onClick={() => this.togglePopUpdate(order)} />
+                                {this.state.seenUpdate ? (
+                                    <PopUpOrderStatus
+                                        toggle={this.togglePopUpdate}
+                                    />
+                                ) : null}
                             </div>
                         </li>
                     ))}
