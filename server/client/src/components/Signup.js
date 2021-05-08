@@ -81,17 +81,19 @@ class Signup extends Component {
             this.setState({
                 password_strength: true,
             });
+            console.log("password is valid")
         } else {
             this.setState({
                 password_strength: false,
             });
+            console.log("password is not valid")
         }
     };
 
     register(event) {
         event.preventDefault();
         // Regex to test for string input
-        const string_re = /^[A-Za-z\s]*$/;
+        const string_re = /^[^-\s][\A-Za-z\s]*$/;
 
         // Regex to test for number input
         const number_re = /^[0-9\b]+$/;
@@ -108,89 +110,83 @@ class Signup extends Component {
             city,
             zipcode,
         } = this.state;
-
-        if (string_re.test(this.state.firstname)) {
-            if (string_re.test(this.state.lastname)) {
-                if (string_re.test(this.state.street)) {
-                    if (string_re.test(this.state.city)) {
-                        if (number_re.test(this.state.phone)) {
-                            if (number_re.test(this.state.number)) {
-                                if (number_re.test(this.state.zipcode)) {
-                                    if (!(this.state.phone.length == 10)) {
-                                        toast.error(
-                                            "Please enter a valid phone number!"
-                                        );
-                                    } else {
-                                        this.validatePassword(password);
-                                        if (confirm_password !== password) {
-                                            toast.error(
-                                                "Passwords do not match! Please try again."
-                                            );
-                                        } else {
-                                            if (this.state.password_strength ===true) 
-                                            {
-                                                fetch("/signup", {
-                                                    method: "POST",
-                                                    headers: {
-                                                        Accept: "application/json",
-                                                        "Content-Type": "application/json",
-                                                    },
-                                                    body: JSON.stringify({
-                                                        firstname: firstname,
-                                                        lastname: lastname,
-                                                        email: email,
-                                                        phone: phone,
-                                                        password: password,
-                                                        number: number,
-                                                        street: street,
-                                                        city: city,
-                                                        zipcode: zipcode,
-                                                    }),
-                                                })
-                                                    .then((Response) =>
-                                                        Response.json()
-                                                    )
-                                                    .then((json) => {
-                                                        if (json.error) {
-                                                            toast.error(json.error);
-                                                        } else {
-                                                            toast.success(json.message);
-                                                            this.props.history.push("/");
-                                                        }
-                                                    });
-                                                toast.success("Success!");
-                                            } else {
-                                                toast.info(
-                                                    "Password is not strong enough! Please try again with at least 7 characters, one uppercase letter, one lowercase letter, one number, and one symbol."
-                                                );
-                                            }
-                                        }
-                                    }
-                                } else {
-                                    toast.error(
-                                        "Please enter a valid zipcode!"
-                                    );
-                                }
-                            } else {
-                                toast.error(
-                                    "Please enter a valid street number!"
-                                );
-                            }
-                        } else {
-                            toast.error("Please enter a valid phone number!");
-                        }
-                    } else {
-                        toast.error("Please enter a valid city!");
-                    }
-                } else {
-                    toast.error("Please enter a valid street!");
-                }
-            } else {
-                toast.error("Please enter a valid last name!");
-            }
-        } else {
+        let isValid = true;
+        if (!(string_re.test(firstname))) {
             toast.error("Please enter a valid first name!");
+            console.log(firstname)
+            isValid = false;
         }
+        if (!(string_re.test(lastname))) {
+            toast.error("Please enter a valid last name!");
+            isValid = false;
+        }
+        if (!(string_re.test(street))) {
+            toast.error("Please enter a valid street!");
+            isValid = false;
+        }
+        if (!(string_re.test(city))) {
+            toast.error("Please enter a valid city!");
+            isValid = false;
+        }
+        if (!(number_re.test(phone))) {
+            toast.error("Please enter a valid phone number!");
+            isValid = false;
+        }
+        if (!(number_re.test(number))) {
+            toast.error("Please enter a valid street number!");
+            isValid = false;
+        }
+        if (!(number_re.test(zipcode))) {
+            toast.error("Please enter a valid zipcode!");
+            isValid = false;
+
+        }
+        if (!(phone.length == 10)) {
+            toast.error("Please enter a valid phone number!");
+            isValid = false;
+        }
+        this.validatePassword(password);
+        if (!this.state.password_strength) {
+            toast.error("Password is not strong enough! Please try again with at least 7 characters, one uppercase letter, one lowercase letter, one number, and one symbol.");
+            console.log(password)
+            isValid = false;
+        }
+        if (confirm_password !== password) {
+            toast.error("Passwords do not match! Please try again.");
+            isValid = false;
+        }
+        if (isValid) {
+            fetch("/signup", {
+                method: "POST",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    firstname: firstname,
+                    lastname: lastname,
+                    email: email,
+                    phone: phone,
+                    password: password,
+                    number: number,
+                    street: street,
+                    city: city,
+                    zipcode: zipcode,
+                }),
+            })
+                .then((Response) =>
+                    Response.json()
+                )
+                .then((json) => {
+                    if (json.error) {
+                        toast.error(json.error);
+                    } else {
+                        toast.success(json.message);
+                        this.props.history.push("/");
+                    }
+                });
+        }
+
     }
 
     render() {

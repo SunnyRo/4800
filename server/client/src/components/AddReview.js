@@ -56,20 +56,20 @@ class AddReview extends Component {
         console.log(datetime);
         console.log(JSON.parse(localStorage.getItem("productID")));
         console.log(customerID);
-        let isReview = true;
+        let isValid = true;
         if (!this.state.title) {
-            isReview = false;
+            isValid = false;
             toast.error("Title is empty")
         }
         if (!this.state.rating) {
-            isReview = false;
+            isValid = false;
             toast.error("No rating")
         }
         if (!this.state.body) {
-            isReview = false;
+            isValid = false;
             toast.error("Body is empty")
         }
-        if (isReview) {
+        if (isValid) {
 
             fetch("/review/add", {
                 method: "POST",
