@@ -56,33 +56,48 @@ class AddReview extends Component {
         console.log(datetime);
         console.log(JSON.parse(localStorage.getItem("productID")));
         console.log(customerID);
+        let isReview = true;
+        if (!this.state.title) {
+            isReview = false;
+            toast.error("Title is empty")
+        }
+        if (!this.state.rating) {
+            isReview = false;
+            toast.error("No rating")
+        }
+        if (!this.state.body) {
+            isReview = false;
+            toast.error("Body is empty")
+        }
+        if (isReview) {
 
-        fetch("/review/add", {
-            method: "POST",
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-                authorization: "Bearer " + user.accesstoken,
-            },
-            body: JSON.stringify({
-                customerID: customerID,
-                productID: product.productID,
-                title: this.state.title,
-                body: this.state.body,
-                datetime: datetime,
-                rating: this.state.rating,
-            }),
-        })
-            .then((Response) => Response.json())
-            .then((json) => {
-                if (json.error === "TokenExpiredError") {
-                    console.log(json.error);
-                } else {
-                    // alert(json.message);
-                    toast.success(json.message);
-                }
-            });
-        this.props.toggle();
+            fetch("/review/add", {
+                method: "POST",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    authorization: "Bearer " + user.accesstoken,
+                },
+                body: JSON.stringify({
+                    customerID: customerID,
+                    productID: product.productID,
+                    title: this.state.title,
+                    body: this.state.body,
+                    datetime: datetime,
+                    rating: this.state.rating,
+                }),
+            })
+                .then((Response) => Response.json())
+                .then((json) => {
+                    if (json.error === "TokenExpiredError") {
+                        console.log(json.error);
+                    } else {
+                        // alert(json.message);
+                        toast.success(json.message);
+                    }
+                });
+            this.props.toggle();
+        }
     }
 
     render() {
