@@ -46,12 +46,14 @@ export class Profile extends Component {
     componentWillMount() {
         const profile = JSON.parse(localStorage.getItem("profile")).info[0];
         const addresses = JSON.parse(localStorage.getItem("profile")).addresses;
-        const user = JSON.parse(localStorage.getItem("user"));
-        console.log(user.image);
+        let image = JSON.parse(localStorage.getItem("user")).image;
+        if (image == '/null') {
+            image = '/default.jpeg'
+        }
         this.setState({
             profile: profile,
             addresses: addresses,
-            imagePath: user.image,
+            imagePath: image,
         });
         this.forceUpdate();
     }
@@ -215,7 +217,7 @@ export class Profile extends Component {
                                 for="image_upload"
                                 class="image__upload__label"
                             >
-                                <AddCircleOutlineIcon/>
+                                <AddCircleOutlineIcon />
                             </label>
                             <input
                                 class="upload"
